@@ -5,12 +5,17 @@
   "type": "module",
   "description": "A production-ready affinity stays marketplace and design-system portfolio build.",
   "scripts": {
+    "tokens": "node tokens/build-tokens.mjs",
+    "predev": "npm run tokens",
     "dev": "vite",
+    "prebuild": "npm run tokens",
     "build": "tsc -b && vite build",
     "typecheck": "tsc --noEmit",
     "lint": "eslint .",
     "preview": "vite preview",
+    "prestorybook": "npm run tokens",
     "storybook": "storybook dev -p 6006",
+    "prebuild-storybook": "npm run tokens",
     "build-storybook": "storybook build"
   },
   "dependencies": {
@@ -43,6 +48,7 @@
     "globals": "^17.6.0",
     "sass": "^1.101.0",
     "storybook": "^8.6.14",
+    "style-dictionary": "^4.4.0",
     "tailwindcss": "^4.3.1",
     "typescript": "^5.6.3",
     "typescript-eslint": "^8.59.2",

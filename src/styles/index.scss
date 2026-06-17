@@ -69,25 +69,29 @@ img {
   padding-block: clamp(3.5rem, 8vw, 7rem);
 }
 
+// Per-element community tint (distinct from the page-level [data-tenant] accent:
+// lets individual pills/dots carry their own community color within a
+// tenant-neutral page). Values come from the generated token primitives — the
+// hex lives only in tokens/primitives.json (→ ADR-0019).
 .community-tone,
 [data-community='runners'] {
-  --community-accent: #e8651a;
-  --community-accent-soft: #fef3ec;
+  --community-accent: var(--color-ember);
+  --community-accent-soft: var(--color-ember-soft);
 }
 
 [data-community='hikers'] {
-  --community-accent: #2d6a4f;
-  --community-accent-soft: #eefaef;
+  --community-accent: var(--color-pine);
+  --community-accent-soft: var(--color-pine-soft);
 }
 
 [data-community='cyclists'] {
-  --community-accent: #1a56db;
-  --community-accent-soft: #eff6ff;
+  --community-accent: var(--color-azure);
+  --community-accent-soft: var(--color-azure-soft);
 }
 
 [data-community='climbers'] {
-  --community-accent: #9333ea;
-  --community-accent-soft: #faf5ff;
+  --community-accent: var(--color-violet);
+  --community-accent-soft: var(--color-violet-soft);
 }
 
 .community-pill {
