@@ -1,8 +1,9 @@
 # Redesign decision — trunk choice (working note)
 
-> **Status:** OPEN — awaiting one decision from Vince (see §6).
-> **Date:** 2026-06-17. Context-preservation note so we can resume cold.
-> Not an ADR yet; becomes one once the trunk is chosen.
+> **Status:** RESOLVED → **Path A, executed as a fresh repo.** Formalized in [ADR-0019](decisions/0019-v2-redesign-trunk-and-substrate.md) (Accepted 2026-06-17).
+> **Date:** 2026-06-17. Kept as the rationale record behind the ADR.
+>
+> **Outcome:** Rather than edit the original repo in place, the owner rebuilt Path A as **`sojurno-v2`** — the redesign's look-and-feel re-implemented on the original's architecture (engine/tenant separation, typed tenant config, i18n, routing) read from its ADRs. `sojurno-v2` is now the **trunk**; original `sojurno` = archive/reference; `sojurno-redesign` = visual reference only. Substrate is **shadcn/Radix + Tailwind v4** via a `@theme inline` bridge, with tokens as an **interim hand-authored SCSS** layer and the **DTCG → Style Dictionary pipeline scheduled for reinstatement** (it anchors the Figma Code Connect round-trip, which remains a goal). i18n extended to **EN/ES/FR**; **Unsplash imagery** is an owner-approved interim deviation from ADR-0016. See ADR-0019 for the full decision and phasing.
 
 ## 0. The question on the table
 
@@ -66,22 +67,26 @@ This is why I reversed my earlier (blind) lean toward B. Seeing the code changed
 
 The one thing that flips me back to Path B: **Vince's "pivot."** If the pivot throws out most of this repo's functionality anyway, the architecture's value drops and starting fresh on the prettier base gets attractive. Pivot details still unknown.
 
-## 6. DECISION NEEDED FROM VINCE (resume here)
+## 6. How it resolved
 
-> **How much of what we've built here survives the pivot — basically all of it, or are you reimagining the product?**
+The decision was **Path A**, with the swing factor (§5) settled: the product thesis and engine survive — nothing was being thrown away — so the architecture's value held and Path A won. The owner then executed it not by editing the original repo in place, but by standing up a **fresh production repo, `sojurno-v2`**, rebuilt on the redesign's look-and-feel with the original's architecture re-implemented from its ADRs. The side question (shadcn/Radix substrate) resolved **yes**.
 
-That answer, more than the design, decides the trunk:
-- *Most survives* → Path A (port design into this repo). My recommendation.
-- *Reimagining* → reconsider Path B (grow the redesign, re-impose invariants as Phase 0).
+Why a fresh repo rather than in-place: a clean Tailwind v4 + Radix + cva scaffold was simpler to stand up than to retrofit onto the original's pure-CSS lib, and it reads as a deliberate, well-structured portfolio build. The risk of starting from a redesign base (importing its anti-patterns) was avoided — v2 was verified to have **no community-name branching** in components or pages.
 
-Plus the side question: **shadcn/Radix as the component substrate, yes/no?**
+## 7. What got carried, what changed
 
-## 7. Once decided — first moves
+**Carried (the asset):** engine/tenant separation, the five-axis typed tenant config (`src/tenants/`), i18n machinery, React Router routes, capability gating (`gear` for hikers), ADR governance, attribute-scoped token cascade (`:root` / `[data-theme]` / `[data-tenant]`).
 
-- **If A:** open an ADR ("redesign visual language adopted; this repo stays trunk; redesign repo = design reference"), then: (1) translate the redesign tokens into the DTCG source + rebuild `tokens.css`; (2) decide shadcn vs hand-rolled lib; (3) restyle existing components to the new language; (4) add net-new screens phase by phase. Keep `sojurno-redesign` as a read-only design reference.
-- **If B:** open an ADR ("redesign repo becomes trunk; this repo archived"), copy `docs/decisions/`, `AGENTS.md`, `docs/architecture.md`, `docs/progress.md` over first, then **Phase 0 = architecture audit** re-imposing engine/tenant separation, token pipeline, i18n, routing, capability gating — before any feature work.
+**Changed / deliberate deviations (all in ADR-0019):**
+- Substrate → **shadcn/Radix + Tailwind v4**, fed our tokens via `@theme inline`.
+- Tokens → **interim hand-authored SCSS** (`_tokens.scss`); DTCG → Style Dictionary pipeline **scheduled for reinstatement** (needed for the Figma Code Connect round-trip, still a goal).
+- i18n → extended to **EN/ES/FR**.
+- Imagery → **Unsplash interim**, owner-approved; AI-generated static assets remain the ADR-0016 end state.
 
-## 8. Loose ends in this repo (independent of the above)
-- Open PRs to land: **#15** (Phase 4 gear), **#16** (Phase 5 launchpad), **#17** (ADR-0018 linked listings, Proposed). Merge cleanly in any order.
-- ADR-0018 (linked listings) is Proposed, not yet accepted/built.
-- Tracked seams in `progress.md`: image rendering when assets exist, `/profile` route, ListingPage tenant-guard, `.claude/` gitignore, per-tenant typography (post-v1), Sojurno base rebrand (← the redesign may *be* this).
+## 8. Open work to reach the bar (tracked in `progress.md`)
+- Reinstate the DTCG → Style Dictionary token pipeline.
+- Figma Code Connect `.figma.tsx` mappings + synced Figma library.
+- GitHub Actions CI (`typecheck → lint → build → storybook a11y`).
+- Fuller Storybook variant coverage; remaining visual-parity passes (hero, Explore controls, listing detail gallery, host dashboard).
+- Confirm/restore the traveler/host **role** seam (the `role/` directory currently holds the light/dark *theme* provider).
+- Swap Unsplash for AI-generated static listing assets (ADR-0016).

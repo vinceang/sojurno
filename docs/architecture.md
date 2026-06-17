@@ -30,19 +30,23 @@ Tenant differences go beyond paint: a tenant enables *modules*.
 
 Gear is capability module one. (→ ADR-0003, ADR-0005)
 
+## Substrate & styling (→ ADR-0019)
+v2 runs on **Tailwind v4 + Radix primitives + `class-variance-authority`** (shadcn-style), replacing the original's hand-rolled pure-CSS lib. Tailwind v4 `@theme inline` (`src/styles/tailwind.css`) maps utilities (`bg-background`, `text-accent`, `rounded-lg`…) onto our CSS variables, so every utility resolves to `var(--color-*)` and the cascade still re-points per attribute. We do **not** use shadcn's default theme — it is fed our tokens.
+
 ## Theme × tenant composition
-The POC flips `data-theme` between light and dark. The platform adds `data-tenant`, and the two **compose** (runners-dark, hikers-light). Same Style Dictionary pipeline; the theme work was the rehearsal.
+`data-theme` (light/dark) and `data-tenant` **compose** (runners-dark, hikers-light): both attributes live on the root and the same `--color-*` names re-resolve by attribute, no component re-render.
 
 ```
-primitives (shared)
-  └─ semantic[tenant][theme]  →  --color-* re-resolved by attribute
-[data-tenant="hikers"][data-theme="dark"]  ← both attributes live on root
+:root (neutral base + primitives)
+  ├─ [data-theme="dark"]                       → base dark
+  ├─ [data-tenant="hikers"]                    → community accent re-pointed
+  └─ [data-tenant="hikers"][data-theme="dark"] → both live on root
 ```
 
-## Token pipeline (→ ADR-0002)
-- **Primitives** — one shared raw palette/scale (DTCG JSON), emitted once.
-- **Semantic** — per tenant × theme; re-points the *same* `--color-*` names at different primitives.
-- Build loops over tenant configs; output is attribute-scoped CSS custom properties. No component re-renders on switch.
+## Token pipeline (→ ADR-0019, ADR-0002)
+- **Neutral base** semantic tokens in `:root`; **community color is the accent**, re-pointed per `[data-tenant]`.
+- **Interim state:** tokens are **hand-authored in `src/styles/_tokens.scss`**, attribute-scoped exactly as above, and consumed via the `@theme inline` bridge.
+- **Scheduled:** the **DTCG JSON → Style Dictionary** pipeline is to be reinstated (ADR-0019 Phase A) so `_tokens.scss` becomes generated output and Style Dictionary emits **Figma-compatible variables** for the Code Connect round-trip. Until then, `_tokens.scss` is the source.
 
 ## Routing & tenant resolution (→ ADR-0006)
 - **React Router**, real URLs.
@@ -83,5 +87,11 @@ Out of main nav. Storybook is the canonical documentation; `/design` is a thin l
 - Additional tenants and additional capability modules (e.g. race/event calendars) — **event-driven hosting** sketched as a proposed module (→ ADR-0009).
 - Cold-start **liquidity** — a real-venture risk, out of scope for the demo (→ ADR-0001).
 
-## Inheritance from the POC
-The visual language, generative SVG scenes, EN/ES i18n, dark mode, and the token pipeline all carry over from the original prototype. This document describes the *restructure and extension* on top of that foundation, not a rebuild.
+## i18n (→ ADR-0016)
+Chrome is multilingual via `t()` — v2 ships **EN / ES / FR** (French added vs the original's EN/ES). Marketplace content (listing name/description/host/loc, alt text, reviews) is single-language and exempt. The locale switcher is a **globe-icon Radix `DropdownMenu`** calling `setLocale` (`src/components/LanguageSwitcher.tsx`).
+
+## Imagery (→ ADR-0016, ADR-0019)
+v2 renders real `<img>` from `Listing.images` — **Unsplash** sources as an owner-approved **interim** for the first production take. The intended end state is **AI-generated static assets** produced offline (ADR-0016). The original's generative `Scene` fallback was **not** carried into v2; if a fallback is needed before the generator lands, it must be reintroduced.
+
+## Relationship to prior repos (→ ADR-0019)
+v2 is a **fresh rebuild**, not a restructure of the original. It keeps the original's *architecture* (engine/tenant separation, five-axis config, i18n, routing, capability gating — re-implemented from the ADRs) and the redesign's *visual language*, on a new shadcn/Tailwind substrate. Original `sojurno` = archive/reference; `sojurno-redesign` = visual reference only.
