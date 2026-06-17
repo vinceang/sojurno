@@ -57,19 +57,25 @@ export function LandingPage() {
         </div>
       </section>
 
-      <section className="sj-section">
-        <div className="sj-container grid gap-5 md:grid-cols-3">
-          {[
-            [t('landing.stepOneTitle'), t('landing.stepOneBody')],
-            [t('landing.stepTwoTitle'), t('landing.stepTwoBody')],
-            [t('landing.stepThreeTitle'), t('landing.stepThreeBody')],
-          ].map(([title, body], index) => (
-            <article className="rounded-xl border border-border bg-card p-6 shadow-sm" key={title}>
-              <span className="sj-display text-5xl text-accent/40">0{index + 1}</span>
-              <h3 className="mt-6 text-lg font-extrabold">{title}</h3>
-              <p className="mt-3 text-sm leading-6 text-text-muted">{body}</p>
-            </article>
-          ))}
+      <section className="border-y border-border bg-background py-24 md:py-32">
+        <div className="sj-container">
+          <div className="text-center">
+            <p className="text-xs font-extrabold uppercase tracking-[0.22em] text-text-muted">{t('landing.howEyebrow')}</p>
+            <h2 className="sj-display mt-4 text-5xl leading-none md:text-6xl">{t('landing.howTitle')}</h2>
+          </div>
+          <div className="mt-24 grid gap-14 md:grid-cols-3 md:gap-20">
+            {[
+              [t('landing.stepOneTitle'), t('landing.stepOneBody')],
+              [t('landing.stepTwoTitle'), t('landing.stepTwoBody')],
+              [t('landing.stepThreeTitle'), t('landing.stepThreeBody')],
+            ].map(([title, body], index) => (
+              <article key={title}>
+                <span className="sj-display block text-7xl leading-none text-[rgba(26,25,22,0.13)] md:text-8xl">0{index + 1}</span>
+                <h3 className="mt-10 text-xl font-extrabold leading-tight">{title}</h3>
+                <p className="mt-6 max-w-sm text-base leading-8 text-text-muted">{body}</p>
+              </article>
+            ))}
+          </div>
         </div>
       </section>
     </>
