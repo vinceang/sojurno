@@ -52,7 +52,7 @@ export function Header({ tenant }: { tenant?: Tenant }) {
           <Button asChild size="sm" variant="secondary">
             <Link to="/start">{t('nav.signIn')}</Link>
           </Button>
-          <Button asChild size="sm">
+          <Button asChild className="bg-[var(--color-foreground)] text-[var(--color-background)]" size="sm">
             <Link to={`/t/${activeTenantId}/host`}>{t('nav.startHosting')}</Link>
           </Button>
         </div>
@@ -87,7 +87,7 @@ export function Header({ tenant }: { tenant?: Tenant }) {
               <Button asChild size="sm" variant="secondary">
                 <Link to="/start">{t('nav.signIn')}</Link>
               </Button>
-              <Button asChild size="sm">
+              <Button asChild className="bg-[var(--color-foreground)] text-[var(--color-background)]" size="sm">
                 <Link to={`/t/${activeTenantId}/host`}>{t('nav.startHosting')}</Link>
               </Button>
             </div>
