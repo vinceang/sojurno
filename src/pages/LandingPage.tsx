@@ -63,16 +63,18 @@ export function LandingPage() {
             <p className="text-xs font-extrabold uppercase tracking-[0.22em] text-text-muted">{t('landing.howEyebrow')}</p>
             <h2 className="sj-display mt-4 text-5xl leading-none md:text-6xl">{t('landing.howTitle')}</h2>
           </div>
-          <div className="mt-24 grid gap-14 md:grid-cols-3 md:gap-20">
+          <div className="mt-16 grid gap-10 md:mt-24 md:grid-cols-3 md:gap-20">
             {[
               [t('landing.stepOneTitle'), t('landing.stepOneBody')],
               [t('landing.stepTwoTitle'), t('landing.stepTwoBody')],
               [t('landing.stepThreeTitle'), t('landing.stepThreeBody')],
             ].map(([title, body], index) => (
-              <article key={title}>
-                <span className="sj-display block text-7xl leading-none text-[rgba(26,25,22,0.13)] md:text-8xl">0{index + 1}</span>
-                <h3 className="mt-10 text-xl font-extrabold leading-tight">{title}</h3>
-                <p className="mt-6 max-w-sm text-base leading-8 text-text-muted">{body}</p>
+              <article className="grid grid-cols-[4.5rem_1fr] items-start gap-5 md:block" key={title}>
+                <span className="sj-display block text-6xl leading-none text-[rgba(26,25,22,0.13)] md:text-8xl">0{index + 1}</span>
+                <div>
+                  <h3 className="pt-2 text-lg font-extrabold leading-tight md:mt-10 md:pt-0 md:text-xl">{title}</h3>
+                  <p className="mt-4 max-w-sm text-sm leading-7 text-text-muted md:mt-6 md:text-base md:leading-8">{body}</p>
+                </div>
               </article>
             ))}
           </div>
