@@ -1,6 +1,5 @@
 import { ArrowRight } from 'lucide-react'
 import { Link } from 'react-router-dom'
-import { CommunityCard } from '../components/CommunityCard'
 import { ListingCard } from '../components/ListingCard'
 import { SearchPanel } from '../components/SearchPanel'
 import { Button } from '../lib/Button'
@@ -13,19 +12,14 @@ export function LandingPage() {
 
   return (
     <>
-      <section className="sj-container grid min-h-[calc(100vh-4rem)] items-center gap-10 py-10 lg:grid-cols-[1fr_0.9fr]">
-        <div>
+      <section className="sj-container flex min-h-[calc(100vh-4rem)] items-center py-10">
+        <div className="w-full max-w-5xl">
           <p className="text-xs font-extrabold uppercase tracking-[0.2em] text-accent">{t('landing.eyebrow')}</p>
           <h1 className="sj-display mt-5 max-w-4xl text-6xl leading-[0.95] md:text-7xl">{t('landing.title')}</h1>
           <p className="mt-6 max-w-2xl text-lg leading-8 text-text-muted">{t('landing.body')}</p>
           <div className="mt-8">
-            <SearchPanel />
+            <SearchPanel showTenantSelect />
           </div>
-        </div>
-        <div className="grid gap-4">
-          {ACTIVE_TENANTS.map((tenant) => (
-            <CommunityCard key={tenant.id} tenant={tenant} />
-          ))}
         </div>
       </section>
 
