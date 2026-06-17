@@ -1,0 +1,6 @@
+{
+  "color": {
+    "accent": { "$type": "color", "$value": "{color.ember}" },
+    "accent-soft": { "$type": "color", "$value": "{color.ember-soft}" }
+  }
+}

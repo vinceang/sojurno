@@ -13,6 +13,9 @@ dist-ssr
 storybook-static
 *.local
 
+# Generated design tokens (built from tokens/*.json via `npm run tokens`)
+src/styles/_tokens.scss
+
 # Editor directories and files
 .vscode/*
 !.vscode/extensions.json

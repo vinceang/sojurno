@@ -27,7 +27,7 @@ The original repo's five phases all have working analogues in v2 (this is config
 
 | Phase | Focus | Status |
 | --- | --- | --- |
-| A | **Foundation** — reinstate DTCG → Style Dictionary over the `@theme inline` bridge (`_tokens.scss` becomes generated); add GitHub Actions CI | ⬜ Not started |
+| A | **Foundation** — reinstate DTCG → Style Dictionary over the `@theme inline` bridge (`_tokens.scss` becomes generated); add GitHub Actions CI | ✅ Built (branch `phase-a-tokens`, pending review/merge) |
 | B | **Base component library** — shadcn primitives themed via tokens, documented cva variants, Storybook + a11y per component | 🔧 Partial (Button, Badge, Avatar, Rating, Stepper exist; coverage incomplete) |
 | C | **Figma round-trip** — build/sync Figma library from code; wire Code Connect `.figma.tsx` (bidirectional) | ⬜ Not started |
 | D | **Page composition** — full visual parity (hero, Explore grid/list + filters, listing detail gallery + sticky booking, tabbed host dashboard) | 🔧 In progress |
@@ -39,8 +39,8 @@ Status legend: ⬜ not started · 🔧 in progress · ✅ done · ⚠️ needs a
 
 ## Open TODOs & carried-forward seams
 
-- **[Phase A / tokens]** Reinstate the **DTCG → Style Dictionary** pipeline so `src/styles/_tokens.scss` becomes generated output (not the source) and Style Dictionary emits **Figma-compatible variables** for the Code Connect round-trip (→ ADR-0019). Interim: `_tokens.scss` is hand-maintained, attribute-scoped.
-- **[Phase A / CI]** Add **GitHub Actions** running `typecheck → lint → build → storybook a11y` per PR. None present yet (`.github/workflows` absent).
+- ~~**[Phase A / tokens]** Reinstate the **DTCG → Style Dictionary** pipeline so `src/styles/_tokens.scss` becomes generated output.~~ ✅ Done on `phase-a-tokens`: `tokens/*.json` (primitives + semantic light/dark + per-tenant) → `tokens/build-tokens.mjs` → generated `src/styles/_tokens.scss` (git-ignored, built by `npm run tokens`, auto-run via `pre*` hooks). `[data-community]` tints now reference token primitives (hex lives only in `primitives.json`). **Still open:** the Figma-variable export (with light/dark/tenant modes) for the Code Connect round-trip — lands in Phase C.
+- ~~**[Phase A / CI]** Add **GitHub Actions** running `typecheck → lint → build → storybook a11y` per PR.~~ ✅ Done: `.github/workflows/ci.yml` (verified locally; first remote run on push/PR).
 - **[Phase C]** **Figma Code Connect** — `.figma.tsx` per component + a synced Figma library. Not started.
 - **[Role seam]** The `role/` directory currently exports the light/dark **theme** provider (`ThemeProvider`/`useTheme`), not the traveler/host **role** abstraction (`RoleProvider`/`useRole`) the original had. Host pages exist via routes; confirm whether the role toggle is intended for v2 and restore the seam if so (→ ADR-0006).
 - **[Imagery]** v2 renders **Unsplash** images (`ListingCard` `<img src={listing.images[0]?.src}>`) as an owner-approved interim. Swap for AI-generated static assets per ADR-0016; there is no `Scene` fallback component in v2 (the original's generative `Scene` was not carried over).
@@ -65,6 +65,7 @@ Status legend: ⬜ not started · 🔧 in progress · ✅ done · ⚠️ needs a
 
 ## Changelog
 
+- **2026-06-17** — **Phase A (Foundation) built** on `phase-a-tokens` (→ ADR-0019). Reinstated the DTCG → Style Dictionary token pipeline: `tokens/*.json` (primitives + semantic light/dark + 4 per-tenant accent overrides) compiled by `tokens/build-tokens.mjs` into a git-ignored `src/styles/_tokens.scss`, consumed by the existing Tailwind `@theme inline` bridge — values reproduce the prior hand-authored tokens exactly (no visual regression). `[data-community]` tints re-pointed to token primitives (hex now lives only in `primitives.json`). Added `npm run tokens` + `pre*` hooks (dev/build/storybook) and a GitHub Actions CI workflow (`typecheck → lint → build → storybook a11y`); all four green locally. Figma-variable export (with modes) deferred to Phase C.
 - **2026-06-17** — **Docs reconciled to v2 reality.** Added [ADR-0019](decisions/0019-v2-redesign-trunk-and-substrate.md) (v2 as trunk; shadcn/Tailwind substrate; redesign visual language; DTCG reinstatement + Code Connect + CI scheduled; EN/ES/FR; Unsplash interim). Flipped `redesign-decision.md` to RESOLVED. Rewrote this file's phase model and open seams to match v2. Updated `architecture.md` and `AGENTS.md` to the v2 substrate (Tailwind/Radix/cva, interim SCSS tokens, EN/ES/FR, Unsplash interim).
 - **2026-06-17** — v2 redesign implementation pass on `feat/v2-production-redesign`: fresh React/Vite production build keeping Sojurno's affinity/multi-tenant thesis while translating the Figma Make redesign into production patterns. Real routes, EN/ES/FR chrome, tenant-scoped listing data, public header/footer, `/about` maker page, reusable `CommunityListingRow` landing sections, builder CTA strip. Consolidated primary CTA styling through the `Button` primitive after finding `Button asChild` links lost contrast to the global anchor reset. State: promising but incomplete (visual parity, Storybook coverage, search/date behavior, richer Explore/detail/host views, browser QA all open). See [`v2-build-note.md`](v2-build-note.md).
 

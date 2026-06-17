@@ -1,0 +1,20 @@
+{
+  "color": {
+    "background": { "$type": "color", "$value": "{color.canvas}" },
+    "foreground": { "$type": "color", "$value": "{color.ink}" },
+    "card": { "$type": "color", "$value": "{color.white}" },
+    "card-muted": { "$type": "color", "$value": "{color.stone.50}" },
+    "muted": { "$type": "color", "$value": "{color.stone.100}" },
+    "muted-strong": { "$type": "color", "$value": "{color.stone.200}" },
+    "text-muted": { "$type": "color", "$value": "{color.stone.500}" },
+    "border": { "$type": "color", "$value": "rgba(26, 25, 22, 0.12)" },
+    "border-strong": { "$type": "color", "$value": "rgba(26, 25, 22, 0.22)" },
+    "primary": { "$type": "color", "$value": "{color.ink}" },
+    "primary-foreground": { "$type": "color", "$value": "{color.canvas}" },
+    "accent": { "$type": "color", "$value": "{color.clay}" },
+    "accent-soft": { "$type": "color", "$value": "{color.clay-soft}" },
+    "success": { "$type": "color", "$value": "{color.pine}" },
+    "danger": { "$type": "color", "$value": "{color.crimson}" },
+    "ring": { "$type": "color", "$value": "rgba(26, 25, 22, 0.36)" }
+  }
+}
