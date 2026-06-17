@@ -1,11 +1,30 @@
-import { ArrowRight } from 'lucide-react'
+import { ArrowRight, Plus } from 'lucide-react'
 import { Link } from 'react-router-dom'
-import { ListingCard } from '../components/ListingCard'
+import { CommunityListingRow } from '../components/CommunityListingRow'
 import { SearchPanel } from '../components/SearchPanel'
 import { Button } from '../lib/Button'
 import { getListingsByTenant } from '../data/listings'
 import { useI18n } from '../i18n/useI18n'
 import { ACTIVE_TENANTS } from '../tenants/tenants'
+import type { MessageKey } from '../i18n/messages'
+import type { ActiveTenantId } from '../types'
+
+const communityRows = [
+  {
+    eyebrowKey: 'landing.runnersEyebrow',
+    tenantId: 'runners',
+    titleKey: 'landing.runnersHeading',
+  },
+  {
+    eyebrowKey: 'landing.hikersEyebrow',
+    tenantId: 'hikers',
+    titleKey: 'landing.hikersHeading',
+  },
+] satisfies Array<{
+  eyebrowKey: MessageKey
+  tenantId: ActiveTenantId
+  titleKey: MessageKey
+}>
 
 export function LandingPage() {
   const { t } = useI18n()
@@ -23,30 +42,43 @@ export function LandingPage() {
         </div>
       </section>
 
-      <section className="sj-section border-y border-border bg-card/70">
-        <div className="sj-container">
-          <div className="flex flex-wrap items-end justify-between gap-4">
-            <div>
-              <p className="text-xs font-extrabold uppercase tracking-[0.2em] text-accent">{t('landing.communityRows')}</p>
-              <h2 className="sj-display mt-2 text-4xl">{t('landing.howTitle')}</h2>
+      <section className="border-y border-border bg-background py-16 md:py-20">
+        <div className="sj-container space-y-16">
+          {communityRows.map((row) => {
+            const tenant = ACTIVE_TENANTS.find((item) => item.id === row.tenantId)
+            if (!tenant) return null
+
+            return (
+              <CommunityListingRow
+                eyebrow={t(row.eyebrowKey)}
+                key={tenant.id}
+                listings={getListingsByTenant(tenant.id)}
+                tenant={tenant}
+                title={t(row.titleKey)}
+                viewAllLabel={t('landing.viewAll')}
+              />
+            )
+          })}
+
+          <div className="flex flex-col items-start justify-between gap-6 rounded-3xl border border-dashed border-border bg-card/70 px-8 py-10 sm:flex-row sm:items-center md:px-12">
+            <div className="flex items-start gap-5">
+              <div className="flex h-11 w-11 flex-shrink-0 items-center justify-center rounded-2xl border border-border bg-background text-text-muted">
+                <Plus aria-hidden="true" className="h-5 w-5" />
+              </div>
+              <div>
+                <p className="mb-1.5 text-xs font-extrabold uppercase tracking-[0.2em] text-text-muted">
+                  {t('landing.createEyebrow')}
+                </p>
+                <h2 className="sj-display text-2xl leading-tight">{t('landing.createHeading')}</h2>
+                <p className="mt-2 max-w-xl text-sm leading-6 text-text-muted">{t('landing.createBody')}</p>
+              </div>
             </div>
-            <Button asChild variant="secondary">
-              <Link to="/communities">
-                {t('nav.communities')} <ArrowRight aria-hidden="true" className="h-4 w-4" />
+            <Button asChild>
+              <Link to="/start">
+                {t('landing.createCta')}
+                <ArrowRight aria-hidden="true" className="h-4 w-4" />
               </Link>
             </Button>
-          </div>
-          <div className="mt-8 space-y-12">
-            {ACTIVE_TENANTS.map((tenant) => (
-              <div key={tenant.id}>
-                <h3 className="mb-4 text-lg font-extrabold">{tenant.name}</h3>
-                <div className="grid gap-5 md:grid-cols-3">
-                  {getListingsByTenant(tenant.id).map((listing) => (
-                    <ListingCard key={listing.id} listing={listing} />
-                  ))}
-                </div>
-              </div>
-            ))}
           </div>
         </div>
       </section>

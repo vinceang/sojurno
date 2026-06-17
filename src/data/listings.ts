@@ -92,6 +92,34 @@ export const LISTINGS: Listing[] = [
       'Simple, bright, and quiet enough to protect the taper. The stay is designed for runners who want walkable food, easy trains, and someone local who understands the race-week mental state.',
   },
   {
+    id: 'sf-crissy-field',
+    tenant: 'runners',
+    bookingMode: 'native',
+    title: 'Serene guest suite near Crissy Field trail network',
+    location: 'San Francisco, CA',
+    neighborhood: 'Marina District',
+    price: 196,
+    rating: 4.95,
+    reviewCount: 52,
+    host: {
+      name: 'Daniel',
+      avatar: 'DL',
+      badge: 'Ultra runner',
+      bio: 'Bay Area runner who knows bridge miles, coastal wind, and where to recover after a long morning.',
+    },
+    images: [
+      {
+        src: unsplash('photo-1522708323590-d24dbb6b0267'),
+        alt: 'Compact guest suite with a bright kitchen and sitting area.',
+      },
+    ],
+    tags: ['Trail maps', 'Pre-dawn kitchen', 'Recovery nook'],
+    amenities: ['Washer for race kit', 'Bridge route notes', 'Quiet garden entrance'],
+    highlight: 'A calm Marina base for runners mixing road miles, park loops, and coastal trails.',
+    description:
+      'A small, composed guest suite for runners who want early access to Crissy Field, the Presidio, and bridge routes. The host keeps route notes practical and the space quiet after long efforts.',
+  },
+  {
     id: 'whitney-portal-cabin',
     tenant: 'hikers',
     bookingMode: 'native',
@@ -177,6 +205,35 @@ export const LISTINGS: Listing[] = [
     highlight: 'This host links their existing stay while keeping the affinity context on Sojurno.',
     description:
       'A linked hiker stay for travelers who want the community trust layer but will complete booking on the host-owned external listing.',
+  },
+  {
+    id: 'north-fork-cabin',
+    tenant: 'hikers',
+    bookingMode: 'native',
+    title: 'North Fork cabin gateway to Glacier NP trails',
+    location: 'West Glacier, MT',
+    neighborhood: 'North Fork',
+    price: 211,
+    rating: 4.94,
+    reviewCount: 37,
+    host: {
+      name: 'Lily',
+      avatar: 'LC',
+      badge: 'Glacier guide',
+      bio: 'Seasonal guide with a practical eye for trail closures, shuttle timing, and bear country basics.',
+    },
+    images: [
+      {
+        src: unsplash('photo-1470770903676-69b98201ea1c'),
+        alt: 'Mountain cabin near a lake and forested trails.',
+      },
+    ],
+    tags: ['Bear country prep', 'Shuttle advice', 'Trail closure notes'],
+    amenities: ['Bear spray guidance', 'Boot drying space', 'Early coffee setup'],
+    highlight: 'A low-key cabin with current trail notes and a host who knows when plans need to change.',
+    description:
+      'A practical Glacier base for hikers who need local judgment as much as a bed. The cabin keeps mornings simple, with room for packs, boot drying, and direct advice before the day gets moving.',
+    gear: HIKER_GEAR.slice(1, 5),
   },
 ]
 
