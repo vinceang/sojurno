@@ -1,86 +1,99 @@
-import { Globe, Menu, Moon, Sun } from 'lucide-react'
+import { Menu, X } from 'lucide-react'
+import { useState } from 'react'
 import { Link, NavLink, useLocation } from 'react-router-dom'
-import { Button } from '../lib/Button'
-import { useTheme } from '../role/useTheme'
 import { useI18n } from '../i18n/useI18n'
-import type { Locale, Tenant } from '../types'
+import { Button } from '../lib/Button'
+import type { Tenant } from '../types'
 import { Brand } from './Brand'
 import { CommunityMenu } from './CommunityMenu'
+import { LanguageSwitcher } from './LanguageSwitcher'
 
-type HeaderProps = {
-  tenant?: Tenant
-}
-
-const locales: Locale[] = ['en', 'es', 'fr']
-
-export function Header({ tenant }: HeaderProps) {
-  const { locale, setLocale, t } = useI18n()
-  const { theme, toggleTheme } = useTheme()
+export function Header({ tenant }: { tenant?: Tenant }) {
+  const { t } = useI18n()
   const location = useLocation()
-  const inHost = location.pathname.includes('/host')
+  const [mobileOpen, setMobileOpen] = useState(false)
+  const activeTenantId = tenant?.id ?? 'runners'
+  const navItems = [
+    { label: t('nav.communities'), to: '/communities' },
+    { label: t('nav.explore'), to: `/t/${activeTenantId}/explore` },
+    { label: t('nav.host'), to: `/t/${activeTenantId}/host` },
+  ]
 
   return (
-    <header className="sticky top-0 z-40 border-b border-border bg-background/90 backdrop-blur-xl">
+    <header className="sticky top-0 z-50 border-b border-border bg-background/95 backdrop-blur-sm">
       <div className="sj-container flex h-16 items-center justify-between gap-4">
-        <Brand tenantName={tenant?.name} />
-        <nav aria-label="Primary" className="hidden items-center gap-2 md:flex">
-          {tenant ? (
-            <>
-              <CommunityMenu activeId={tenant.id} />
-              <NavLink className="rounded-md px-3 py-2 text-sm font-semibold hover:bg-muted" to={`/t/${tenant.id}/explore`}>
-                {t('nav.explore')}
-              </NavLink>
-              <NavLink className="rounded-md px-3 py-2 text-sm font-semibold hover:bg-muted" to={`/t/${tenant.id}/host`}>
-                {t('nav.host')}
-              </NavLink>
-              {inHost ? (
-                <Button asChild size="sm" variant="secondary">
-                  <Link to={`/t/${tenant.id}/explore`}>{t('nav.traveling')}</Link>
-                </Button>
-              ) : (
-                <Button asChild size="sm" variant="accent">
-                  <Link to={`/t/${tenant.id}/host`}>{t('nav.hosting')}</Link>
-                </Button>
-              )}
-            </>
-          ) : (
-            <>
-              <NavLink className="rounded-md px-3 py-2 text-sm font-semibold hover:bg-muted" to="/communities">
-                {t('nav.communities')}
-              </NavLink>
-              <NavLink className="rounded-md px-3 py-2 text-sm font-semibold hover:bg-muted" to="/start">
-                {t('nav.start')}
-              </NavLink>
-              <NavLink className="rounded-md px-3 py-2 text-sm font-semibold hover:bg-muted" to="/design">
-                {t('nav.design')}
-              </NavLink>
-            </>
-          )}
-        </nav>
-        <div className="flex items-center gap-2">
-          <Button aria-label={theme === 'light' ? t('theme.dark') : t('theme.light')} onClick={toggleTheme} size="icon" variant="ghost">
-            {theme === 'light' ? <Moon aria-hidden="true" className="h-4 w-4" /> : <Sun aria-hidden="true" className="h-4 w-4" />}
-          </Button>
-          <label className="hidden items-center gap-2 rounded-md border border-border bg-card px-2 py-2 text-sm font-semibold sm:flex">
-            <Globe aria-hidden="true" className="h-4 w-4" />
-            <span className="sr-only">Language</span>
-            <select
-              className="bg-transparent text-sm font-semibold outline-none"
-              onChange={(event) => setLocale(event.target.value as Locale)}
-              value={locale}
+        <Brand />
+        {tenant ? (
+          <div className="hidden sm:block">
+            <CommunityMenu activeId={tenant.id} />
+          </div>
+        ) : null}
+        <nav aria-label="Primary" className="ml-auto hidden items-center gap-1 md:flex">
+          {navItems.map((item) => (
+            <NavLink
+              className={({ isActive }) =>
+                `rounded-lg px-3 py-1.5 text-sm transition ${
+                  isActive || (item.to.includes('/host') && location.pathname.includes('/host'))
+                    ? 'font-semibold text-foreground'
+                    : 'text-text-muted hover:text-foreground'
+                }`
+              }
+              key={item.to}
+              to={item.to}
             >
-              {locales.map((item) => (
-                <option key={item} value={item}>
-                  {item.toUpperCase()}
-                </option>
-              ))}
-            </select>
-          </label>
-          <Button aria-label={t('nav.menu')} className="md:hidden" size="icon" variant="secondary">
-            <Menu aria-hidden="true" className="h-5 w-5" />
+              {item.label}
+            </NavLink>
+          ))}
+        </nav>
+        <div className="hidden items-center gap-2 md:flex">
+          <span aria-hidden="true" className="mx-1 h-5 w-px bg-border" />
+          <LanguageSwitcher />
+          <span aria-hidden="true" className="mx-1 h-5 w-px bg-border" />
+          <Button asChild size="sm" variant="secondary">
+            <Link to="/start">{t('nav.signIn')}</Link>
+          </Button>
+          <Button asChild size="sm">
+            <Link to={`/t/${activeTenantId}/host`}>{t('nav.startHosting')}</Link>
           </Button>
         </div>
+        <Button
+          aria-expanded={mobileOpen}
+          aria-label={mobileOpen ? t('nav.close') : t('nav.menu')}
+          className="md:hidden"
+          onClick={() => setMobileOpen((open) => !open)}
+          size="icon"
+          variant="ghost"
+        >
+          {mobileOpen ? <X aria-hidden="true" className="h-5 w-5" /> : <Menu aria-hidden="true" className="h-5 w-5" />}
+        </Button>
       </div>
+      {mobileOpen ? (
+        <div className="border-t border-border bg-background px-4 py-4 md:hidden">
+          <nav aria-label="Mobile" className="flex flex-col gap-1">
+            {navItems.map((item) => (
+              <Link
+                className="rounded-lg px-3 py-2.5 text-sm font-semibold hover:bg-muted/60"
+                key={item.to}
+                onClick={() => setMobileOpen(false)}
+                to={item.to}
+              >
+                {item.label}
+              </Link>
+            ))}
+          </nav>
+          <div className="mt-3 flex items-center justify-between border-t border-border pt-3">
+            <LanguageSwitcher />
+            <div className="flex gap-2">
+              <Button asChild size="sm" variant="secondary">
+                <Link to="/start">{t('nav.signIn')}</Link>
+              </Button>
+              <Button asChild size="sm">
+                <Link to={`/t/${activeTenantId}/host`}>{t('nav.startHosting')}</Link>
+              </Button>
+            </div>
+          </div>
+        </div>
+      ) : null}
     </header>
   )
 }

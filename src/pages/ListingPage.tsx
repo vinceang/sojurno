@@ -18,6 +18,8 @@ export function ListingPage() {
   const { t } = useI18n()
   const listing = getListing(listingId)
   const [nights, setNights] = useState(3)
+  const [checkIn, setCheckIn] = useState('2026-07-18')
+  const [checkOut, setCheckOut] = useState('2026-07-21')
   const [gearIds, setGearIds] = useState<Set<string>>(() => new Set())
 
   const total = useMemo(() => listing ? listing.price * nights + 42 : 0, [listing, nights])
@@ -122,14 +124,24 @@ export function ListingPage() {
               <span className="text-text-muted"> / night</span>
             </p>
             <div className="mt-5 grid grid-cols-2 overflow-hidden rounded-lg border border-border text-sm">
-              <div className="border-r border-border p-3">
+              <label className="border-r border-border p-3">
                 <span className="block text-xs font-bold uppercase text-text-muted">{t('listing.checkIn')}</span>
-                Jul 18
-              </div>
-              <div className="p-3">
+                <input
+                  className="mt-1 w-full bg-transparent text-sm font-semibold outline-none"
+                  onChange={(event) => setCheckIn(event.target.value)}
+                  type="date"
+                  value={checkIn}
+                />
+              </label>
+              <label className="p-3">
                 <span className="block text-xs font-bold uppercase text-text-muted">{t('listing.checkOut')}</span>
-                Jul 21
-              </div>
+                <input
+                  className="mt-1 w-full bg-transparent text-sm font-semibold outline-none"
+                  onChange={(event) => setCheckOut(event.target.value)}
+                  type="date"
+                  value={checkOut}
+                />
+              </label>
             </div>
             <div className="mt-5">
               <Stepper label={t('listing.nights')} min={1} onChange={setNights} value={nights} />

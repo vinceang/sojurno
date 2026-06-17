@@ -1,5 +1,6 @@
 import { LayoutGrid, ListFilter, Map } from 'lucide-react'
 import { ListingCard } from '../components/ListingCard'
+import { SearchPanel } from '../components/SearchPanel'
 import { Badge } from '../lib/Badge'
 import { Button } from '../lib/Button'
 import { getListingsByTenant } from '../data/listings'
@@ -41,6 +42,9 @@ export function ExplorePage() {
               {item}
             </Badge>
           ))}
+        </div>
+        <div className="sticky top-16 z-30 mt-8 rounded-xl border border-border bg-background/95 p-3 shadow-sm backdrop-blur-sm">
+          <SearchPanel compact defaultTenant={tenantId} />
         </div>
         <div className="mt-8 grid gap-5 md:grid-cols-2 lg:grid-cols-3">
           {listings.map((listing) => (

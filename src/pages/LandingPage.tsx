@@ -1,7 +1,8 @@
-import { ArrowRight, Calendar, Search } from 'lucide-react'
+import { ArrowRight } from 'lucide-react'
 import { Link } from 'react-router-dom'
 import { CommunityCard } from '../components/CommunityCard'
 import { ListingCard } from '../components/ListingCard'
+import { SearchPanel } from '../components/SearchPanel'
 import { Button } from '../lib/Button'
 import { getListingsByTenant } from '../data/listings'
 import { useI18n } from '../i18n/useI18n'
@@ -17,18 +18,8 @@ export function LandingPage() {
           <p className="text-xs font-extrabold uppercase tracking-[0.2em] text-accent">{t('landing.eyebrow')}</p>
           <h1 className="sj-display mt-5 max-w-4xl text-6xl leading-[0.95] md:text-7xl">{t('landing.title')}</h1>
           <p className="mt-6 max-w-2xl text-lg leading-8 text-text-muted">{t('landing.body')}</p>
-          <div className="mt-8 grid max-w-2xl gap-3 rounded-xl border border-border bg-card p-3 shadow-md md:grid-cols-[1fr_auto_auto]">
-            <label className="flex min-h-12 items-center gap-3 rounded-lg bg-muted px-4 text-sm font-semibold text-text-muted">
-              <Search aria-hidden="true" className="h-4 w-4" />
-              <span>{t('landing.search')}</span>
-            </label>
-            <label className="flex min-h-12 items-center gap-3 rounded-lg bg-muted px-4 text-sm font-semibold text-text-muted">
-              <Calendar aria-hidden="true" className="h-4 w-4" />
-              <span>{t('landing.anyDates')}</span>
-            </label>
-            <Button asChild size="lg" variant="accent">
-              <Link to="/communities">{t('landing.cta')}</Link>
-            </Button>
+          <div className="mt-8">
+            <SearchPanel />
           </div>
         </div>
         <div className="grid gap-4">
