@@ -6,6 +6,8 @@
 
 ## Current phase
 
+> **v2 redesign note, 2026-06-17:** this repo is currently a fresh production-style rebuild on `feat/v2-production-redesign`, using the original Sojurno ADRs/product docs as product guidance and `sojurno-redesign` as the visual reference. The phase table below is inherited context from the mature original repo and remains useful for product intent, but it is not a precise checklist for the current v2 implementation state. See [`v2-build-note.md`](v2-build-note.md) for the current redesign capture.
+
 **Phase 4 — Gear module: ✅ built (in review)** on branch `phase-4-gear`. Phases 1–3 ✅ merged to `main` and deployed. Next: **Phase 5 — Design-system launchpad** (final phase).
 
 ## Phase status
@@ -51,6 +53,7 @@ These are deferred items and decisions surfaced in earlier phases that a later p
 
 ## Changelog
 
+- **2026-06-17** — v2 redesign implementation pass on `feat/v2-production-redesign`: scaffolded a fresh React/Vite production build that keeps Sojurno's affinity, multi-tenant product thesis while translating the Figma Make redesign into production patterns. Added real routes, EN/ES/FR chrome, tenant-scoped listing data, public header/footer, `/about` maker page, reusable `CommunityListingRow` landing sections, four-card community rows, and a builder CTA strip. Consolidated primary CTA styling through the `Button` primitive after finding `Button asChild` links were losing contrast to the global anchor reset. Current state is promising but incomplete: visual parity, Storybook documentation, search/date behavior, richer Explore/detail/host views, and stronger browser visual QA remain open.
 - **2026-06-14** — Phase 1 routing spine merged to branch `phase-1-routing` (PR #1): React Router, `RootLayout`, route adapters, `NavLink` header. Follow-ups: shortened search CTA to fix button wrap; mobile header → hamburger drawer (`MobileMenu`) fixing squished/overflowing tools and the nav links that previously vanished at ≤640px.
 - **2026-06-14** — Drafted ADR-0014 (Proposed): tenant brand axis = logo + color + typography, bounded to token slots; typography shipped as a seam in v1. Shapes the Phase 2 brand config schema.
 - **2026-06-15** — Accepted ADR-0016 (listing content model): `Listing.desc` → single-language `description`, added optional `images` + `Scene` fallback, flattened reviews/dates; chrome stays bilingual. Amended AGENTS.md §6/§5. Separate AI asset-generator build prompt drafted. Drafted **ADR-0017** (Proposed, parked): backend/persistence direction (Supabase + serverless, tenant RLS, generator-as-preloader) — recorded, not built; roadmap stays on the phases.
