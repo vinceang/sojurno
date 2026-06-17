@@ -116,6 +116,11 @@ img {
   transform: translateY(0);
 }
 
+.sj-button-primary {
+  background: var(--color-foreground);
+  color: var(--color-background);
+}
+
 .search-panel-submit {
   border-radius: 0 0 var(--radius-xl) var(--radius-xl);
 }

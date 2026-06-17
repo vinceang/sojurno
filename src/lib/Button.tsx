@@ -8,8 +8,7 @@ const buttonVariants = cva(
   {
     variants: {
       variant: {
-        primary:
-          'bg-[var(--color-foreground)] px-5 py-2.5 text-[var(--color-background)] shadow-sm hover:opacity-90',
+        primary: 'sj-button-primary px-5 py-2.5 shadow-sm hover:opacity-90',
         accent: 'bg-accent px-5 py-2.5 text-white shadow-sm hover:opacity-90',
         secondary: 'border border-border bg-card px-5 py-2.5 text-foreground hover:bg-muted',
         ghost: 'px-3 py-2 text-text-muted hover:bg-muted hover:text-foreground',
