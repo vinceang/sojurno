@@ -116,6 +116,16 @@ img {
   transform: translateY(0);
 }
 
+.search-panel-submit {
+  border-radius: 0 0 var(--radius-xl) var(--radius-xl);
+}
+
+@media (min-width: 640px) {
+  .search-panel-submit {
+    border-radius: 0 var(--radius-xl) var(--radius-xl) 0;
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   *,
   *::before,

@@ -119,7 +119,7 @@ export function SearchPanel({ compact = false, defaultTenant = 'runners', showTe
         className={
           compact
             ? 'min-h-10 rounded-xl bg-primary px-4 text-sm font-bold text-primary-foreground hover:opacity-90'
-            : 'min-h-16 rounded-b-[var(--radius-xl)] bg-foreground px-8 py-4 text-xl font-bold text-background transition hover:opacity-90 sm:rounded-b-none sm:rounded-r-[var(--radius-xl)] md:px-12'
+            : 'search-panel-submit min-h-16 bg-foreground px-8 py-4 text-xl font-bold text-background transition hover:opacity-90 md:px-12'
         }
         type="submit"
       >
