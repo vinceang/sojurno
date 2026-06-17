@@ -11,9 +11,10 @@ const dateOptions = ['Any dates', 'Jul 18–21', 'Aug 9–12', 'Oct 12–14']
 type SearchPanelProps = {
   defaultTenant?: ActiveTenantId
   compact?: boolean
+  showTenantSelect?: boolean
 }
 
-export function SearchPanel({ compact = false, defaultTenant = 'runners' }: SearchPanelProps) {
+export function SearchPanel({ compact = false, defaultTenant = 'runners', showTenantSelect = compact }: SearchPanelProps) {
   const { t } = useI18n()
   const navigate = useNavigate()
   const [query, setQuery] = useState('')
@@ -36,7 +37,7 @@ export function SearchPanel({ compact = false, defaultTenant = 'runners' }: Sear
       className={
         compact
           ? 'flex flex-wrap items-center gap-2'
-          : 'flex max-w-2xl flex-col items-stretch overflow-visible rounded-xl bg-card shadow-lg sm:flex-row sm:items-center'
+          : 'flex w-full max-w-4xl flex-col items-stretch overflow-visible rounded-[var(--radius-pill)] bg-card shadow-[var(--shadow-lg)] sm:flex-row sm:items-center'
       }
       onSubmit={submitSearch}
     >
@@ -44,50 +45,52 @@ export function SearchPanel({ compact = false, defaultTenant = 'runners' }: Sear
         className={
           compact
             ? 'flex min-h-10 items-center gap-2 rounded-xl border border-border bg-background px-3 text-sm'
-            : 'flex flex-1 items-center gap-3 border-b border-border px-5 py-3.5 sm:border-b-0 sm:border-r'
+            : 'flex min-h-16 flex-1 items-center gap-4 border-b border-border px-6 py-4 sm:border-b-0 sm:border-r md:px-8'
         }
       >
-        <Search aria-hidden="true" className="h-4 w-4 flex-shrink-0 text-text-muted" />
+        <Search aria-hidden="true" className={compact ? 'h-4 w-4 flex-shrink-0 text-text-muted' : 'h-6 w-6 flex-shrink-0 text-text-muted'} />
         <span className="sr-only">{t('landing.search')}</span>
         <input
-          className="min-w-0 flex-1 bg-transparent text-sm text-foreground outline-none placeholder:text-text-muted"
+          className={compact ? 'min-w-0 flex-1 bg-transparent text-sm text-foreground outline-none placeholder:text-text-muted' : 'min-w-0 flex-1 bg-transparent text-xl text-foreground outline-none placeholder:text-text-muted'}
           onChange={(event) => setQuery(event.target.value)}
           placeholder={compact ? t('explore.anyLocation') : t('landing.search')}
           type="search"
           value={query}
         />
       </label>
-      <label
-        className={
-          compact
-            ? 'flex min-h-10 items-center gap-2 rounded-xl border border-border bg-background px-3 text-sm'
-            : 'flex items-center gap-3 border-b border-border px-5 py-3.5 sm:border-b-0 sm:border-r'
-        }
-      >
-        <span className="sr-only">{t('nav.community')}</span>
-        <select
-          className="bg-transparent text-sm font-semibold outline-none"
-          onChange={(event) => setTenantId(event.target.value as ActiveTenantId)}
-          value={tenantId}
+      {showTenantSelect ? (
+        <label
+          className={
+            compact
+              ? 'flex min-h-10 items-center gap-2 rounded-xl border border-border bg-background px-3 text-sm'
+              : 'flex items-center gap-3 border-b border-border px-5 py-3.5 sm:border-b-0 sm:border-r'
+          }
         >
-          {tenantOptions.map((tenant) => (
-            <option key={tenant.id} value={tenant.id}>
-              {tenant.name}
-            </option>
-          ))}
-        </select>
-      </label>
+          <span className="sr-only">{t('nav.community')}</span>
+          <select
+            className="bg-transparent text-sm font-semibold outline-none"
+            onChange={(event) => setTenantId(event.target.value as ActiveTenantId)}
+            value={tenantId}
+          >
+            {tenantOptions.map((tenant) => (
+              <option key={tenant.id} value={tenant.id}>
+                {tenant.name}
+              </option>
+            ))}
+          </select>
+        </label>
+      ) : null}
       <div className="relative">
         <button
           className={
             compact
               ? 'flex min-h-10 items-center gap-2 rounded-xl border border-border bg-background px-3 text-sm hover:bg-muted/60'
-              : 'flex min-h-[3.25rem] w-full items-center gap-3 px-5 py-3.5 text-sm text-text-muted hover:bg-muted/60 sm:w-auto'
+              : 'flex min-h-16 w-full items-center gap-4 px-6 py-4 text-xl text-text-muted hover:bg-muted/60 sm:w-auto md:min-w-64 md:px-8'
           }
           onClick={() => setDateOpen((open) => !open)}
           type="button"
         >
-          <Calendar aria-hidden="true" className="h-4 w-4 flex-shrink-0" />
+          <Calendar aria-hidden="true" className={compact ? 'h-4 w-4 flex-shrink-0' : 'h-6 w-6 flex-shrink-0'} />
           <span>{dateLabel}</span>
         </button>
         {dateOpen ? (
@@ -115,7 +118,7 @@ export function SearchPanel({ compact = false, defaultTenant = 'runners' }: Sear
         className={
           compact
             ? 'min-h-10 rounded-xl bg-primary px-4 text-sm font-bold text-primary-foreground hover:opacity-90'
-            : 'bg-primary px-6 py-3.5 text-sm font-bold text-primary-foreground transition hover:opacity-90'
+            : 'min-h-16 rounded-b-[var(--radius-pill)] bg-foreground px-8 py-4 text-xl font-bold text-background transition hover:opacity-90 sm:rounded-b-none sm:rounded-r-[var(--radius-pill)] md:px-12'
         }
         type="submit"
       >

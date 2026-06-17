@@ -1,6 +1,7 @@
 import { Navigate, Route, Routes } from 'react-router-dom'
 import { RootLayout } from './components/RootLayout'
 import { TenantProvider } from './tenants/TenantProvider'
+import { AboutPage } from './pages/AboutPage'
 import { CommunitiesPage } from './pages/CommunitiesPage'
 import { DesignPage } from './pages/DesignPage'
 import { ExplorePage } from './pages/ExplorePage'
@@ -17,6 +18,7 @@ export function App() {
         <Route element={<LandingPage />} index />
         <Route element={<CommunitiesPage />} path="communities" />
         <Route element={<StartPage />} path="start" />
+        <Route element={<AboutPage />} path="about" />
         <Route element={<DesignPage />} path="design" />
         <Route element={<TenantProvider />} path="t/:tenantId">
           <Route element={<Navigate replace to="explore" />} index />
