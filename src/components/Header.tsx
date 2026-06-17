@@ -52,9 +52,13 @@ export function Header({ tenant }: { tenant?: Tenant }) {
           <Button asChild size="sm" variant="secondary">
             <Link to="/start">{t('nav.signIn')}</Link>
           </Button>
-          <Button asChild className="bg-[var(--color-foreground)] text-[var(--color-background)]" size="sm">
-            <Link to={`/t/${activeTenantId}/host`}>{t('nav.startHosting')}</Link>
-          </Button>
+          <Link
+            className="inline-flex min-h-9 items-center justify-center rounded-xl px-4 text-sm font-semibold shadow-sm transition hover:opacity-90"
+            style={{ backgroundColor: 'var(--color-foreground)', color: 'var(--color-background)' }}
+            to={`/t/${activeTenantId}/host`}
+          >
+            {t('nav.startHosting')}
+          </Link>
         </div>
         <Button
           aria-expanded={mobileOpen}
@@ -87,9 +91,13 @@ export function Header({ tenant }: { tenant?: Tenant }) {
               <Button asChild size="sm" variant="secondary">
                 <Link to="/start">{t('nav.signIn')}</Link>
               </Button>
-              <Button asChild className="bg-[var(--color-foreground)] text-[var(--color-background)]" size="sm">
-                <Link to={`/t/${activeTenantId}/host`}>{t('nav.startHosting')}</Link>
-              </Button>
+              <Link
+                className="inline-flex min-h-9 items-center justify-center rounded-xl px-4 text-sm font-semibold shadow-sm transition hover:opacity-90"
+                style={{ backgroundColor: 'var(--color-foreground)', color: 'var(--color-background)' }}
+                to={`/t/${activeTenantId}/host`}
+              >
+                {t('nav.startHosting')}
+              </Link>
             </div>
           </div>
         </div>
