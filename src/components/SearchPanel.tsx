@@ -6,7 +6,7 @@ import { useI18n } from '../i18n/useI18n'
 import { ACTIVE_TENANTS } from '../tenants/tenants'
 import type { ActiveTenantId } from '../types'
 
-const dateOptions = ['Any dates', 'Jul 18–21', 'Aug 9–12', 'Oct 12–14']
+const dateOptions = ['Any dates', 'Jul 18-21', 'Aug 9-12', 'Oct 12-14']
 
 type SearchPanelProps = {
   defaultTenant?: ActiveTenantId
@@ -37,7 +37,7 @@ export function SearchPanel({ compact = false, defaultTenant = 'runners', showTe
       className={
         compact
           ? 'flex flex-wrap items-center gap-2'
-          : 'flex w-full max-w-4xl flex-col items-stretch overflow-visible rounded-[var(--radius-pill)] bg-card shadow-[var(--shadow-lg)] sm:flex-row sm:items-center'
+          : 'flex w-full max-w-4xl flex-col items-stretch overflow-visible rounded-[var(--radius-xl)] bg-card shadow-[var(--shadow-lg)] sm:flex-row sm:items-center'
       }
       onSubmit={submitSearch}
     >
@@ -82,6 +82,7 @@ export function SearchPanel({ compact = false, defaultTenant = 'runners', showTe
       ) : null}
       <div className="relative">
         <button
+          aria-expanded={dateOpen}
           className={
             compact
               ? 'flex min-h-10 items-center gap-2 rounded-xl border border-border bg-background px-3 text-sm hover:bg-muted/60'
@@ -94,7 +95,7 @@ export function SearchPanel({ compact = false, defaultTenant = 'runners', showTe
           <span>{dateLabel}</span>
         </button>
         {dateOpen ? (
-          <div className="absolute right-0 top-full z-30 mt-2 w-44 overflow-hidden rounded-xl border border-border bg-card p-1 shadow-lg">
+          <div className="absolute right-0 top-full z-30 mt-2 w-44 overflow-hidden rounded-xl border border-border bg-card p-1 shadow-[var(--shadow-lg)]">
             {dateOptions.map((option) => {
               const label = option === 'Any dates' ? t('landing.anyDates') : option
               return (
@@ -118,7 +119,7 @@ export function SearchPanel({ compact = false, defaultTenant = 'runners', showTe
         className={
           compact
             ? 'min-h-10 rounded-xl bg-primary px-4 text-sm font-bold text-primary-foreground hover:opacity-90'
-            : 'min-h-16 rounded-b-[var(--radius-pill)] bg-foreground px-8 py-4 text-xl font-bold text-background transition hover:opacity-90 sm:rounded-b-none sm:rounded-r-[var(--radius-pill)] md:px-12'
+            : 'min-h-16 rounded-b-[var(--radius-xl)] bg-foreground px-8 py-4 text-xl font-bold text-background transition hover:opacity-90 sm:rounded-b-none sm:rounded-r-[var(--radius-xl)] md:px-12'
         }
         type="submit"
       >
