@@ -25,6 +25,15 @@ export {
 } from './DropdownMenu'
 export { Input } from './Input'
 export { Rating } from './Rating'
+export {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from './Select'
 export { Separator } from './Separator'
 export { Stepper } from './Stepper'
+export { Switch } from './Switch'
 export { Tabs, TabsContent, TabsList, TabsTrigger } from './Tabs'
+export { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from './Tooltip'
