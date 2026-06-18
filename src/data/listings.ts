@@ -120,6 +120,62 @@ export const LISTINGS: Listing[] = [
       'A small, composed guest suite for runners who want early access to Crissy Field, the Presidio, and bridge routes. The host keeps route notes practical and the space quiet after long efforts.',
   },
   {
+    id: 'austin-east-loop',
+    tenant: 'runners',
+    bookingMode: 'native',
+    title: 'East Austin bungalow steps from the Lady Bird trail',
+    location: 'Austin, TX',
+    neighborhood: 'East Austin',
+    price: 179,
+    rating: 4.93,
+    reviewCount: 61,
+    host: {
+      name: 'Priya',
+      avatar: 'PR',
+      badge: 'Trail-series host',
+      bio: 'Austin runner who knows the Lady Bird loop, summer heat timing, and the best taco recovery stops.',
+    },
+    images: [
+      {
+        src: unsplash('photo-1502005229762-cf1b2da7c5d6'),
+        alt: 'Sunlit bungalow living room with warm wood floors.',
+      },
+    ],
+    tags: ['Trail access', 'Heat-smart timing', 'Recovery tacos'],
+    amenities: ['Pre-dawn coffee', 'Cold hose for ice baths', 'Shaded route notes'],
+    highlight: 'A host who plans your miles around Austin heat and the Lady Bird loop.',
+    description:
+      'A relaxed East Austin base for runners who want trail access without a car. The host keeps mornings early, hydration easy, and route advice tuned to the season.',
+  },
+  {
+    id: 'philly-schuylkill',
+    tenant: 'runners',
+    bookingMode: 'native',
+    title: 'Fairmount rowhouse on the Schuylkill river loop',
+    location: 'Philadelphia, PA',
+    neighborhood: 'Fairmount',
+    price: 165,
+    rating: 4.91,
+    reviewCount: 44,
+    host: {
+      name: 'Marcus',
+      avatar: 'MJ',
+      badge: 'Marathon pacer',
+      bio: 'Philly pacer who runs Kelly Drive daily and knows where the river loop is flattest and quietest.',
+    },
+    images: [
+      {
+        src: unsplash('photo-1502672260266-1c1ef2d93688'),
+        alt: 'Tidy rowhouse bedroom with soft natural light.',
+      },
+    ],
+    tags: ['River loop', 'Flat miles', 'Pacer host'],
+    amenities: ['Foam roller', 'Loop distance markers', 'Quiet street'],
+    highlight: 'Step out the door onto the flat, scenic Schuylkill river loop.',
+    description:
+      'A straightforward Fairmount rowhouse for runners who want flat river miles and an easy taper. The host shares pacing notes and keeps the house calm before race morning.',
+  },
+  {
     id: 'whitney-portal-cabin',
     tenant: 'hikers',
     bookingMode: 'native',
@@ -234,6 +290,64 @@ export const LISTINGS: Listing[] = [
     description:
       'A practical Glacier base for hikers who need local judgment as much as a bed. The cabin keeps mornings simple, with room for packs, boot drying, and direct advice before the day gets moving.',
     gear: HIKER_GEAR.slice(1, 5),
+  },
+  {
+    id: 'bend-cascade-loft',
+    tenant: 'hikers',
+    bookingMode: 'native',
+    title: 'Cascade loft with gear wall near Bend trailheads',
+    location: 'Bend, OR',
+    neighborhood: 'Old Mill',
+    price: 205,
+    rating: 4.95,
+    reviewCount: 53,
+    host: {
+      name: 'Sage',
+      avatar: 'SW',
+      badge: 'Cascade trail host',
+      bio: 'Bend hiker who tracks snow lines, alpine windows, and which lakes are worth the early start.',
+    },
+    images: [
+      {
+        src: unsplash('photo-1493809842364-78817add7ffb'),
+        alt: 'Cabin loft interior with large windows facing forest.',
+      },
+    ],
+    tags: ['Gear wall', 'Snow-line beta', 'Early starts'],
+    amenities: ['Pack staging', 'Trail snack pantry', 'Boot drying rack'],
+    highlight: 'Borrow poles or a canister and get current snow-line notes before heading up.',
+    description:
+      'A bright loft for hikers basing out of Bend. The host lends key gear and keeps alpine timing realistic, so big days start prepared instead of guessing.',
+    gear: HIKER_GEAR.slice(0, 4),
+  },
+  {
+    id: 'asheville-blue-ridge',
+    tenant: 'hikers',
+    bookingMode: 'native',
+    title: 'Blue Ridge cabin with drying porch near the parkway',
+    location: 'Asheville, NC',
+    neighborhood: 'West Asheville',
+    price: 189,
+    rating: 4.93,
+    reviewCount: 39,
+    host: {
+      name: 'Jonah',
+      avatar: 'JB',
+      badge: 'Appalachian trail host',
+      bio: 'Blue Ridge hiker who knows parkway closures, fog windows, and the quiet approaches to busy summits.',
+    },
+    images: [
+      {
+        src: unsplash('photo-1540518614846-7eded433c457'),
+        alt: 'Wooden cabin nestled among forested hills.',
+      },
+    ],
+    tags: ['Parkway access', 'Fog beta', 'Quiet approaches'],
+    amenities: ['Covered drying porch', 'Trail maps', 'Early breakfast'],
+    highlight: 'A host who routes you around parkway fog and the crowded summit hours.',
+    description:
+      'A calm Blue Ridge cabin for hikers who want parkway access and local judgment on weather. The drying porch and early breakfast keep multi-day plans simple.',
+    gear: HIKER_GEAR.slice(2, 5),
   },
 ]
 

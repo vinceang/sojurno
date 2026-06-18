@@ -23,7 +23,7 @@ const meta = {
 export default meta
 type Story = StoryObj<typeof meta>
 
-export const Native: Story = {
+export const Full: Story = {
   args: {
     listing: LISTINGS[0],
   },
@@ -32,5 +32,12 @@ export const Native: Story = {
 export const External: Story = {
   args: {
     listing: LISTINGS[1],
+  },
+}
+
+export const Compact: Story = {
+  args: {
+    listing: LISTINGS[0],
+    variant: 'compact',
   },
 }

@@ -5,5 +5,35 @@
 export { Avatar } from './Avatar'
 export { Badge } from './Badge'
 export { Button } from './Button'
+export { Card } from './Card'
+export { Checkbox } from './Checkbox'
+export {
+  Dialog,
+  DialogClose,
+  DialogContent,
+  DialogDescription,
+  DialogTitle,
+  DialogTrigger,
+} from './Dialog'
+export {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuGroup,
+  DropdownMenuItem,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from './DropdownMenu'
+export { Input } from './Input'
 export { Rating } from './Rating'
+export {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from './Select'
+export { Separator } from './Separator'
 export { Stepper } from './Stepper'
+export { Switch } from './Switch'
+export { Tabs, TabsContent, TabsList, TabsTrigger } from './Tabs'
+export { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from './Tooltip'

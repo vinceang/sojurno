@@ -1,6 +1,12 @@
 export type Locale = 'en' | 'es' | 'fr'
 
-export type TenantId = 'runners' | 'hikers' | 'cyclists' | 'climbers'
+export type TenantId =
+  | 'runners'
+  | 'hikers'
+  | 'cyclists'
+  | 'climbers'
+  | 'skiers'
+  | 'music-festivals'
 
 export type ActiveTenantId = 'runners' | 'hikers'
 
@@ -68,6 +74,7 @@ export type Tenant = {
   taxonomy: string[]
   trustSignals: string[]
   capabilities: Capability[]
+  image: ListingImage
   stats: {
     listings: number
     cities: number

@@ -1,10 +1,11 @@
-import * as Checkbox from '@radix-ui/react-checkbox'
 import { ArrowUpRight, Check, ShieldCheck } from 'lucide-react'
 import { useMemo, useState } from 'react'
 import { Link, Navigate, useParams } from 'react-router-dom'
 import { Avatar } from '../lib/Avatar'
 import { Badge } from '../lib/Badge'
 import { Button } from '../lib/Button'
+import { Card } from '../lib/Card'
+import { Checkbox } from '../lib/Checkbox'
 import { Rating } from '../lib/Rating'
 import { Stepper } from '../lib/Stepper'
 import { formatCurrency } from '../lib/utils'
@@ -86,9 +87,10 @@ export function ListingPage() {
                   <div className="mt-5 grid gap-3">
                     {listing.gear?.map((item) => (
                       <label className="flex cursor-pointer items-start gap-3 rounded-lg border border-border bg-card p-3 hover:bg-muted" key={item.id}>
-                        <Checkbox.Root
+                        <Checkbox
+                          aria-label={item.name}
                           checked={gearIds.has(item.id)}
-                          className="mt-1 flex h-5 w-5 items-center justify-center rounded border border-border data-[state=checked]:border-accent data-[state=checked]:bg-accent"
+                          className="mt-1"
                           onCheckedChange={(checked) => {
                             setGearIds((current) => {
                               const next = new Set(current)
@@ -100,11 +102,7 @@ export function ListingPage() {
                               return next
                             })
                           }}
-                        >
-                          <Checkbox.Indicator>
-                            <Check aria-hidden="true" className="h-3.5 w-3.5 text-white" />
-                          </Checkbox.Indicator>
-                        </Checkbox.Root>
+                        />
                         <span>
                           <span className="block text-sm font-extrabold">{item.name}</span>
                           <span className="text-xs text-text-muted">
@@ -118,7 +116,8 @@ export function ListingPage() {
               ) : null}
             </div>
           </div>
-          <aside className="h-fit rounded-xl border border-border bg-card p-5 shadow-lg lg:sticky lg:top-24">
+          <Card asChild className="h-fit lg:sticky lg:top-24" elevation="lg">
+          <aside>
             <p>
               <span className="text-2xl font-extrabold">{formatCurrency(listing.price)}</span>
               <span className="text-text-muted"> / night</span>
@@ -166,6 +165,7 @@ export function ListingPage() {
               <Link to={`/t/${tenantId}/explore`}>Back to {tenant.name}</Link>
             </Button>
           </aside>
+          </Card>
         </div>
       </div>
     </section>
@@ -173,7 +173,7 @@ export function ListingPage() {
 }
 
 function Panel({ children }: { children: React.ReactNode }) {
-  return <div className="rounded-xl border border-border bg-card p-5 shadow-sm">{children}</div>
+  return <Card>{children}</Card>
 }
 
 function Line({ label, strong, value }: { label: string; strong?: boolean; value: string }) {

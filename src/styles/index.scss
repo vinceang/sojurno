@@ -94,6 +94,16 @@ img {
   --community-accent-soft: var(--color-violet-soft);
 }
 
+[data-community='skiers'] {
+  --community-accent: var(--color-frost);
+  --community-accent-soft: var(--color-frost-soft);
+}
+
+[data-community='music-festivals'] {
+  --community-accent: var(--color-festival);
+  --community-accent-soft: var(--color-festival-soft);
+}
+
 .community-pill {
   background: var(--community-accent-soft);
   color: var(--community-accent);

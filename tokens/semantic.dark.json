@@ -4,6 +4,7 @@
     "foreground": { "$type": "color", "$value": "{color.canvas}" },
     "card": { "$type": "color", "$value": "{color.ink}" },
     "card-muted": { "$type": "color", "$value": "{color.night.800}" },
+    "tertiary": { "$type": "color", "$value": "{color.night.800}" },
     "muted": { "$type": "color", "$value": "{color.night.700}" },
     "muted-strong": { "$type": "color", "$value": "{color.night.600}" },
     "text-muted": { "$type": "color", "$value": "{color.night.300}" },
