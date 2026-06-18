@@ -19,6 +19,13 @@ export type ListingImage = {
   alt: string
 }
 
+export type Review = {
+  name: string
+  avatarUrl: string
+  date: string
+  text: string
+}
+
 export type GearItem = {
   id: string
   name: string

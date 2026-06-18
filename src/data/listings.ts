@@ -1,5 +1,5 @@
 import { HIKER_GEAR } from './gear'
-import type { ActiveTenantId, Listing } from '../types'
+import type { ActiveTenantId, Listing, ListingImage, Review } from '../types'
 
 function unsplash(id: string, width = 1200, height = 900): string {
   return `https://images.unsplash.com/${id}?w=${width}&h=${height}&fit=crop&auto=format&q=82`
@@ -373,4 +373,55 @@ export function getListingsByTenant(tenant: ActiveTenantId): Listing[] {
 
 export function getListing(id: string | undefined): Listing | undefined {
   return LISTINGS.find((listing) => listing.id === id)
+}
+
+/**
+ * A gallery of 5 images for the listing detail page: the listing's own photo
+ * first, then filled from other listings' (already-verified) interior shots so
+ * the mosaic stays populated until per-listing photo sets exist (→ ADR-0016).
+ */
+export function getGallery(listing: Listing): ListingImage[] {
+  const own = listing.images
+  const fillers = LISTINGS.filter((other) => other.id !== listing.id).map((other) => ({
+    src: other.images[0]?.src,
+    alt: 'Interior view',
+  }))
+  return [...own, ...fillers].slice(0, 5)
+}
+
+// Community-flavored sample reviews (marketplace content — single-language per
+// ADR-0016). Shown on every listing of that tenant until per-listing reviews exist.
+const REVIEWS: Record<ActiveTenantId, Review[]> = {
+  runners: [
+    {
+      name: 'Alex M.',
+      avatarUrl: portrait(13),
+      date: 'March 2026',
+      text: 'Perfect setup for race day. Left coffee out at 5am and the route maps were exactly right — back for the fall half.',
+    },
+    {
+      name: 'Tarini R.',
+      avatarUrl: portrait(49),
+      date: 'January 2026',
+      text: 'Stayed here for the marathon and it was seamless. The foam roller and recovery snacks were a thoughtful touch after a hard effort.',
+    },
+  ],
+  hikers: [
+    {
+      name: 'Devon K.',
+      avatarUrl: portrait(15),
+      date: 'February 2026',
+      text: 'The loaner gear saved my trip — borrowed a canister and poles. Host knew exactly which trailhead to start from given the snow.',
+    },
+    {
+      name: 'Priya S.',
+      avatarUrl: portrait(41),
+      date: 'December 2025',
+      text: 'Quiet, warm, and a real drying space for wet layers. The trail beta the host shared changed our whole route for the better.',
+    },
+  ],
+}
+
+export function getReviews(listing: Listing): Review[] {
+  return REVIEWS[listing.tenant]
 }
