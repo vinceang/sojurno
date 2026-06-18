@@ -1,6 +1,5 @@
 import { Link } from 'react-router-dom'
 import { CommunityCard } from '../components/CommunityCard'
-import { UpcomingCommunityCard } from '../components/UpcomingCommunityCard'
 import { Button } from '../lib/Button'
 import { Eyebrow } from '../lib/Eyebrow'
 import { SectionHeader } from '../lib/SectionHeader'
@@ -32,7 +31,7 @@ export function CommunitiesPage() {
           <Eyebrow>{t('communities.devEyebrow')}</Eyebrow>
           <div className="mt-6 grid gap-5 lg:grid-cols-2">
             {upcoming.map((tenant) => (
-              <UpcomingCommunityCard key={tenant.id} tenant={tenant} />
+              <CommunityCard key={tenant.id} tenant={tenant} />
             ))}
           </div>
         </div>
