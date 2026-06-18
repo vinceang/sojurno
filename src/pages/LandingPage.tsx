@@ -38,7 +38,14 @@ export function LandingPage() {
           <p className="mt-6 max-w-xl text-lg leading-8 text-text-muted">{t('landing.body')}</p>
         </div>
         <div className="w-full">
-          <SearchPanel showTenantSelect stacked />
+          {/* < lg: full-width bar — stacks on phones, single row on tablet (less vertical scroll) */}
+          <div className="lg:hidden">
+            <SearchPanel showTenantSelect />
+          </div>
+          {/* lg+: stacked card beside the lead copy */}
+          <div className="hidden lg:block">
+            <SearchPanel showTenantSelect stacked />
+          </div>
         </div>
       </section>
 
