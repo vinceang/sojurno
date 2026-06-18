@@ -17,6 +17,12 @@ export function RootLayout() {
     }
   }, [tenant])
 
+  // Scroll to top on route change (otherwise a long page keeps its scroll
+  // position when navigating, e.g. tapping About from a scrolled landing page).
+  useEffect(() => {
+    window.scrollTo({ top: 0, left: 0, behavior: 'instant' as ScrollBehavior })
+  }, [location.pathname])
+
   return (
     <div className="sj-root">
       <a className="sj-skip-link" href="#main">
