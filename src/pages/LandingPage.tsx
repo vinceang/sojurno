@@ -3,6 +3,8 @@ import { Link } from 'react-router-dom'
 import { CommunityListingRow } from '../components/CommunityListingRow'
 import { SearchPanel } from '../components/SearchPanel'
 import { Button } from '../lib/Button'
+import { Eyebrow } from '../lib/Eyebrow'
+import { SectionHeader } from '../lib/SectionHeader'
 import { getListingsByTenant } from '../data/listings'
 import { useI18n } from '../i18n/useI18n'
 import { ACTIVE_TENANTS } from '../tenants/tenants'
@@ -36,7 +38,7 @@ export function LandingPage() {
     <>
       <section className="sj-container grid items-center gap-10 py-14 md:gap-16 md:py-20 lg:grid-cols-[1.1fr_minmax(340px,400px)]">
         <div>
-          <p className="text-xs font-extrabold uppercase tracking-[0.2em] text-accent">{t('landing.eyebrow')}</p>
+          <Eyebrow tone="accent">{t('landing.eyebrow')}</Eyebrow>
           <h1 className="sj-display mt-5 max-w-2xl text-5xl leading-[0.98] md:text-6xl">{t('landing.title')}</h1>
           <p className="mt-6 max-w-xl text-lg leading-8 text-text-muted">{t('landing.body')}</p>
         </div>
@@ -74,9 +76,7 @@ export function LandingPage() {
 
           <div className="flex flex-col items-start justify-between gap-6 rounded-3xl border border-dashed border-border bg-tertiary px-8 py-10 sm:flex-row sm:items-center md:px-12">
             <div>
-              <p className="mb-1.5 text-xs font-extrabold uppercase tracking-[0.2em] text-text-muted">
-                {t('landing.createEyebrow')}
-              </p>
+              <Eyebrow className="mb-1.5">{t('landing.createEyebrow')}</Eyebrow>
               <h2 className="sj-display text-2xl leading-tight">{t('landing.createHeading')}</h2>
               <p className="mt-2 max-w-xl text-sm leading-6 text-text-muted">{t('landing.createBody')}</p>
             </div>
@@ -92,10 +92,7 @@ export function LandingPage() {
 
       <section className="border-y border-border bg-tertiary py-24 md:py-32">
         <div className="sj-container">
-          <div className="text-center">
-            <p className="text-xs font-extrabold uppercase tracking-[0.22em] text-text-muted">{t('landing.howEyebrow')}</p>
-            <h2 className="sj-display mt-4 text-5xl leading-none md:text-6xl">{t('landing.howTitle')}</h2>
-          </div>
+          <SectionHeader align="center" eyebrow={t('landing.howEyebrow')} size="xl" title={t('landing.howTitle')} />
           <div className="mt-16 grid gap-10 md:mt-24 md:grid-cols-3 md:gap-20">
             {[
               [t('landing.stepOneTitle'), t('landing.stepOneBody')],
@@ -125,9 +122,7 @@ export function LandingPage() {
             />
             <div className="absolute inset-0 bg-gradient-to-r from-black/80 via-black/55 to-black/25" />
             <div className="relative max-w-xl px-8 py-16 md:px-14 md:py-24">
-              <p className="text-xs font-extrabold uppercase tracking-[0.2em] text-white/60">
-                {t('landing.builderEyebrow')}
-              </p>
+              <Eyebrow className="text-white/60">{t('landing.builderEyebrow')}</Eyebrow>
               <h2 className="sj-display mt-5 text-4xl leading-tight text-white md:text-5xl">
                 {t('landing.builderTitle')}
               </h2>

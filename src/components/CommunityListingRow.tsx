@@ -1,6 +1,7 @@
 import { ArrowRight, ChevronLeft, ChevronRight } from 'lucide-react'
 import { useCallback, useEffect, useRef, useState } from 'react'
 import { Link } from 'react-router-dom'
+import { Eyebrow } from '../lib/Eyebrow'
 import { ListingCard } from './ListingCard'
 import type { Listing, Tenant } from '../types'
 
@@ -51,7 +52,7 @@ export function CommunityListingRow({
         <div>
           <div className="mb-2 flex items-center gap-2">
             <span aria-hidden="true" className="community-dot h-2 w-2 rounded-full" data-community={tenant.id} />
-            <p className="text-xs font-extrabold uppercase tracking-[0.2em] text-text-muted">{eyebrow}</p>
+            <Eyebrow>{eyebrow}</Eyebrow>
           </div>
           <h2 className="sj-display text-3xl leading-tight">{title}</h2>
         </div>

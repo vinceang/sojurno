@@ -1,5 +1,6 @@
 import { ArrowRight, CheckCircle2 } from 'lucide-react'
 import { Button } from '../lib/Button'
+import { SectionHeader } from '../lib/SectionHeader'
 import { useI18n } from '../i18n/useI18n'
 
 export function StartPage() {
@@ -9,9 +10,14 @@ export function StartPage() {
     <section className="sj-section">
       <div className="sj-container grid gap-10 lg:grid-cols-[0.9fr_1fr]">
         <div>
-          <p className="text-xs font-extrabold uppercase tracking-[0.2em] text-accent">{t('start.eyebrow')}</p>
-          <h1 className="sj-display mt-4 max-w-3xl text-6xl leading-none">{t('start.title')}</h1>
-          <p className="mt-5 text-lg leading-8 text-text-muted">{t('start.body')}</p>
+          <SectionHeader
+            as="h1"
+            eyebrow={t('start.eyebrow')}
+            eyebrowTone="accent"
+            size="xl"
+            subtitle={t('start.body')}
+            title={t('start.title')}
+          />
           <Button className="mt-8" size="lg" variant="accent">
             {t('start.cta')} <ArrowRight aria-hidden="true" className="h-4 w-4" />
           </Button>
