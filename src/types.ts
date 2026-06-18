@@ -70,6 +70,7 @@ export type Tenant = {
     stayType: string
     proof: string
     filterPrimary: string
+    tripType: string
   }
   taxonomy: string[]
   trustSignals: string[]
