@@ -10,7 +10,7 @@ export type TenantId =
 
 export type ActiveTenantId = 'runners' | 'hikers'
 
-export type Capability = 'gear'
+export type Capability = 'gear' | 'collections'
 
 export type BookingMode = 'native' | 'external'
 
@@ -24,6 +24,21 @@ export type Review = {
   avatarUrl: string
   date: string
   text: string
+}
+
+export type CollectionKind = 'event' | 'place'
+
+export type Collection = {
+  id: string
+  tenant: ActiveTenantId
+  kind: CollectionKind
+  title: string
+  summary: string
+  image: ListingImage
+  location?: string
+  /** Display string for event-kind collections (no real date logic in v1). */
+  dateLabel?: string
+  listingIds: string[]
 }
 
 export type GearItem = {
@@ -79,6 +94,7 @@ export type Tenant = {
     proof: string
     filterPrimary: string
     tripType: string
+    collectionsLabel: string
   }
   taxonomy: string[]
   trustSignals: string[]

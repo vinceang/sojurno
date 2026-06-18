@@ -1,7 +1,9 @@
 import { useMemo, useState } from 'react'
+import { CollectionRail } from '../components/CollectionRail'
 import { ExploreFilterBar, type ExploreView, type SortKey } from '../components/ExploreFilterBar'
 import { ListingCard } from '../components/ListingCard'
 import { ListingRow } from '../components/ListingRow'
+import { getCollectionsByTenant } from '../data/collections'
 import { getListingsByTenant } from '../data/listings'
 import { useI18n } from '../i18n/useI18n'
 import { useTenant } from '../tenants/useTenant'
@@ -52,6 +54,14 @@ export function ExplorePage() {
           </p>
         </div>
       </section>
+
+      {tenant.capabilities.includes('collections') ? (
+        <div className="border-b border-border">
+          <div className="sj-container py-8">
+            <CollectionRail collections={getCollectionsByTenant(tenantId)} label={tenant.vocabulary.collectionsLabel} />
+          </div>
+        </div>
+      ) : null}
 
       <div className="sticky top-16 z-30 border-b border-border bg-background/95 backdrop-blur-sm">
         <div className="sj-container py-3">
