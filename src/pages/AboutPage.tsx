@@ -4,7 +4,9 @@ import { Link } from 'react-router-dom'
 import { useI18n } from '../i18n/useI18n'
 import type { MessageKey } from '../i18n/messages'
 
-const portraitUrl =
+// Drop a photo at public/maker.jpg to use it; falls back to a neutral portrait.
+const portraitUrl = '/maker.jpg'
+const portraitFallback =
   'https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?auto=format&fit=crop&w=240&q=80'
 
 type DisciplineCard = {
@@ -81,6 +83,9 @@ export function AboutPage() {
             alt={t('about.portraitAlt')}
             className="h-24 w-24 rounded-3xl object-cover md:h-32 md:w-32"
             height="128"
+            onError={(event) => {
+              if (event.currentTarget.src !== portraitFallback) event.currentTarget.src = portraitFallback
+            }}
             src={portraitUrl}
             width="128"
           />

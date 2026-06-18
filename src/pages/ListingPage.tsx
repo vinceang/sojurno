@@ -1,17 +1,19 @@
-import { ArrowUpRight, Check, ShieldCheck } from 'lucide-react'
+import { ArrowUpRight, Check, ChevronRight, ShieldCheck } from 'lucide-react'
 import { useMemo, useState } from 'react'
 import { Link, Navigate, useParams } from 'react-router-dom'
+import { ListingGallery } from '../components/ListingGallery'
 import { Avatar } from '../lib/Avatar'
 import { Badge } from '../lib/Badge'
 import { Button } from '../lib/Button'
-import { Card } from '../lib/Card'
 import { Checkbox } from '../lib/Checkbox'
 import { Rating } from '../lib/Rating'
 import { Stepper } from '../lib/Stepper'
-import { formatCurrency } from '../lib/utils'
-import { getListing } from '../data/listings'
+import { cn, formatCurrency } from '../lib/utils'
+import { getGallery, getListing, getReviews } from '../data/listings'
 import { useI18n } from '../i18n/useI18n'
 import { useTenant } from '../tenants/useTenant'
+
+const SERVICE_FEE = 42
 
 export function ListingPage() {
   const { listingId } = useParams()
@@ -23,164 +25,218 @@ export function ListingPage() {
   const [checkOut, setCheckOut] = useState('2026-07-21')
   const [gearIds, setGearIds] = useState<Set<string>>(() => new Set())
 
-  const total = useMemo(() => listing ? listing.price * nights + 42 : 0, [listing, nights])
+  const stayTotal = listing ? listing.price * nights : 0
+  const gallery = useMemo(() => (listing ? getGallery(listing) : []), [listing])
 
   if (!listing || listing.tenant !== tenantId) {
     return <Navigate to={`/t/${tenantId}/explore`} replace />
   }
 
+  const reviews = getReviews(listing)
   const hasGear = tenant.capabilities.includes('gear') && listing.gear?.length
 
   return (
     <section className="sj-section pt-8">
       <div className="sj-container">
-        <div className="grid gap-8 lg:grid-cols-[1fr_23rem]">
-          <div>
-            <div className="flex flex-wrap items-center gap-3">
-              <Badge tone="accent">{tenant.name}</Badge>
-              {listing.bookingMode === 'external' ? <Badge tone="outline">{t('listing.externalBadge')}</Badge> : null}
-              <Rating count={listing.reviewCount} rating={listing.rating} />
-            </div>
-            <h1 className="sj-display mt-4 max-w-4xl text-6xl leading-none">{listing.title}</h1>
-            <p className="mt-4 text-lg text-text-muted">{listing.neighborhood} · {listing.location}</p>
-            <div className="mt-8 grid gap-3 md:grid-cols-[1.3fr_0.7fr]">
-              <img
-                alt={listing.images[0]?.alt ?? listing.title}
-                className="h-full min-h-96 rounded-xl object-cover"
-                src={listing.images[0]?.src}
-              />
-              <div className="grid gap-3">
-                <Panel>
-                  <div className="flex items-center gap-3">
-                    <Avatar label={listing.host.avatar} />
-                    <div>
-                      <p className="text-sm text-text-muted">{t('listing.hostedBy')}</p>
-                      <h2 className="font-extrabold">{listing.host.name}</h2>
-                    </div>
-                  </div>
-                  <p className="mt-4 text-sm leading-6 text-text-muted">{listing.host.bio}</p>
-                </Panel>
-                <Panel>
-                  <ShieldCheck aria-hidden="true" className="h-6 w-6 text-accent" />
-                  <h2 className="mt-3 font-extrabold">{t('listing.trust')}</h2>
-                  <p className="mt-2 text-sm leading-6 text-text-muted">{listing.host.badge}</p>
-                </Panel>
+        {/* Header */}
+        <p className="flex items-center gap-1.5 text-sm text-text-muted">
+          <Link className="hover:text-foreground" to={`/t/${tenantId}/explore`}>
+            {tenant.name}
+          </Link>
+          <ChevronRight aria-hidden="true" className="h-3.5 w-3.5" />
+          <span>{listing.neighborhood}</span>
+        </p>
+        <h1 className="sj-display mt-3 max-w-4xl text-4xl leading-tight md:text-5xl">{listing.title}</h1>
+        <div className="mt-3 flex flex-wrap items-center gap-x-4 gap-y-2 text-sm text-text-muted">
+          <Rating count={listing.reviewCount} rating={listing.rating} />
+          <span>
+            {listing.neighborhood} · {listing.location}
+          </span>
+          <Badge tone="accent">{tenant.name}</Badge>
+          {listing.bookingMode === 'external' ? <Badge tone="outline">{t('listing.externalBadge')}</Badge> : null}
+        </div>
+
+        {/* Gallery */}
+        <div className="mt-6">
+          <ListingGallery images={gallery} />
+        </div>
+
+        {/* Body */}
+        <div className="mt-10 grid gap-10 pb-4 lg:grid-cols-3">
+          <div className="space-y-8 lg:col-span-2">
+            {/* Host */}
+            <div className="flex items-start gap-4 border-b border-border pb-8">
+              <Avatar alt={listing.host.name} label={listing.host.avatar} size="lg" src={listing.host.avatarUrl} />
+              <div className="flex-1">
+                <h2 className="text-lg font-bold">
+                  {t('listing.hostedBy')} {listing.host.name}
+                </h2>
+                <div className="mt-2 flex flex-wrap gap-2">
+                  <Badge tone="accent">{listing.host.badge}</Badge>
+                </div>
+                <p className="mt-3 text-sm italic leading-6 text-text-muted">“{listing.highlight}”</p>
               </div>
             </div>
-            <div className="mt-10 grid gap-6 md:grid-cols-[1fr_0.8fr]">
-              <Panel>
-                <h2 className="text-xl font-extrabold">{t('listing.amenities')}</h2>
-                <p className="mt-3 leading-7 text-text-muted">{listing.description}</p>
-                <div className="mt-5 grid gap-3">
-                  {listing.amenities.map((amenity) => (
-                    <div className="flex items-center gap-3 text-sm font-semibold" key={amenity}>
-                      <Check aria-hidden="true" className="h-4 w-4 text-accent" />
-                      {amenity}
-                    </div>
-                  ))}
+
+            {/* Amenities */}
+            <div className="border-b border-border pb-8">
+              <h2 className="text-base font-bold">{t('listing.amenities')}</h2>
+              <div className="mt-5 grid gap-3 sm:grid-cols-2">
+                {listing.amenities.map((amenity) => (
+                  <AmenityRow icon={<Check aria-hidden="true" className="h-4 w-4 text-accent" />} key={amenity} label={amenity} />
+                ))}
+                <AmenityRow icon={<Check aria-hidden="true" className="h-4 w-4 text-accent" />} label={t('listing.flexibleCheckIn')} />
+                <AmenityRow icon={<ShieldCheck aria-hidden="true" className="h-4 w-4 text-accent" />} label={t('listing.verifiedHostRow')} />
+              </div>
+            </div>
+
+            {/* Gear (capability-gated) */}
+            {hasGear ? (
+              <div className="border-b border-border pb-8">
+                <div className="flex items-start justify-between gap-4">
+                  <div>
+                    <h2 className="text-base font-bold">{t('listing.gearTitle')}</h2>
+                    <p className="mt-1 text-sm text-text-muted">{t('listing.gearBody')}</p>
+                  </div>
+                  <Badge className="whitespace-nowrap" tone="accent">
+                    {t('listing.hostLent')}
+                  </Badge>
                 </div>
-              </Panel>
-              {hasGear ? (
-                <Panel>
-                  <h2 className="text-xl font-extrabold">{t('listing.gearTitle')}</h2>
-                  <p className="mt-2 text-sm leading-6 text-text-muted">{t('listing.gearBody')}</p>
-                  <div className="mt-5 grid gap-3">
-                    {listing.gear?.map((item) => (
-                      <label className="flex cursor-pointer items-start gap-3 rounded-lg border border-border bg-card p-3 hover:bg-muted" key={item.id}>
+                <div className="mt-5 grid gap-3 sm:grid-cols-2">
+                  {listing.gear?.map((item) => {
+                    const checked = gearIds.has(item.id)
+                    return (
+                      <label
+                        className={cn(
+                          'flex cursor-pointer items-center gap-3 rounded-xl border p-3 transition',
+                          checked ? 'border-accent bg-accent-soft' : 'border-border hover:bg-muted/60',
+                        )}
+                        key={item.id}
+                      >
                         <Checkbox
                           aria-label={item.name}
-                          checked={gearIds.has(item.id)}
-                          className="mt-1"
-                          onCheckedChange={(checked) => {
+                          checked={checked}
+                          onCheckedChange={(value) => {
                             setGearIds((current) => {
                               const next = new Set(current)
-                              if (checked) {
-                                next.add(item.id)
-                              } else {
-                                next.delete(item.id)
-                              }
+                              if (value) next.add(item.id)
+                              else next.delete(item.id)
                               return next
                             })
                           }}
                         />
                         <span>
-                          <span className="block text-sm font-extrabold">{item.name}</span>
+                          <span className="block text-sm font-semibold">{item.name}</span>
                           <span className="text-xs text-text-muted">
                             {item.category} · Qty {item.quantity}
                           </span>
                         </span>
                       </label>
-                    ))}
+                    )
+                  })}
+                </div>
+              </div>
+            ) : null}
+
+            {/* Reviews */}
+            <div>
+              <div className="flex items-center gap-3">
+                <h2 className="text-base font-bold">{t('listing.reviews')}</h2>
+                <Rating count={listing.reviewCount} rating={listing.rating} />
+              </div>
+              <div className="mt-6 grid gap-8 sm:grid-cols-2">
+                {reviews.map((review) => (
+                  <div className="space-y-3" key={review.name}>
+                    <div className="flex items-center gap-3">
+                      <Avatar alt={review.name} label={review.name.slice(0, 1)} size="sm" src={review.avatarUrl} />
+                      <div>
+                        <p className="text-sm font-semibold">{review.name}</p>
+                        <p className="text-xs text-text-muted">{review.date}</p>
+                      </div>
+                    </div>
+                    <p className="text-sm leading-relaxed text-text-muted">{review.text}</p>
                   </div>
-                </Panel>
-              ) : null}
+                ))}
+              </div>
             </div>
           </div>
-          <Card asChild className="h-fit lg:sticky lg:top-24" elevation="lg">
-          <aside>
-            <p>
-              <span className="text-2xl font-extrabold">{formatCurrency(listing.price)}</span>
-              <span className="text-text-muted"> / night</span>
-            </p>
-            <div className="mt-5 grid grid-cols-2 overflow-hidden rounded-lg border border-border text-sm">
-              <label className="border-r border-border p-3">
-                <span className="block text-xs font-bold uppercase text-text-muted">{t('listing.checkIn')}</span>
-                <input
-                  className="mt-1 w-full bg-transparent text-sm font-semibold outline-none"
-                  onChange={(event) => setCheckIn(event.target.value)}
-                  type="date"
-                  value={checkIn}
-                />
-              </label>
-              <label className="p-3">
-                <span className="block text-xs font-bold uppercase text-text-muted">{t('listing.checkOut')}</span>
-                <input
-                  className="mt-1 w-full bg-transparent text-sm font-semibold outline-none"
-                  onChange={(event) => setCheckOut(event.target.value)}
-                  type="date"
-                  value={checkOut}
-                />
-              </label>
+
+          {/* Booking panel */}
+          <aside className="lg:col-span-1">
+            <div className="rounded-2xl border border-border bg-card p-6 shadow-lg lg:sticky lg:top-24">
+              <p className="flex items-baseline gap-1">
+                <span className="text-2xl font-extrabold">{formatCurrency(listing.price)}</span>
+                <span className="text-sm text-text-muted">/ night</span>
+              </p>
+              <div className="mt-5 overflow-hidden rounded-xl border border-border text-sm">
+                <div className="grid grid-cols-2 divide-x divide-border">
+                  <label className="p-3">
+                    <span className="block text-xs font-bold uppercase tracking-wide text-text-muted">{t('listing.checkIn')}</span>
+                    <input
+                      className="mt-1 w-full bg-transparent text-sm font-semibold outline-none"
+                      onChange={(event) => setCheckIn(event.target.value)}
+                      type="date"
+                      value={checkIn}
+                    />
+                  </label>
+                  <label className="p-3">
+                    <span className="block text-xs font-bold uppercase tracking-wide text-text-muted">{t('listing.checkOut')}</span>
+                    <input
+                      className="mt-1 w-full bg-transparent text-sm font-semibold outline-none"
+                      onChange={(event) => setCheckOut(event.target.value)}
+                      type="date"
+                      value={checkOut}
+                    />
+                  </label>
+                </div>
+                <div className="border-t border-border p-3">
+                  <Stepper label={t('listing.nights')} min={1} onChange={setNights} value={nights} />
+                </div>
+              </div>
+              {listing.bookingMode === 'external' ? (
+                <Button asChild className="mt-4 w-full" size="lg" variant="accent">
+                  <a href={listing.externalUrl} rel="noreferrer" target="_blank">
+                    {t('listing.external')} <ArrowUpRight aria-hidden="true" className="h-4 w-4" />
+                  </a>
+                </Button>
+              ) : (
+                <Button className="mt-4 w-full" size="lg" variant="accent">
+                  {t('listing.request')}
+                </Button>
+              )}
+              <div className="mt-5 space-y-2.5 text-sm">
+                <Line label={`${formatCurrency(listing.price)} × ${nights}`} value={formatCurrency(stayTotal)} />
+                <Line label={t('listing.serviceFee')} value={formatCurrency(SERVICE_FEE)} />
+                <Line label={t('listing.total')} strong value={formatCurrency(stayTotal + SERVICE_FEE)} />
+              </div>
+              <div className="mt-4 flex items-start gap-2 rounded-xl bg-accent-soft p-3 text-xs leading-relaxed text-accent">
+                <ShieldCheck aria-hidden="true" className="mt-0.5 h-3.5 w-3.5 flex-shrink-0" />
+                <span>
+                  {t('listing.verifiedPrefix')} {tenant.vocabulary.proof}.
+                </span>
+              </div>
             </div>
-            <div className="mt-5">
-              <Stepper label={t('listing.nights')} min={1} onChange={setNights} value={nights} />
-            </div>
-            {listing.bookingMode === 'external' ? (
-              <Button asChild className="mt-5 w-full" size="lg" variant="accent">
-                <a href={listing.externalUrl} rel="noreferrer" target="_blank">
-                  {t('listing.external')} <ArrowUpRight aria-hidden="true" className="h-4 w-4" />
-                </a>
-              </Button>
-            ) : (
-              <Button className="mt-5 w-full" size="lg" variant="accent">
-                {t('listing.request')}
-              </Button>
-            )}
-            <div className="mt-5 space-y-3 border-t border-border pt-5 text-sm">
-              <Line label={`${formatCurrency(listing.price)} × ${nights}`} value={formatCurrency(listing.price * nights)} />
-              <Line label={t('listing.serviceFee')} value={formatCurrency(42)} />
-              <Line label={t('listing.total')} strong value={formatCurrency(total)} />
-            </div>
-            <Button asChild className="mt-5 w-full" variant="secondary">
-              <Link to={`/t/${tenantId}/explore`}>Back to {tenant.name}</Link>
-            </Button>
           </aside>
-          </Card>
         </div>
       </div>
     </section>
   )
 }
 
-function Panel({ children }: { children: React.ReactNode }) {
-  return <Card>{children}</Card>
+function AmenityRow({ icon, label }: { icon: React.ReactNode; label: string }) {
+  return (
+    <div className="flex items-center gap-3">
+      <span className="flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-lg bg-accent-soft">{icon}</span>
+      <span className="text-sm">{label}</span>
+    </div>
+  )
 }
 
 function Line({ label, strong, value }: { label: string; strong?: boolean; value: string }) {
   return (
-    <div className={strong ? 'flex justify-between text-base font-extrabold' : 'flex justify-between text-text-muted'}>
+    <div className={strong ? 'flex justify-between border-t border-border pt-2.5 text-base font-extrabold' : 'flex justify-between text-text-muted'}>
       <span>{label}</span>
-      <span>{value}</span>
+      <span className={strong ? '' : 'text-foreground'}>{value}</span>
     </div>
   )
 }
