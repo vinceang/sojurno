@@ -2,6 +2,7 @@ import { BookOpen, ChevronRight, Globe, Layers, Settings } from 'lucide-react'
 import type { LucideIcon } from 'lucide-react'
 import { Link } from 'react-router-dom'
 import { Eyebrow } from '../lib/Eyebrow'
+import { STORYBOOK_URL } from '../config'
 import { useI18n } from '../i18n/useI18n'
 import type { MessageKey } from '../i18n/messages'
 
@@ -21,6 +22,8 @@ type ResourceCard = {
   body: MessageKey
   meta: MessageKey
   icon: LucideIcon
+  /** External destination; cards without one link to the in-app /design launchpad. */
+  href?: string
 }
 
 const disciplines: DisciplineCard[] = [
@@ -52,6 +55,7 @@ const resources: ResourceCard[] = [
     body: 'about.storybookBody',
     meta: 'about.storybookMeta',
     icon: Layers,
+    href: STORYBOOK_URL,
   },
   {
     title: 'about.tokensTitle',
@@ -127,12 +131,10 @@ export function AboutPage() {
           <div className="mt-8 grid gap-6 md:grid-cols-2">
             {resources.map((resource) => {
               const Icon = resource.icon
-              return (
-                <Link
-                  className="grid grid-cols-[3rem_1fr] gap-5 rounded-xl border border-border bg-card p-7 transition hover:-translate-y-0.5 hover:shadow-lg"
-                  key={resource.title}
-                  to="/design"
-                >
+              const cardClass =
+                'grid grid-cols-[3rem_1fr] gap-5 rounded-xl border border-border bg-card p-7 transition hover:-translate-y-0.5 hover:shadow-lg'
+              const inner = (
+                <>
                   <span className="flex h-10 w-10 items-center justify-center rounded-full bg-muted text-text-muted">
                     <Icon aria-hidden="true" className="h-5 w-5" />
                   </span>
@@ -141,6 +143,15 @@ export function AboutPage() {
                     <span className="mt-2 block text-sm leading-6 text-text-muted">{t(resource.body)}</span>
                     <span className="mt-4 block font-mono text-xs tracking-[0.18em] text-text-muted">{t(resource.meta)}</span>
                   </span>
+                </>
+              )
+              return resource.href ? (
+                <a className={cardClass} href={resource.href} key={resource.title} rel="noreferrer" target="_blank">
+                  {inner}
+                </a>
+              ) : (
+                <Link className={cardClass} key={resource.title} to="/design">
+                  {inner}
                 </Link>
               )
             })}

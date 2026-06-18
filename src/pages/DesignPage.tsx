@@ -1,6 +1,7 @@
 import { ArrowUpRight } from 'lucide-react'
 import { Button } from '../lib/Button'
 import { SectionHeader } from '../lib/SectionHeader'
+import { STORYBOOK_URL } from '../config'
 import { useI18n } from '../i18n/useI18n'
 
 export function DesignPage() {
@@ -23,7 +24,7 @@ export function DesignPage() {
             The in-app page stays intentionally thin so product navigation remains focused on travelers and hosts.
           </p>
           <Button asChild className="mt-5" variant="accent">
-            <a href="http://localhost:6006" rel="noreferrer" target="_blank">
+            <a href={STORYBOOK_URL} rel="noreferrer" target="_blank">
               {t('design.open')} <ArrowUpRight aria-hidden="true" className="h-4 w-4" />
             </a>
           </Button>
