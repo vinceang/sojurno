@@ -1,47 +1,58 @@
 import { ArrowRight } from 'lucide-react'
 import { Link } from 'react-router-dom'
-import { Badge } from '../lib/Badge'
-import { Button } from '../lib/Button'
+import { useI18n } from '../i18n/useI18n'
 import type { Tenant } from '../types'
-import { CommunityPill } from './CommunityPill'
 
 type CommunityCardProps = {
   tenant: Tenant
 }
 
 export function CommunityCard({ tenant }: CommunityCardProps) {
+  const { t } = useI18n()
+
   return (
-    <article
-      className="community-tone flex h-full flex-col rounded-xl border border-border bg-card p-5 shadow-sm"
-      data-community={tenant.id}
+    <Link
+      aria-label={`${t('communities.enterPrefix')} ${tenant.name}`}
+      className="group flex flex-col overflow-hidden rounded-3xl border border-border bg-card shadow-sm transition hover:-translate-y-0.5 hover:shadow-md"
+      to={`/t/${tenant.id}/explore`}
     >
-      <div className="flex items-start justify-between gap-4">
-        <CommunityPill id={tenant.id} label={tenant.name} />
-        <Badge tone={tenant.active ? 'accent' : 'outline'}>{tenant.active ? 'Active' : 'Coming soon'}</Badge>
+      <div className="relative h-56 overflow-hidden bg-muted sm:h-60">
+        <img
+          alt={tenant.image.alt}
+          className="h-full w-full object-cover transition duration-500 group-hover:scale-105"
+          loading="lazy"
+          src={tenant.image.src}
+        />
+        <div className="absolute inset-0 bg-gradient-to-t from-black/55 to-transparent" />
+        <div className="absolute bottom-4 left-5 flex items-center gap-2">
+          <span
+            className="community-pill rounded-full px-2.5 py-0.5 text-[11px] font-bold uppercase tracking-wide"
+            data-community={tenant.id}
+          >
+            {t('communities.active')}
+          </span>
+          <span className="text-xs font-medium text-white/80">
+            {tenant.stats.listings} {t('communities.listings')} · {tenant.stats.cities} {t('communities.cities')}
+          </span>
+        </div>
       </div>
-      <h3 className="sj-display mt-7 text-3xl leading-tight">{tenant.tagline}</h3>
-      <p className="mt-3 text-sm leading-6 text-text-muted">{tenant.description}</p>
-      <div className="mt-5 flex gap-5 text-sm">
-        <span>
-          <strong>{tenant.stats.listings}</strong> listings
-        </span>
-        <span>
-          <strong>{tenant.stats.cities}</strong> cities
-        </span>
+      <div className="flex flex-1 flex-col p-6">
+        <div className="flex items-center justify-between gap-3">
+          <h2 className="text-xl font-bold">{tenant.name}</h2>
+          <ArrowRight
+            aria-hidden="true"
+            className="h-5 w-5 flex-shrink-0 text-text-muted transition group-hover:translate-x-0.5 group-hover:text-foreground"
+          />
+        </div>
+        <p className="mt-2 text-sm font-medium text-text-muted">{tenant.tagline}</p>
+        <div className="mt-5 flex flex-wrap gap-2">
+          {tenant.taxonomy.map((item) => (
+            <span className="rounded-full bg-muted px-2.5 py-1 text-xs font-medium text-text-muted" key={item}>
+              {item}
+            </span>
+          ))}
+        </div>
       </div>
-      <div className="mt-auto pt-6">
-        {tenant.active ? (
-          <Button asChild variant="secondary">
-            <Link to={`/t/${tenant.id}/explore`}>
-              Enter community <ArrowRight aria-hidden="true" className="h-4 w-4" />
-            </Link>
-          </Button>
-        ) : (
-          <Button disabled variant="secondary">
-            In development
-          </Button>
-        )}
-      </div>
-    </article>
+    </Link>
   )
 }

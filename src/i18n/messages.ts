@@ -52,6 +52,12 @@ export const en = {
   'communities.soon': 'Coming soon',
   'communities.listings': 'listings',
   'communities.cities': 'cities',
+  'communities.devEyebrow': 'In development',
+  'communities.enterPrefix': 'Enter the community:',
+  'communities.ctaTitle': "Don't see your community?",
+  'communities.ctaBody':
+    "Sojurno is built to host new communities. If you organize people who travel for a shared purpose, we'd like to talk.",
+  'communities.ctaButton': 'Start a community',
   'start.eyebrow': 'For community builders',
   'start.title': 'Your community deserves its own place to stay.',
   'start.body':
@@ -218,6 +224,12 @@ export const es: Messages = {
   'communities.soon': 'Próximamente',
   'communities.listings': 'alojamientos',
   'communities.cities': 'ciudades',
+  'communities.devEyebrow': 'En desarrollo',
+  'communities.enterPrefix': 'Entrar a la comunidad:',
+  'communities.ctaTitle': '¿No ves tu comunidad?',
+  'communities.ctaBody':
+    'Sojurno está hecho para alojar nuevas comunidades. Si organizas a personas que viajan con un propósito común, queremos hablar.',
+  'communities.ctaButton': 'Crear una comunidad',
   'start.eyebrow': 'Para creadores de comunidad',
   'start.title': 'Tu comunidad merece su propio lugar para quedarse.',
   'start.body':
@@ -381,6 +393,12 @@ export const fr: Messages = {
   'communities.soon': 'Bientôt',
   'communities.listings': 'logements',
   'communities.cities': 'villes',
+  'communities.devEyebrow': 'En développement',
+  'communities.enterPrefix': 'Entrer dans la communauté :',
+  'communities.ctaTitle': 'Vous ne voyez pas votre communauté ?',
+  'communities.ctaBody':
+    "Sojurno est conçu pour accueillir de nouvelles communautés. Si vous rassemblez des personnes qui voyagent dans un but commun, parlons-en.",
+  'communities.ctaButton': 'Créer une communauté',
   'start.eyebrow': 'Pour les créateurs de communauté',
   'start.title': 'Votre communauté mérite son propre lieu de séjour.',
   'start.body':

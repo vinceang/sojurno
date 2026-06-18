@@ -30,6 +30,10 @@
     "azure-soft": { "$type": "color", "$value": "#eff6ff" },
     "violet": { "$type": "color", "$value": "#9333ea" },
     "violet-soft": { "$type": "color", "$value": "#faf5ff" },
+    "frost": { "$type": "color", "$value": "#0ea5e9" },
+    "frost-soft": { "$type": "color", "$value": "#e0f2fe" },
+    "festival": { "$type": "color", "$value": "#c026d3" },
+    "festival-soft": { "$type": "color", "$value": "#fae8ff" },
     "crimson": { "$type": "color", "$value": "#c4302b" }
   },
   "radius": {
