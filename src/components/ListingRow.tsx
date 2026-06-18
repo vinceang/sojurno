@@ -40,9 +40,11 @@ export function ListingRow({ listing }: ListingRowProps) {
           <p className="mt-0.5 truncate text-xs text-text-muted">
             {listing.neighborhood} · {listing.location}
           </p>
-          <div className="mt-1.5 flex items-center justify-between gap-2">
+          <div className="mt-2 flex items-center justify-between gap-2">
             <Rating count={listing.reviewCount} rating={listing.rating} />
-            {price}
+            <p className="text-sm text-text-muted">
+              <span className="font-extrabold text-foreground">{formatCurrency(listing.price)}</span> / night
+            </p>
           </div>
         </div>
       </div>
