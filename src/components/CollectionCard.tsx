@@ -15,7 +15,7 @@ export function CollectionCard({ collection }: CollectionCardProps) {
   const href = `/t/${collection.tenant}/collections/${collection.id}`
 
   return (
-    <Link className="group relative block aspect-[4/3] overflow-hidden rounded-xl bg-muted" to={href}>
+    <Link className="group relative block aspect-[2/1] overflow-hidden rounded-xl bg-muted" to={href}>
       <img
         alt={collection.image.alt}
         className="absolute inset-0 h-full w-full object-cover transition duration-500 group-hover:scale-105"
