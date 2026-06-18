@@ -10,11 +10,19 @@ const dateOptions = ['Any dates', 'Jul 18-21', 'Aug 9-12', 'Oct 12-14']
 
 type SearchPanelProps = {
   defaultTenant?: ActiveTenantId
+  /** Inline pill row (header / Explore). */
   compact?: boolean
+  /** Always-vertical card (the mobile form-factor) — used in the two-column hero. */
+  stacked?: boolean
   showTenantSelect?: boolean
 }
 
-export function SearchPanel({ compact = false, defaultTenant = 'runners', showTenantSelect = compact }: SearchPanelProps) {
+export function SearchPanel({
+  compact = false,
+  defaultTenant = 'runners',
+  showTenantSelect = compact,
+  stacked = false,
+}: SearchPanelProps) {
   const { t } = useI18n()
   const navigate = useNavigate()
   const [query, setQuery] = useState('')
@@ -32,26 +40,34 @@ export function SearchPanel({ compact = false, defaultTenant = 'runners', showTe
     navigate(`/t/${tenantId}/explore${params.size ? `?${params.toString()}` : ''}`)
   }
 
+  const mode = compact ? 'compact' : stacked ? 'stacked' : 'bar'
+  const cx = (forCompact: string, forStacked: string, forBar: string) =>
+    mode === 'compact' ? forCompact : mode === 'stacked' ? forStacked : forBar
+
   return (
     <form
-      className={
-        compact
-          ? 'flex flex-wrap items-center gap-2'
-          : 'flex w-full max-w-4xl flex-col items-stretch overflow-visible rounded-[var(--radius-xl)] bg-card shadow-[var(--shadow-lg)] sm:flex-row sm:items-center'
-      }
+      className={cx(
+        'flex flex-wrap items-center gap-2',
+        'flex w-full flex-col items-stretch overflow-visible rounded-[var(--radius-xl)] border border-border bg-card shadow-[var(--shadow-lg)]',
+        'flex w-full max-w-4xl flex-col items-stretch overflow-visible rounded-[var(--radius-xl)] bg-card shadow-[var(--shadow-lg)] sm:flex-row sm:items-center',
+      )}
       onSubmit={submitSearch}
     >
       <label
-        className={
-          compact
-            ? 'flex min-h-10 items-center gap-2 rounded-xl border border-border bg-background px-3 text-sm'
-            : 'flex min-h-16 flex-1 items-center gap-4 border-b border-border px-6 py-4 sm:border-b-0 sm:border-r md:px-8'
-        }
+        className={cx(
+          'flex min-h-10 items-center gap-2 rounded-xl border border-border bg-background px-3 text-sm',
+          'flex min-h-14 items-center gap-3 border-b border-border px-5 py-3.5',
+          'flex min-h-16 flex-1 items-center gap-4 border-b border-border px-6 py-4 sm:border-b-0 sm:border-r md:px-8',
+        )}
       >
-        <Search aria-hidden="true" className={compact ? 'h-4 w-4 flex-shrink-0 text-text-muted' : 'h-6 w-6 flex-shrink-0 text-text-muted'} />
+        <Search aria-hidden="true" className={cx('h-4 w-4 flex-shrink-0 text-text-muted', 'h-5 w-5 flex-shrink-0 text-text-muted', 'h-6 w-6 flex-shrink-0 text-text-muted')} />
         <span className="sr-only">{t('landing.search')}</span>
         <input
-          className={compact ? 'min-w-0 flex-1 bg-transparent text-sm text-foreground outline-none placeholder:text-text-muted' : 'min-w-0 flex-1 bg-transparent text-xl text-foreground outline-none placeholder:text-text-muted'}
+          className={cx(
+            'min-w-0 flex-1 bg-transparent text-sm text-foreground outline-none placeholder:text-text-muted',
+            'min-w-0 flex-1 bg-transparent text-base text-foreground outline-none placeholder:text-text-muted',
+            'min-w-0 flex-1 bg-transparent text-xl text-foreground outline-none placeholder:text-text-muted',
+          )}
           onChange={(event) => setQuery(event.target.value)}
           placeholder={compact ? t('explore.anyLocation') : t('landing.search')}
           type="search"
@@ -60,11 +76,11 @@ export function SearchPanel({ compact = false, defaultTenant = 'runners', showTe
       </label>
       {showTenantSelect ? (
         <label
-          className={
-            compact
-              ? 'flex min-h-10 items-center gap-2 rounded-xl border border-border bg-background px-3 text-sm'
-              : 'flex items-center gap-3 border-b border-border px-5 py-3.5 sm:border-b-0 sm:border-r'
-          }
+          className={cx(
+            'flex min-h-10 items-center gap-2 rounded-xl border border-border bg-background px-3 text-sm',
+            'flex min-h-14 items-center gap-3 border-b border-border px-5 py-3.5',
+            'flex items-center gap-3 border-b border-border px-5 py-3.5 sm:border-b-0 sm:border-r',
+          )}
         >
           <span className="sr-only">{t('nav.community')}</span>
           <select
@@ -83,15 +99,15 @@ export function SearchPanel({ compact = false, defaultTenant = 'runners', showTe
       <div className="relative">
         <button
           aria-expanded={dateOpen}
-          className={
-            compact
-              ? 'flex min-h-10 items-center gap-2 rounded-xl border border-border bg-background px-3 text-sm hover:bg-muted/60'
-              : 'flex min-h-16 w-full items-center gap-4 px-6 py-4 text-xl text-text-muted hover:bg-muted/60 sm:w-auto md:min-w-64 md:px-8'
-          }
+          className={cx(
+            'flex min-h-10 items-center gap-2 rounded-xl border border-border bg-background px-3 text-sm hover:bg-muted/60',
+            'flex min-h-14 w-full items-center gap-3 border-b border-border px-5 py-3.5 text-base text-text-muted hover:bg-muted/60',
+            'flex min-h-16 w-full items-center gap-4 px-6 py-4 text-xl text-text-muted hover:bg-muted/60 sm:w-auto md:min-w-64 md:px-8',
+          )}
           onClick={() => setDateOpen((open) => !open)}
           type="button"
         >
-          <Calendar aria-hidden="true" className={compact ? 'h-4 w-4 flex-shrink-0' : 'h-6 w-6 flex-shrink-0'} />
+          <Calendar aria-hidden="true" className={cx('h-4 w-4 flex-shrink-0', 'h-5 w-5 flex-shrink-0', 'h-6 w-6 flex-shrink-0')} />
           <span>{dateLabel}</span>
         </button>
         {dateOpen ? (
@@ -116,11 +132,11 @@ export function SearchPanel({ compact = false, defaultTenant = 'runners', showTe
         ) : null}
       </div>
       <button
-        className={
-          compact
-            ? 'min-h-10 rounded-xl bg-primary px-4 text-sm font-bold text-primary-foreground hover:opacity-90'
-            : 'search-panel-submit min-h-16 bg-foreground px-8 py-4 text-xl font-bold text-background transition hover:opacity-90 md:px-12'
-        }
+        className={cx(
+          'min-h-10 rounded-xl bg-primary px-4 text-sm font-bold text-primary-foreground hover:opacity-90',
+          'min-h-14 rounded-b-[var(--radius-xl)] bg-foreground px-5 py-3.5 text-base font-bold text-background transition hover:opacity-90',
+          'search-panel-submit min-h-16 bg-foreground px-8 py-4 text-xl font-bold text-background transition hover:opacity-90 md:px-12',
+        )}
         type="submit"
       >
         {t('landing.searchButton')}

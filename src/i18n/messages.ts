@@ -38,6 +38,8 @@ export const en = {
   'landing.hikersEyebrow': 'Hikers Community',
   'landing.hikersHeading': 'Trailhead-close. Gear-ready. Host-guided.',
   'landing.viewAll': 'View all',
+  'landing.prevListings': 'Previous listings',
+  'landing.nextListings': 'Next listings',
   'landing.createEyebrow': 'For community builders',
   'landing.createHeading': 'Do not see your community here?',
   'landing.createBody':
@@ -202,6 +204,8 @@ export const es: Messages = {
   'landing.hikersEyebrow': 'Comunidad de senderistas',
   'landing.hikersHeading': 'Cerca del sendero. Con equipo. Guiadas por anfitriones.',
   'landing.viewAll': 'Ver todo',
+  'landing.prevListings': 'Alojamientos anteriores',
+  'landing.nextListings': 'Alojamientos siguientes',
   'landing.createEyebrow': 'Para creadores de comunidad',
   'landing.createHeading': '¿No ves tu comunidad aquí?',
   'landing.createBody':
@@ -363,6 +367,8 @@ export const fr: Messages = {
   'landing.hikersEyebrow': 'Communauté randonneurs',
   'landing.hikersHeading': 'Près des sentiers. Équipés. Guidés par l’hôte.',
   'landing.viewAll': 'Voir tout',
+  'landing.prevListings': 'Logements précédents',
+  'landing.nextListings': 'Logements suivants',
   'landing.createEyebrow': 'Pour les créateurs de communauté',
   'landing.createHeading': 'Votre communauté n’est pas là ?',
   'landing.createBody':

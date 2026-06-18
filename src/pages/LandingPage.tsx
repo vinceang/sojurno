@@ -31,14 +31,14 @@ export function LandingPage() {
 
   return (
     <>
-      <section className="sj-container flex min-h-[calc(100vh-4rem)] items-center py-10">
-        <div className="w-full max-w-5xl">
+      <section className="sj-container grid items-center gap-10 py-14 md:gap-16 md:py-20 lg:grid-cols-[1.1fr_minmax(340px,400px)]">
+        <div>
           <p className="text-xs font-extrabold uppercase tracking-[0.2em] text-accent">{t('landing.eyebrow')}</p>
-          <h1 className="sj-display mt-5 max-w-4xl text-6xl leading-[0.95] md:text-7xl">{t('landing.title')}</h1>
-          <p className="mt-6 max-w-2xl text-lg leading-8 text-text-muted">{t('landing.body')}</p>
-          <div className="mt-8">
-            <SearchPanel showTenantSelect />
-          </div>
+          <h1 className="sj-display mt-5 max-w-2xl text-5xl leading-[0.98] md:text-6xl">{t('landing.title')}</h1>
+          <p className="mt-6 max-w-xl text-lg leading-8 text-text-muted">{t('landing.body')}</p>
+        </div>
+        <div className="w-full">
+          <SearchPanel showTenantSelect stacked />
         </div>
       </section>
 
@@ -53,6 +53,8 @@ export function LandingPage() {
                 eyebrow={t(row.eyebrowKey)}
                 key={tenant.id}
                 listings={getListingsByTenant(tenant.id)}
+                nextLabel={t('landing.nextListings')}
+                prevLabel={t('landing.prevListings')}
                 tenant={tenant}
                 title={t(row.titleKey)}
                 viewAllLabel={t('landing.viewAll')}
