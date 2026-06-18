@@ -5,6 +5,7 @@
 export { Avatar } from './Avatar'
 export { Badge } from './Badge'
 export { Button } from './Button'
+export { Card } from './Card'
 export { Checkbox } from './Checkbox'
 export {
   Dialog,
@@ -22,6 +23,8 @@ export {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from './DropdownMenu'
+export { Input } from './Input'
 export { Rating } from './Rating'
+export { Separator } from './Separator'
 export { Stepper } from './Stepper'
 export { Tabs, TabsContent, TabsList, TabsTrigger } from './Tabs'

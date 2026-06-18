@@ -4,6 +4,7 @@ import { Link, Navigate, useParams } from 'react-router-dom'
 import { Avatar } from '../lib/Avatar'
 import { Badge } from '../lib/Badge'
 import { Button } from '../lib/Button'
+import { Card } from '../lib/Card'
 import { Checkbox } from '../lib/Checkbox'
 import { Rating } from '../lib/Rating'
 import { Stepper } from '../lib/Stepper'
@@ -115,7 +116,8 @@ export function ListingPage() {
               ) : null}
             </div>
           </div>
-          <aside className="h-fit rounded-xl border border-border bg-card p-5 shadow-lg lg:sticky lg:top-24">
+          <Card asChild className="h-fit lg:sticky lg:top-24" elevation="lg">
+          <aside>
             <p>
               <span className="text-2xl font-extrabold">{formatCurrency(listing.price)}</span>
               <span className="text-text-muted"> / night</span>
@@ -163,6 +165,7 @@ export function ListingPage() {
               <Link to={`/t/${tenantId}/explore`}>Back to {tenant.name}</Link>
             </Button>
           </aside>
+          </Card>
         </div>
       </div>
     </section>
@@ -170,7 +173,7 @@ export function ListingPage() {
 }
 
 function Panel({ children }: { children: React.ReactNode }) {
-  return <div className="rounded-xl border border-border bg-card p-5 shadow-sm">{children}</div>
+  return <Card>{children}</Card>
 }
 
 function Line({ label, strong, value }: { label: string; strong?: boolean; value: string }) {

@@ -2,6 +2,7 @@ import { Check, Clock } from 'lucide-react'
 import { Avatar } from '../lib/Avatar'
 import { Badge } from '../lib/Badge'
 import { Button } from '../lib/Button'
+import { Card } from '../lib/Card'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '../lib/Tabs'
 import { getListingsByTenant } from '../data/listings'
 import { useI18n } from '../i18n/useI18n'
@@ -46,10 +47,10 @@ export function HostDashboardPage() {
 
 function Metric({ label, value }: { label: string; value: string }) {
   return (
-    <div className="rounded-xl border border-border bg-card p-5 shadow-sm">
+    <Card>
       <p className="text-3xl font-extrabold">{value}</p>
       <p className="mt-1 text-sm text-text-muted">{label}</p>
-    </div>
+    </Card>
   )
 }
 
@@ -57,8 +58,9 @@ function ReservationCard({ actions, status, title }: { actions?: boolean; status
   const { t } = useI18n()
 
   return (
-    <article className="flex flex-wrap items-center justify-between gap-4 rounded-xl border border-border bg-card p-5 shadow-sm">
-      <div className="flex items-center gap-4">
+    <Card asChild className="flex flex-wrap items-center justify-between gap-4">
+      <article>
+        <div className="flex items-center gap-4">
         <Avatar label="TV" />
         <div>
           <h2 className="font-extrabold">Taylor wants to stay</h2>
@@ -75,6 +77,7 @@ function ReservationCard({ actions, status, title }: { actions?: boolean; status
           <Button size="sm" variant="accent">{t('host.accept')}</Button>
         </div>
       ) : null}
-    </article>
+      </article>
+    </Card>
   )
 }
