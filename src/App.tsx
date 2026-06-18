@@ -2,6 +2,7 @@ import { Navigate, Route, Routes } from 'react-router-dom'
 import { RootLayout } from './components/RootLayout'
 import { TenantProvider } from './tenants/TenantProvider'
 import { AboutPage } from './pages/AboutPage'
+import { CollectionDetailPage } from './pages/CollectionDetailPage'
 import { CommunitiesPage } from './pages/CommunitiesPage'
 import { DesignPage } from './pages/DesignPage'
 import { ExplorePage } from './pages/ExplorePage'
@@ -23,6 +24,7 @@ export function App() {
         <Route element={<TenantProvider />} path="t/:tenantId">
           <Route element={<Navigate replace to="explore" />} index />
           <Route element={<ExplorePage />} path="explore" />
+          <Route element={<CollectionDetailPage />} path="collections/:collectionId" />
           <Route element={<ListingPage />} path="stays/:listingId" />
           <Route element={<HostDashboardPage />} path="host" />
           <Route element={<HostListingsPage />} path="host/listings" />
