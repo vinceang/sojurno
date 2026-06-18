@@ -66,6 +66,9 @@ Status legend: ⬜ not started · 🔧 in progress · ✅ done · ⚠️ needs a
 
 ## Changelog (recent first)
 
+- **2026-06-18** — **Phase C kickoff: componentization (C0 + C1)** on `design-system` (→ ADR-0019, [`design-system.md`](design-system.md)). Wrote the design-system spec (layering, variant-naming conventions that become Figma variant names, primitive inventory, extraction audit, Figma mapping, C0–C4 sequence). C1 extractions: new `Eyebrow` + `SectionHeader` primitives (stories + barrel), adopted across all pages (replacing 14 hand-rolled eyebrows + the per-page header clusters); merged `UpcomingCommunityCard` into one `CommunityCard` with active/upcoming states; folded stray chips into `Badge`. `MediaTile` + broad `Card` adoption deliberately deferred (documented). Next: C2 Storybook variant coverage → C3 Figma library → C4 Code Connect. typecheck/lint/build green.
+
+
 - **2026-06-18** — **Collections discovery rail built** on `collections` (→ ADR-0020, which promotes & generalizes ADR-0009). New `collections` capability (on for runners + hikers); generic `Collection` type with `kind: event | place`; mock `COLLECTIONS` (runner races, hiker trails/parks) associating existing listings. New `CollectionCard` (poster-style overlaid tile; accent date chip for events), `CollectionRail` (snap-scroll, label from `vocabulary.collectionsLabel`) at the top of Explore (capability-gated), and `CollectionDetailPage` at `/t/:tenant/collections/:id` (serif hero + filtered listings via `ListingCard`). Engine/tenant-clean (no name branching). Mock data; ADR-0017 persistence stays parked. i18n EN/ES/FR. typecheck/lint/build green. Designed with the `frontend-design` skill (poster tiles distinct from product cards). Pending: review/merge.
 
 

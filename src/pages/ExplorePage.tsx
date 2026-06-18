@@ -1,5 +1,6 @@
 import { useMemo, useState } from 'react'
 import { CollectionRail } from '../components/CollectionRail'
+import { Eyebrow } from '../lib/Eyebrow'
 import { ExploreFilterBar, type ExploreView, type SortKey } from '../components/ExploreFilterBar'
 import { ListingCard } from '../components/ListingCard'
 import { ListingRow } from '../components/ListingRow'
@@ -44,10 +45,10 @@ export function ExplorePage() {
         data-tenant={tenantId}
       >
         <div className="sj-container">
-          <p className="flex items-center gap-2 text-xs font-extrabold uppercase tracking-[0.2em] text-accent">
+          <Eyebrow className="flex items-center gap-2" tone="accent">
             <span aria-hidden="true" className="h-2 w-2 rounded-full bg-accent" />
             {tenant.name} {t('explore.communitySuffix')}
-          </p>
+          </Eyebrow>
           <h1 className="sj-display mt-3 max-w-3xl text-4xl leading-tight md:text-5xl">{tenant.tagline}</h1>
           <p className="mt-3 text-sm font-medium text-text-muted">
             {tenant.stats.listings} {t('explore.stays')} · {tenant.stats.cities} {t('explore.cities')}

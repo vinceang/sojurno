@@ -1,5 +1,6 @@
 import { ArrowRight } from 'lucide-react'
 import { Link } from 'react-router-dom'
+import { Badge } from '../lib/Badge'
 import { useI18n } from '../i18n/useI18n'
 import type { Tenant } from '../types'
 
@@ -7,8 +8,37 @@ type CommunityCardProps = {
   tenant: Tenant
 }
 
+/**
+ * One card for a community, with two states derived from `tenant.active`:
+ * `active` — a link into the community (full poster + stats + trip-type chips);
+ * `upcoming` — a non-interactive "coming soon" teaser.
+ */
 export function CommunityCard({ tenant }: CommunityCardProps) {
   const { t } = useI18n()
+
+  if (!tenant.active) {
+    return (
+      <article className="flex flex-col overflow-hidden rounded-2xl border border-border bg-card">
+        <div className="relative h-36 overflow-hidden bg-muted">
+          <img
+            alt={tenant.image.alt}
+            className="h-full w-full object-cover opacity-60"
+            loading="lazy"
+            src={tenant.image.src}
+          />
+          <div className="absolute inset-0 flex items-center justify-center">
+            <span className="rounded-full bg-card/90 px-3 py-1 text-xs font-semibold shadow-sm">
+              {t('communities.soon')}
+            </span>
+          </div>
+        </div>
+        <div className="p-5">
+          <h3 className="text-lg font-bold">{tenant.name}</h3>
+          <p className="mt-1 text-xs leading-5 text-text-muted">{tenant.tagline}</p>
+        </div>
+      </article>
+    )
+  }
 
   return (
     <Link
@@ -47,9 +77,9 @@ export function CommunityCard({ tenant }: CommunityCardProps) {
         <p className="mt-2 text-sm font-medium text-text-muted">{tenant.tagline}</p>
         <div className="mt-5 flex flex-wrap gap-2">
           {tenant.taxonomy.map((item) => (
-            <span className="rounded-full bg-muted px-2.5 py-1 text-xs font-medium text-text-muted" key={item}>
+            <Badge key={item} tone="neutral">
               {item}
-            </span>
+            </Badge>
           ))}
         </div>
       </div>

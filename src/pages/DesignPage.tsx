@@ -1,5 +1,6 @@
 import { ArrowUpRight } from 'lucide-react'
 import { Button } from '../lib/Button'
+import { SectionHeader } from '../lib/SectionHeader'
 import { useI18n } from '../i18n/useI18n'
 
 export function DesignPage() {
@@ -8,9 +9,14 @@ export function DesignPage() {
   return (
     <section className="sj-section">
       <div className="sj-container max-w-3xl">
-        <p className="text-xs font-extrabold uppercase tracking-[0.2em] text-accent">Builder tools</p>
-        <h1 className="sj-display mt-4 text-6xl leading-none">{t('design.title')}</h1>
-        <p className="mt-5 text-lg leading-8 text-text-muted">{t('design.body')}</p>
+        <SectionHeader
+          as="h1"
+          eyebrow="Builder tools"
+          eyebrowTone="accent"
+          size="xl"
+          subtitle={t('design.body')}
+          title={t('design.title')}
+        />
         <div className="mt-8 rounded-xl border border-border bg-card p-6 shadow-sm">
           <h2 className="text-xl font-extrabold">Storybook is the canonical documentation surface.</h2>
           <p className="mt-3 text-sm leading-6 text-text-muted">

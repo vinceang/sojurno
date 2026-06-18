@@ -1,6 +1,7 @@
 import { BookOpen, ChevronRight, Globe, Layers, Settings } from 'lucide-react'
 import type { LucideIcon } from 'lucide-react'
 import { Link } from 'react-router-dom'
+import { Eyebrow } from '../lib/Eyebrow'
 import { useI18n } from '../i18n/useI18n'
 import type { MessageKey } from '../i18n/messages'
 
@@ -90,7 +91,7 @@ export function AboutPage() {
             width="128"
           />
           <div>
-            <p className="text-xs font-extrabold uppercase tracking-[0.22em] text-text-muted">{t('about.eyebrow')}</p>
+            <Eyebrow>{t('about.eyebrow')}</Eyebrow>
             <h1 className="sj-display mt-4 text-5xl leading-none md:text-6xl">{t('about.heading')}</h1>
             <p className="mt-5 max-w-3xl text-lg leading-8 text-text-muted">{t('about.bio')}</p>
           </div>

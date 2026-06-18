@@ -1,7 +1,8 @@
 import { Link } from 'react-router-dom'
 import { CommunityCard } from '../components/CommunityCard'
-import { UpcomingCommunityCard } from '../components/UpcomingCommunityCard'
 import { Button } from '../lib/Button'
+import { Eyebrow } from '../lib/Eyebrow'
+import { SectionHeader } from '../lib/SectionHeader'
 import { useI18n } from '../i18n/useI18n'
 import { TENANTS } from '../tenants/tenants'
 
@@ -13,9 +14,12 @@ export function CommunitiesPage() {
   return (
     <section className="sj-section">
       <div className="sj-container">
-        <p className="text-xs font-extrabold uppercase tracking-[0.2em] text-text-muted">{t('communities.eyebrow')}</p>
-        <h1 className="sj-display mt-3 text-5xl leading-none">{t('communities.title')}</h1>
-        <p className="mt-4 max-w-xl text-lg leading-8 text-text-muted">{t('communities.body')}</p>
+        <SectionHeader
+          as="h1"
+          eyebrow={t('communities.eyebrow')}
+          subtitle={t('communities.body')}
+          title={t('communities.title')}
+        />
 
         <div className="mt-14 grid gap-6 lg:grid-cols-2">
           {active.map((tenant) => (
@@ -24,12 +28,10 @@ export function CommunitiesPage() {
         </div>
 
         <div className="mt-14">
-          <p className="text-xs font-extrabold uppercase tracking-[0.2em] text-text-muted">
-            {t('communities.devEyebrow')}
-          </p>
+          <Eyebrow>{t('communities.devEyebrow')}</Eyebrow>
           <div className="mt-6 grid gap-5 lg:grid-cols-2">
             {upcoming.map((tenant) => (
-              <UpcomingCommunityCard key={tenant.id} tenant={tenant} />
+              <CommunityCard key={tenant.id} tenant={tenant} />
             ))}
           </div>
         </div>
