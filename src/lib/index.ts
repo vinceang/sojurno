@@ -15,6 +15,7 @@ export {
   DialogTitle,
   DialogTrigger,
 } from './Dialog'
+export { Eyebrow } from './Eyebrow'
 export {
   DropdownMenu,
   DropdownMenuContent,
@@ -25,6 +26,7 @@ export {
 } from './DropdownMenu'
 export { Input } from './Input'
 export { Rating } from './Rating'
+export { SectionHeader } from './SectionHeader'
 export {
   Select,
   SelectContent,
