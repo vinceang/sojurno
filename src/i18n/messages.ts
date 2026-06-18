@@ -45,6 +45,11 @@ export const en = {
   'landing.createBody':
     'Cyclists, climbers, open water swimmers: if your group travels with a shared purpose, Sojurno can be home for it.',
   'landing.createCta': 'Create a community',
+  'landing.builderEyebrow': 'For community builders',
+  'landing.builderTitle': 'Your community deserves its own place to stay.',
+  'landing.builderBody':
+    'Sojurno is multi-tenant by design. Cyclists, climbers, open water swimmers — if your community travels with shared purpose, we can build a home for it.',
+  'landing.builderCta': 'Start a community',
   'communities.eyebrow': 'Community directory',
   'communities.title': 'Find the people who travel like you.',
   'communities.body': 'Each community is a distinct stays experience on the same shared Sojurno platform.',
@@ -217,6 +222,11 @@ export const es: Messages = {
   'landing.createBody':
     'Ciclistas, escaladores, nadadores de aguas abiertas: si tu grupo viaja con un propósito compartido, Sojurno puede ser su hogar.',
   'landing.createCta': 'Crear una comunidad',
+  'landing.builderEyebrow': 'Para creadores de comunidad',
+  'landing.builderTitle': 'Tu comunidad merece su propio lugar para alojarse.',
+  'landing.builderBody':
+    'Sojurno es multiinquilino por diseño. Ciclistas, escaladores, nadadores de aguas abiertas: si tu comunidad viaja con un propósito común, podemos crearle un hogar.',
+  'landing.builderCta': 'Crear una comunidad',
   'communities.eyebrow': 'Directorio de comunidades',
   'communities.title': 'Encuentra a las personas que viajan como tú.',
   'communities.body': 'Cada comunidad es una experiencia distinta sobre la misma plataforma Sojurno.',
@@ -386,6 +396,11 @@ export const fr: Messages = {
   'landing.createBody':
     'Cyclistes, grimpeurs, nageurs en eau libre : si votre groupe voyage avec un objectif partagé, Sojurno peut être son point d’ancrage.',
   'landing.createCta': 'Créer une communauté',
+  'landing.builderEyebrow': 'Pour les créateurs de communauté',
+  'landing.builderTitle': 'Votre communauté mérite son propre lieu de séjour.',
+  'landing.builderBody':
+    "Sojurno est multi-tenant par conception. Cyclistes, grimpeurs, nageurs en eau libre — si votre communauté voyage dans un but commun, nous pouvons lui créer un foyer.",
+  'landing.builderCta': 'Créer une communauté',
   'communities.eyebrow': 'Répertoire des communautés',
   'communities.title': 'Trouvez les personnes qui voyagent comme vous.',
   'communities.body': 'Chaque communauté est une expérience distincte sur la même plateforme Sojurno.',

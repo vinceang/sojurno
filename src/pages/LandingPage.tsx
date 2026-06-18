@@ -1,4 +1,4 @@
-import { ArrowRight, Plus } from 'lucide-react'
+import { ArrowRight } from 'lucide-react'
 import { Link } from 'react-router-dom'
 import { CommunityListingRow } from '../components/CommunityListingRow'
 import { SearchPanel } from '../components/SearchPanel'
@@ -8,6 +8,9 @@ import { useI18n } from '../i18n/useI18n'
 import { ACTIVE_TENANTS } from '../tenants/tenants'
 import type { MessageKey } from '../i18n/messages'
 import type { ActiveTenantId } from '../types'
+
+const builderImage =
+  'https://images.unsplash.com/photo-1551632811-561732d1e306?w=1600&h=900&fit=crop&auto=format&q=80'
 
 const communityRows = [
   {
@@ -69,18 +72,13 @@ export function LandingPage() {
             )
           })}
 
-          <div className="flex flex-col items-start justify-between gap-6 rounded-3xl border border-dashed border-border bg-card/70 px-8 py-10 sm:flex-row sm:items-center md:px-12">
-            <div className="flex items-start gap-5">
-              <div className="flex h-11 w-11 flex-shrink-0 items-center justify-center rounded-2xl border border-border bg-background text-text-muted">
-                <Plus aria-hidden="true" className="h-5 w-5" />
-              </div>
-              <div>
-                <p className="mb-1.5 text-xs font-extrabold uppercase tracking-[0.2em] text-text-muted">
-                  {t('landing.createEyebrow')}
-                </p>
-                <h2 className="sj-display text-2xl leading-tight">{t('landing.createHeading')}</h2>
-                <p className="mt-2 max-w-xl text-sm leading-6 text-text-muted">{t('landing.createBody')}</p>
-              </div>
+          <div className="flex flex-col items-start justify-between gap-6 rounded-3xl border border-dashed border-border bg-tertiary px-8 py-10 sm:flex-row sm:items-center md:px-12">
+            <div>
+              <p className="mb-1.5 text-xs font-extrabold uppercase tracking-[0.2em] text-text-muted">
+                {t('landing.createEyebrow')}
+              </p>
+              <h2 className="sj-display text-2xl leading-tight">{t('landing.createHeading')}</h2>
+              <p className="mt-2 max-w-xl text-sm leading-6 text-text-muted">{t('landing.createBody')}</p>
             </div>
             <Button asChild>
               <Link to="/start">
@@ -92,7 +90,7 @@ export function LandingPage() {
         </div>
       </section>
 
-      <section className="border-y border-border bg-background py-24 md:py-32">
+      <section className="border-y border-border bg-tertiary py-24 md:py-32">
         <div className="sj-container">
           <div className="text-center">
             <p className="text-xs font-extrabold uppercase tracking-[0.22em] text-text-muted">{t('landing.howEyebrow')}</p>
@@ -112,6 +110,35 @@ export function LandingPage() {
                 </div>
               </article>
             ))}
+          </div>
+        </div>
+      </section>
+
+      <section className="bg-background py-16 md:py-20">
+        <div className="sj-container">
+          <div className="relative overflow-hidden rounded-3xl bg-foreground">
+            <img
+              alt=""
+              className="absolute inset-0 h-full w-full object-cover opacity-40"
+              loading="lazy"
+              src={builderImage}
+            />
+            <div className="absolute inset-0 bg-gradient-to-r from-black/80 via-black/55 to-black/25" />
+            <div className="relative max-w-xl px-8 py-16 md:px-14 md:py-24">
+              <p className="text-xs font-extrabold uppercase tracking-[0.2em] text-white/60">
+                {t('landing.builderEyebrow')}
+              </p>
+              <h2 className="sj-display mt-5 text-4xl leading-tight text-white md:text-5xl">
+                {t('landing.builderTitle')}
+              </h2>
+              <p className="mt-5 max-w-md text-base leading-7 text-white/75">{t('landing.builderBody')}</p>
+              <Button asChild className="mt-8 bg-white text-foreground hover:bg-white/90" variant="secondary">
+                <Link to="/start">
+                  {t('landing.builderCta')}
+                  <ArrowRight aria-hidden="true" className="h-4 w-4" />
+                </Link>
+              </Button>
+            </div>
           </div>
         </div>
       </section>
