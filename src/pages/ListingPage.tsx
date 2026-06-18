@@ -52,7 +52,7 @@ export function ListingPage() {
               <div className="grid gap-3">
                 <Panel>
                   <div className="flex items-center gap-3">
-                    <Avatar label={listing.host.avatar} />
+                    <Avatar alt={listing.host.name} label={listing.host.avatar} src={listing.host.avatarUrl} />
                     <div>
                       <p className="text-sm text-text-muted">{t('listing.hostedBy')}</p>
                       <h2 className="font-extrabold">{listing.host.name}</h2>
