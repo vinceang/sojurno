@@ -58,7 +58,7 @@ Composite components stay as-is but get **documented variant APIs**: `ListingCar
 ## 6. Phase C sequence
 
 - **C0 — Spec + conventions** (this doc). ✅ when names are confirmed.
-- **C1 — Extractions** — add `Eyebrow`, `SectionHeader`, `MediaTile`; refactor pages onto them + `Card` + `Badge`; merge `CommunityCard` status variant. Storybook story per new component. *This is the "nail down componentization" step — done before any Figma work.*
+- **C1 — Extractions** — *done (this pass):* `Eyebrow` + `SectionHeader` primitives (+ stories), adopted across pages; eyebrow/title clusters consolidated; `CommunityCard` merged to one component with active/upcoming states; taxonomy chips folded into `Badge`. *Deliberately deferred:* `MediaTile` (only 2 truly-identical poster usages — extracting now risks premature abstraction; revisit if a 3rd appears) and broad `Card` adoption (several inline surfaces use `rounded-2xl/3xl`, `p-7/p-8`, or dashed borders that `Card`'s variant API doesn't cover — better to keep `Card` focused than over-parameterize it right before generating Figma). Both are tracked, not forgotten.
 - **C2 — Storybook coverage** — every primitive + key composite has stories covering all variants/states (the visual source for the Figma library).
 - **C3 — Figma library** — generate variables (with modes) + components with variants from the codebase (`figma-generate-library`).
 - **C4 — Code Connect** — wire `.figma.tsx` mappings (`figma-code-connect`); the round-trip is live.
