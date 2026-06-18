@@ -5,6 +5,10 @@ function unsplash(id: string, width = 1200, height = 900): string {
   return `https://images.unsplash.com/${id}?w=${width}&h=${height}&fit=crop&auto=format&q=82`
 }
 
+function portrait(n: number): string {
+  return `https://i.pravatar.cc/96?img=${n}`
+}
+
 export const LISTINGS: Listing[] = [
   {
     id: 'back-bay-split',
@@ -19,6 +23,7 @@ export const LISTINGS: Listing[] = [
     host: {
       name: 'Mara',
       avatar: 'MR',
+      avatarUrl: portrait(47),
       badge: '12 marathons hosted',
       bio: 'Boston local, pacer, and expert in race-week logistics from shakeout routes to bag check timing.',
     },
@@ -48,6 +53,7 @@ export const LISTINGS: Listing[] = [
     host: {
       name: 'Andre',
       avatar: 'AK',
+      avatarUrl: portrait(12),
       badge: 'NYC running club host',
       bio: 'Club runner who knows Prospect Park, subway timing, and the difference between a jog and a shakeout.',
     },
@@ -76,6 +82,7 @@ export const LISTINGS: Listing[] = [
     host: {
       name: 'Talia',
       avatar: 'TS',
+      avatarUrl: portrait(45),
       badge: 'Course volunteer',
       bio: 'Chicago volunteer and runner who knows corrals, trains, lakefront miles, and where to decompress.',
     },
@@ -104,6 +111,7 @@ export const LISTINGS: Listing[] = [
     host: {
       name: 'Daniel',
       avatar: 'DL',
+      avatarUrl: portrait(33),
       badge: 'Ultra runner',
       bio: 'Bay Area runner who knows bridge miles, coastal wind, and where to recover after a long morning.',
     },
@@ -132,6 +140,7 @@ export const LISTINGS: Listing[] = [
     host: {
       name: 'Priya',
       avatar: 'PR',
+      avatarUrl: portrait(5),
       badge: 'Trail-series host',
       bio: 'Austin runner who knows the Lady Bird loop, summer heat timing, and the best taco recovery stops.',
     },
@@ -160,6 +169,7 @@ export const LISTINGS: Listing[] = [
     host: {
       name: 'Marcus',
       avatar: 'MJ',
+      avatarUrl: portrait(60),
       badge: 'Marathon pacer',
       bio: 'Philly pacer who runs Kelly Drive daily and knows where the river loop is flattest and quietest.',
     },
@@ -188,6 +198,7 @@ export const LISTINGS: Listing[] = [
     host: {
       name: 'Elena',
       avatar: 'ER',
+      avatarUrl: portrait(31),
       badge: 'Backcountry host',
       bio: 'Sierra hiker with local permit knowledge, gear to lend, and a habit of leaving coffee ready early.',
     },
@@ -217,6 +228,7 @@ export const LISTINGS: Listing[] = [
     host: {
       name: 'Noah',
       avatar: 'NP',
+      avatarUrl: portrait(68),
       badge: 'Search-and-rescue volunteer',
       bio: 'Olympic Peninsula hiker who tracks weather windows and knows when a backup route is the right call.',
     },
@@ -247,6 +259,7 @@ export const LISTINGS: Listing[] = [
     host: {
       name: 'Mae',
       avatar: 'ML',
+      avatarUrl: portrait(16),
       badge: 'Trail community host',
       bio: 'Long-distance hiker and local host who keeps route notes current through shoulder season.',
     },
@@ -275,6 +288,7 @@ export const LISTINGS: Listing[] = [
     host: {
       name: 'Lily',
       avatar: 'LC',
+      avatarUrl: portrait(20),
       badge: 'Glacier guide',
       bio: 'Seasonal guide with a practical eye for trail closures, shuttle timing, and bear country basics.',
     },
@@ -304,6 +318,7 @@ export const LISTINGS: Listing[] = [
     host: {
       name: 'Sage',
       avatar: 'SW',
+      avatarUrl: portrait(53),
       badge: 'Cascade trail host',
       bio: 'Bend hiker who tracks snow lines, alpine windows, and which lakes are worth the early start.',
     },
@@ -333,6 +348,7 @@ export const LISTINGS: Listing[] = [
     host: {
       name: 'Jonah',
       avatar: 'JB',
+      avatarUrl: portrait(54),
       badge: 'Appalachian trail host',
       bio: 'Blue Ridge hiker who knows parkway closures, fog windows, and the quiet approaches to busy summits.',
     },

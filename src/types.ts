@@ -42,6 +42,7 @@ export type Listing = {
   host: {
     name: string
     avatar: string
+    avatarUrl?: string
     badge: string
     bio: string
   }
