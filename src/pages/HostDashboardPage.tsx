@@ -1,8 +1,8 @@
-import * as Tabs from '@radix-ui/react-tabs'
 import { Check, Clock } from 'lucide-react'
 import { Avatar } from '../lib/Avatar'
 import { Badge } from '../lib/Badge'
 import { Button } from '../lib/Button'
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '../lib/Tabs'
 import { getListingsByTenant } from '../data/listings'
 import { useI18n } from '../i18n/useI18n'
 import { useTenant } from '../tenants/useTenant'
@@ -23,22 +23,22 @@ export function HostDashboardPage() {
           <Metric label={t('host.rating')} value="4.97" />
           <Metric label={t('host.repeat')} value="31%" />
         </div>
-        <Tabs.Root className="mt-8" defaultValue="reservations">
-          <Tabs.List className="inline-flex rounded-xl border border-border bg-card p-1">
-            <Tab value="reservations">{t('host.reservations')}</Tab>
-            <Tab value="requests">{t('host.requests')}</Tab>
-          </Tabs.List>
-          <Tabs.Content className="mt-5 grid gap-4" value="reservations">
+        <Tabs className="mt-8" defaultValue="reservations">
+          <TabsList>
+            <TabsTrigger value="reservations">{t('host.reservations')}</TabsTrigger>
+            <TabsTrigger value="requests">{t('host.requests')}</TabsTrigger>
+          </TabsList>
+          <TabsContent className="mt-5 grid gap-4" value="reservations">
             {listings.slice(0, 2).map((listing) => (
               <ReservationCard key={listing.id} status={t('host.confirmed')} title={listing.title} />
             ))}
-          </Tabs.Content>
-          <Tabs.Content className="mt-5 grid gap-4" value="requests">
+          </TabsContent>
+          <TabsContent className="mt-5 grid gap-4" value="requests">
             {listings.slice(1, 3).map((listing) => (
               <ReservationCard actions key={listing.id} status={t('host.pending')} title={listing.title} />
             ))}
-          </Tabs.Content>
-        </Tabs.Root>
+          </TabsContent>
+        </Tabs>
       </div>
     </section>
   )
@@ -50,14 +50,6 @@ function Metric({ label, value }: { label: string; value: string }) {
       <p className="text-3xl font-extrabold">{value}</p>
       <p className="mt-1 text-sm text-text-muted">{label}</p>
     </div>
-  )
-}
-
-function Tab({ children, value }: { children: React.ReactNode; value: string }) {
-  return (
-    <Tabs.Trigger className="rounded-lg px-4 py-2 text-sm font-bold data-[state=active]:bg-muted" value={value}>
-      {children}
-    </Tabs.Trigger>
   )
 }
 
