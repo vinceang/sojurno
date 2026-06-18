@@ -118,11 +118,11 @@ export const en = {
   'design.title': 'Design system',
   'design.body': 'Sojurno’s component library, token story, and accessibility baseline live in Storybook.',
   'design.open': 'Open Storybook',
-  'about.eyebrow': 'Building Sojurno',
-  'about.heading': 'About the maker',
+  'about.eyebrow': 'The maker behind Sojurno',
+  'about.heading': 'Vince Ang',
   'about.bio':
-    'Sojurno is being designed and built by a UX designer and front-end engineer with a focus on consumer marketplace products, affinity communities, and hospitality-grade interaction design. The goal is to prove that a community-first stays platform can match the polish and trust of the best consumer apps in the market.',
-  'about.portraitAlt': 'Portrait of the Sojurno maker',
+    'Vince Ang is a design engineer working at the seam between design and code — design systems, tokens, and the tooling that keeps Figma and the codebase in sync. Sojurno is his exploration of that craft: a multi-tenant, affinity-based stays marketplace where one engine serves many communities, built token-first, accessible by default, and documented like a real product.',
+  'about.portraitAlt': 'Portrait of Vince Ang',
   'about.uxTitle': 'UX Design',
   'about.uxBody':
     'End-to-end product design: information architecture, interaction flows, component systems, and trust-pattern research. Hospitality and marketplace products are a particular focus.',
@@ -308,11 +308,11 @@ export const es: Messages = {
   'design.title': 'Sistema de diseño',
   'design.body': 'La biblioteca de componentes, tokens y accesibilidad de Sojurno vive en Storybook.',
   'design.open': 'Abrir Storybook',
-  'about.eyebrow': 'Construyendo Sojurno',
-  'about.heading': 'Sobre el creador',
+  'about.eyebrow': 'El creador de Sojurno',
+  'about.heading': 'Vince Ang',
   'about.bio':
-    'Sojurno está siendo diseñado y construido por un diseñador UX e ingeniero front-end enfocado en productos de marketplace para consumidores, comunidades por afinidad y diseño de interacción con calidad de hospitalidad. El objetivo es demostrar que una plataforma de estancias centrada en la comunidad puede igualar el pulido y la confianza de las mejores apps de consumo.',
-  'about.portraitAlt': 'Retrato del creador de Sojurno',
+    'Vince Ang es un ingeniero de diseño que trabaja en la unión entre el diseño y el código: sistemas de diseño, tokens y las herramientas que mantienen Figma y el código sincronizados. Sojurno es su exploración de ese oficio: un marketplace de estancias por afinidad y multiinquilino donde un solo motor sirve a muchas comunidades, construido con tokens primero, accesible por defecto y documentado como un producto real.',
+  'about.portraitAlt': 'Retrato de Vince Ang',
   'about.uxTitle': 'Diseño UX',
   'about.uxBody':
     'Diseño de producto de extremo a extremo: arquitectura de información, flujos de interacción, sistemas de componentes e investigación de patrones de confianza. Los productos de hospitalidad y marketplace son un foco particular.',
@@ -495,11 +495,11 @@ export const fr: Messages = {
   'design.title': 'Système de design',
   'design.body': 'La bibliothèque de composants, les tokens et l’accessibilité de Sojurno vivent dans Storybook.',
   'design.open': 'Ouvrir Storybook',
-  'about.eyebrow': 'Construire Sojurno',
-  'about.heading': 'À propos du créateur',
+  'about.eyebrow': 'Le créateur de Sojurno',
+  'about.heading': 'Vince Ang',
   'about.bio':
-    'Sojurno est conçu et développé par un designer UX et ingénieur front-end spécialisé dans les marketplaces grand public, les communautés d’affinité et les interactions dignes de l’hospitalité. L’objectif est de prouver qu’une plateforme de séjours centrée sur la communauté peut atteindre le niveau de finition et de confiance des meilleures apps grand public.',
-  'about.portraitAlt': 'Portrait du créateur de Sojurno',
+    'Vince Ang est un ingénieur design qui travaille à la jonction du design et du code : design systems, tokens et les outils qui gardent Figma et le code synchronisés. Sojurno est son exploration de ce métier : une marketplace de séjours par affinité et multi-tenant où un seul moteur sert plusieurs communautés, construite tokens d’abord, accessible par défaut et documentée comme un vrai produit.',
+  'about.portraitAlt': 'Portrait de Vince Ang',
   'about.uxTitle': 'Design UX',
   'about.uxBody':
     'Design produit de bout en bout : architecture de l’information, parcours d’interaction, systèmes de composants et recherche sur les modèles de confiance. Les produits d’hospitalité et de marketplace sont un axe particulier.',
