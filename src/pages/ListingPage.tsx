@@ -1,13 +1,14 @@
 import { ArrowUpRight, Check, ChevronRight, ShieldCheck } from 'lucide-react'
 import { useMemo, useState } from 'react'
+import type { DateRange } from 'react-day-picker'
 import { Link, Navigate, useParams } from 'react-router-dom'
 import { ListingGallery } from '../components/ListingGallery'
 import { Avatar } from '../lib/Avatar'
 import { Badge } from '../lib/Badge'
 import { Button } from '../lib/Button'
+import { Calendar } from '../lib/Calendar'
 import { Checkbox } from '../lib/Checkbox'
 import { Rating } from '../lib/Rating'
-import { Stepper } from '../lib/Stepper'
 import { cn, formatCurrency } from '../lib/utils'
 import { getGallery, getListing, getReviews } from '../data/listings'
 import { useI18n } from '../i18n/useI18n'
@@ -18,13 +19,27 @@ const SERVICE_FEE = 42
 export function ListingPage() {
   const { listingId } = useParams()
   const { tenant, tenantId } = useTenant()
-  const { t } = useI18n()
+  const { locale, t } = useI18n()
   const listing = getListing(listingId)
-  const [nights, setNights] = useState(3)
-  const [checkIn, setCheckIn] = useState('2026-07-18')
-  const [checkOut, setCheckOut] = useState('2026-07-21')
+  const [range, setRange] = useState<DateRange | undefined>({
+    from: new Date(2026, 6, 18),
+    to: new Date(2026, 6, 21),
+  })
+  const [datesOpen, setDatesOpen] = useState(false)
   const [gearIds, setGearIds] = useState<Set<string>>(() => new Set())
 
+  const dateFmt = useMemo(
+    () =>
+      new Intl.DateTimeFormat(locale === 'es' ? 'es-ES' : locale === 'fr' ? 'fr-FR' : 'en-US', {
+        month: 'short',
+        day: 'numeric',
+      }),
+    [locale],
+  )
+  const nights =
+    range?.from && range.to
+      ? Math.max(1, Math.round((range.to.getTime() - range.from.getTime()) / 86_400_000))
+      : 0
   const stayTotal = listing ? listing.price * nights : 0
   const gallery = useMemo(() => (listing ? getGallery(listing) : []), [listing])
 
@@ -34,6 +49,7 @@ export function ListingPage() {
 
   const reviews = getReviews(listing)
   const hasGear = tenant.capabilities.includes('gear') && listing.gear?.length
+  const formatDate = (date?: Date) => (date ? dateFmt.format(date) : '—')
 
   return (
     <section className="sj-section pt-8">
@@ -169,28 +185,29 @@ export function ListingPage() {
                 <span className="text-sm text-text-muted">/ night</span>
               </p>
               <div className="mt-5 overflow-hidden rounded-xl border border-border text-sm">
-                <div className="grid grid-cols-2 divide-x divide-border">
-                  <label className="p-3">
+                <button
+                  aria-expanded={datesOpen}
+                  className="grid w-full grid-cols-2 divide-x divide-border text-left transition hover:bg-muted/50"
+                  onClick={() => setDatesOpen((open) => !open)}
+                  type="button"
+                >
+                  <span className="p-3">
                     <span className="block text-xs font-bold uppercase tracking-wide text-text-muted">{t('listing.checkIn')}</span>
-                    <input
-                      className="mt-1 w-full bg-transparent text-sm font-semibold outline-none"
-                      onChange={(event) => setCheckIn(event.target.value)}
-                      type="date"
-                      value={checkIn}
-                    />
-                  </label>
-                  <label className="p-3">
+                    <span className="mt-1 block font-semibold">{formatDate(range?.from)}</span>
+                  </span>
+                  <span className="p-3">
                     <span className="block text-xs font-bold uppercase tracking-wide text-text-muted">{t('listing.checkOut')}</span>
-                    <input
-                      className="mt-1 w-full bg-transparent text-sm font-semibold outline-none"
-                      onChange={(event) => setCheckOut(event.target.value)}
-                      type="date"
-                      value={checkOut}
-                    />
-                  </label>
-                </div>
-                <div className="border-t border-border p-3">
-                  <Stepper label={t('listing.nights')} min={1} onChange={setNights} value={nights} />
+                    <span className="mt-1 block font-semibold">{formatDate(range?.to)}</span>
+                  </span>
+                </button>
+                {datesOpen ? (
+                  <div className="flex justify-center border-t border-border p-2">
+                    <Calendar mode="range" numberOfMonths={1} onSelect={setRange} selected={range} />
+                  </div>
+                ) : null}
+                <div className="flex items-center justify-between border-t border-border p-3">
+                  <span className="text-xs font-bold uppercase tracking-wide text-text-muted">{t('listing.nights')}</span>
+                  <span className="font-semibold">{nights}</span>
                 </div>
               </div>
               {listing.bookingMode === 'external' ? (

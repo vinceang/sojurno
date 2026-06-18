@@ -102,8 +102,8 @@ export function ExploreFilterBar({
         {tenant.vocabulary.filterPrimary}
       </button>
 
-      {/* Right side: sort + view toggle — own row until the hamburger breakpoint (md) */}
-      <div className="flex w-full items-center justify-between gap-2 md:ml-auto md:w-auto md:justify-start">
+      {/* Right side: sort + view toggle — own row until the hamburger breakpoint (md), grouped right */}
+      <div className="flex w-full items-center justify-end gap-2 md:ml-auto md:w-auto">
         <Select onValueChange={(value) => onSortChange(value as SortKey)} value={sort}>
           <SelectTrigger className={cn(pill, 'min-w-0')}>
             <SelectValue />
