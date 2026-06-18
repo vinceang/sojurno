@@ -23,7 +23,7 @@ export function ListingRow({ listing }: ListingRowProps) {
       {/* Phone: 2:1 thumbnail left; title + location; rating·price on one row */}
       <div className="flex gap-3 py-4 sm:hidden">
         <Link
-          className="relative block aspect-[3/2] w-32 shrink-0 overflow-hidden rounded-lg bg-muted"
+          className="relative block aspect-[3/2] w-32 shrink-0 overflow-hidden rounded-md bg-muted"
           to={href}
         >
           <img
