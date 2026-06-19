@@ -1,5 +1,5 @@
 import { HIKER_GEAR } from './gear'
-import { GENERATED_LISTINGS } from './listings.generated'
+import { DB_LISTINGS } from './listings.generated'
 import type { ActiveTenantId, Listing, ListingImage, Review } from '../types'
 
 function unsplash(id: string, width = 1200, height = 900): string {
@@ -10,9 +10,11 @@ function portrait(n: number): string {
   return `https://i.pravatar.cc/96?img=${n}`
 }
 
-// Hand-authored seed listings — the original 12, kept as a committed dev fixture and the demo's
-// linked-listing (external bookingMode) examples. Generated listings (ADR-0022) augment these.
-const SEED_LISTINGS: Listing[] = [
+// Hand-authored origin of the 12 seed listings (incl. the linked external-booking demos). As of
+// ADR-0022 these now live in Supabase (source='seed') and reach the app via listings.generated.ts
+// like every other listing. This array is kept only as the re-backfill source for
+// scripts/backfill-seed.ts — it is NOT used by the app, so it tree-shakes out of the bundle.
+export const SEED_LISTINGS: Listing[] = [
   {
     id: 'back-bay-split',
     tenant: 'runners',
@@ -370,15 +372,10 @@ const SEED_LISTINGS: Listing[] = [
   },
 ]
 
-// The seam (ADR-0022): seed fixtures + Supabase-generated listings (built into
-// listings.generated.ts via `npm run export:listings`). Seed comes first so existing index-based
-// references (e.g. Storybook LISTINGS[0]) stay stable; generated ids that collide with a seed id
-// are skipped.
-const seedIds = new Set(SEED_LISTINGS.map((listing) => listing.id))
-export const LISTINGS: Listing[] = [
-  ...SEED_LISTINGS,
-  ...GENERATED_LISTINGS.filter((listing) => !seedIds.has(listing.id)),
-]
+// The seam (ADR-0022): every listing — seed and generated alike — comes from Supabase, built into
+// listings.generated.ts via `npm run export:listings`. The DB is the single source of truth; this
+// committed file is the build artifact the static app reads synchronously.
+export const LISTINGS: Listing[] = DB_LISTINGS
 
 export function getListingsByTenant(tenant: ActiveTenantId): Listing[] {
   return LISTINGS.filter((listing) => listing.tenant === tenant)
