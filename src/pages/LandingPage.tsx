@@ -100,7 +100,7 @@ export function LandingPage() {
               [t('landing.stepThreeTitle'), t('landing.stepThreeBody')],
             ].map(([title, body], index) => (
               <article className="grid grid-cols-[4.5rem_1fr] items-start gap-5 md:block" key={title}>
-                <span className="sj-display block text-6xl leading-none text-[rgba(26,25,22,0.13)] md:text-8xl">0{index + 1}</span>
+                <span className="sj-display block text-6xl leading-none text-foreground/15 md:text-8xl">0{index + 1}</span>
                 <div>
                   <h3 className="pt-2 text-lg font-extrabold leading-tight md:mt-10 md:pt-0 md:text-xl">{title}</h3>
                   <p className="mt-4 max-w-sm text-sm leading-7 text-text-muted md:mt-6 md:text-base md:leading-8">{body}</p>

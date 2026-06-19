@@ -9,6 +9,7 @@ import { Brand } from './Brand'
 import { CommunityMenu } from './CommunityMenu'
 import { LanguageSwitcher } from './LanguageSwitcher'
 import { ProfileMenu } from './ProfileMenu'
+import { ThemeToggle } from './ThemeToggle'
 
 export function Header({ tenant }: { tenant?: Tenant }) {
   const { t } = useI18n()
@@ -52,6 +53,7 @@ export function Header({ tenant }: { tenant?: Tenant }) {
         </nav>
         <div className="hidden items-center gap-2 md:flex">
           <span aria-hidden="true" className="mx-1 h-5 w-px bg-border" />
+          <ThemeToggle />
           <LanguageSwitcher />
           <span aria-hidden="true" className="mx-1 h-5 w-px bg-border" />
           <ProfileMenu />
@@ -123,8 +125,9 @@ export function Header({ tenant }: { tenant?: Tenant }) {
                 </Link>
               </>
             )}
-            <div className="mt-2">
+            <div className="mt-2 flex items-center gap-2">
               <LanguageSwitcher />
+              <ThemeToggle />
             </div>
           </div>
         </div>
