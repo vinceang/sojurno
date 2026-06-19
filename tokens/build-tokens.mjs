@@ -99,7 +99,10 @@ for (const t of tenants) {
       await buildCss({
         name: `${t}.dark`,
         sources: [PRIMITIVES, `tokens/tenants/${t}.dark.json`],
-        selector: `[data-tenant="${t}"][data-theme="dark"]`,
+        // Two forms so the dark tint wins whether data-tenant is on the same
+        // element as data-theme (root, via TenantProvider) or on a nested
+        // element (e.g. a section that re-declares data-tenant locally).
+        selector: `[data-tenant="${t}"][data-theme="dark"], [data-theme="dark"] [data-tenant="${t}"]`,
         filter: onlyFrom(`${t}.dark.json`),
       }),
     )
