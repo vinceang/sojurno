@@ -1,4 +1,4 @@
-import type { Tenant } from '../types'
+import type { ActiveTenantId, Tenant } from '../types'
 
 const img = (id: string) => `https://images.unsplash.com/${id}?w=1080&h=560&fit=crop&auto=format&q=80`
 
@@ -184,6 +184,9 @@ export const TENANTS = [
 ] satisfies Tenant[]
 
 export const ACTIVE_TENANTS = TENANTS.filter((tenant) => tenant.active)
+
+/** Default tenant to land in for tenant-scoped flows that have no tenant context yet. */
+export const DEFAULT_TENANT: ActiveTenantId = 'runners'
 
 export function getTenant(id: string | undefined): Tenant | undefined {
   return TENANTS.find((tenant) => tenant.id === id)

@@ -1,6 +1,6 @@
 # ADR-0021 — Mock host onboarding & session-gated traveler/host toggle
 
-**Status:** Proposed · **Date:** 2026-06-19
+**Status:** Accepted · Implemented · **Date:** 2026-06-19
 
 > Revises ADR-0006's role model. ADR-0006 specified a free-standing traveler⇄host toggle available to any visitor ("mock role, no auth"). In practice, building that toggle now has no entry point to gate it — and a session-less free toggle undersells the affinity/trust thesis (ADR-0001), where hosting is a real status, not a costume anyone puts on. This ADR replaces the free toggle with a mock onboarding flow that creates a session, and makes the toggle appear only once that session exists. It also resolves a naming collision discovered during the v2 rebuild: the `role/` directory currently exports the **theme** provider (light/dark), not a role/session abstraction.
 

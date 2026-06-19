@@ -6,11 +6,18 @@ import { Card } from '../lib/Card'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '../lib/Tabs'
 import { getListingsByTenant } from '../data/listings'
 import { useI18n } from '../i18n/useI18n'
+import { useSession } from '../session/useSession'
 import { useTenant } from '../tenants/useTenant'
+
+function initials(name: string) {
+  const parts = name.trim().split(/\s+/).slice(0, 2)
+  return parts.map((p) => p[0]?.toUpperCase() ?? '').join('') || 'H'
+}
 
 export function HostDashboardPage() {
   const { tenant, tenantId } = useTenant()
   const { t } = useI18n()
+  const { account } = useSession()
   const listings = getListingsByTenant(tenantId)
 
   return (
@@ -19,6 +26,15 @@ export function HostDashboardPage() {
         <Badge tone="accent">{tenant.name}</Badge>
         <h1 className="sj-display mt-4 text-6xl leading-none">{t('host.title')}</h1>
         <p className="mt-4 max-w-2xl text-lg leading-8 text-text-muted">{t('host.body')}</p>
+        {account ? (
+          <div className="mt-6 flex items-center gap-3">
+            <Avatar alt={account.name} label={initials(account.name)} size="md" src={account.photo} />
+            <div>
+              <p className="text-xs font-semibold uppercase tracking-wide text-text-muted">{t('host.hostingAs')}</p>
+              <p className="font-bold">{account.name}</p>
+            </div>
+          </div>
+        ) : null}
         <div className="mt-8 grid gap-4 md:grid-cols-3">
           <Metric label={t('host.response')} value="98%" />
           <Metric label={t('host.rating')} value="4.97" />
