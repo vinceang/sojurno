@@ -2,31 +2,44 @@
 
 ## What this is
 
-Sojurno is an affinity-based peer-to-peer stays platform. The core thesis: guests and hosts belong to the same shared-interest community. Think Airbnb for runners, hikers, cyclists, climbers — "stay with people who get why you're traveling."
+Sojurno is an affinity-based peer-to-peer stays platform. The core thesis: guests and hosts belong to the same shared-interest community. Think Airbnb for runners, hikers, climbers — "stay with people who get why you're traveling."
 
-The platform is **multi-tenant**: one shared engine supports multiple communities through configuration. Each community varies by color palette, vocabulary, trust signals, and enabled features, while sharing the same layout, component system, and interaction patterns.
+The platform is **multi-tenant**: one tenant-agnostic **engine** supports many communities through **config**. Each community varies by color accent, vocabulary, taxonomy, trust signals, and enabled capabilities, while sharing the same layout, component system, routing, and interaction patterns.
 
-This repo is the working prototype — designed and built as a single React application with client-side page routing.
+This repo (`sojurno-v2`) is the **production trunk** → GitHub `vinceang/sojurno`, deployed on Vercel at **sojurno.com** (Storybook at **sojurno.com/storybook/**). It is a fresh, fully-componentized React app — **not** a single-file prototype.
+
+---
+
+## Source of truth — read these first
+
+This file is orientation only. The living, authoritative docs (when they disagree with this file or with code, **they win**):
+
+1. **`AGENTS.md`** — binding governance for AI agents. Read in full before any task.
+2. **`docs/architecture.md`** — the *what/how* (engine/tenant line, five-axis tenant config).
+3. **`docs/decisions/*.md`** — the *why*. Each is an ADR; check its status before acting (Accepted = in scope; Proposed/Rejected = do not build).
+4. **`docs/progress.md`** — the *where-are-we*: current phase, status, open seams. Check at the start of every session.
 
 ---
 
 ## Tech stack
 
-- **React 18** + **TypeScript**
-- **Vite 6** (build tool, dev server)
-- **Tailwind CSS 4** (utility-first styling via `@tailwindcss/vite`)
-- **Lucide React** (icons)
-- **Radix UI** (accessible primitives — Dialog, Tabs, etc.)
-- **Plus Jakarta Sans** + **Instrument Serif** (Google Fonts, loaded via `src/styles/fonts.css`)
-- **pnpm** (package manager — use `pnpm install`, not `npm install`)
+- **React 18** + **TypeScript**, **Vite**, **React Router** (real URL routing — `/t/:tenant/...`)
+- **Tailwind CSS v4** on a **shadcn / Radix UI** substrate; component variants via **cva**; `cn()` in `src/lib/utils.ts`
+- **Design tokens generated** via a DTCG → Style Dictionary pipeline: `tokens/*.json` → `tokens/build-tokens.mjs` → git-ignored `src/styles/_tokens.scss`, bridged into Tailwind via `@theme inline`. Run with `npm run tokens` (auto-run by `pre*` hooks).
+- **i18n** EN/ES/FR (`src/i18n/`) — all chrome is translated; every locale must stay complete.
+- **Lucide React** (icons); **Instrument Serif** (display) + **Plus Jakarta Sans** (body/UI)
+- **Storybook** (every primitive has a story + a11y audit); hosted at `/storybook`
+- **Supabase** (Postgres + Storage) + an **offline OpenAI generator** for listings/images (ADR-0022) — see below
+- **Package manager: npm** (`npm install`, `package-lock.json`)
 
-To run locally:
 ```bash
-pnpm install
-pnpm build   # or wire up a dev server via vite
+npm install
+npm run dev          # vite dev server (runs tokens first)
+npm run typecheck    # tsc --noEmit
+npm run lint         # eslint
+npm run build        # tsc -b && vite build
+npm run storybook    # local Storybook
 ```
-
-There is no backend, auth, or database. All data is hardcoded in `src/app/App.tsx`.
 
 ---
 
@@ -34,111 +47,44 @@ There is no backend, auth, or database. All data is hardcoded in `src/app/App.ts
 
 ```
 src/
-  app/
-    App.tsx          ← entire application (single file, ~1700 lines)
-  styles/
-    fonts.css        ← Google Fonts imports
-    theme.css        ← design tokens + Tailwind @theme inline mapping
-    index.css        ← Tailwind base + token contract (do not break)
-  imports/           ← user-uploaded assets (read-only)
+  App.tsx            ← route table only (React Router)
+  main.tsx           ← providers: Router → Theme → I18n → Session
+  pages/             ← one file per route (LandingPage, ExplorePage, ListingPage, …)
+  components/        ← composites (Header, Footer, ListingCard, CommunityListingRow, …) + *.stories.tsx
+  lib/               ← 15 themed primitives (Button, Badge, Card, Dialog, …) + cva variants + *.figma.tsx Code Connect
+  data/              ← listings.ts (seam) + listings.generated.ts (DB export, committed) + collections.ts, gear.ts
+  tenants/           ← five-axis tenant config + TenantProvider/useTenant (engine/tenant anchor)
+  session/           ← persisted mock host session (SessionProvider/useSession) — ADR-0021
+  theme/             ← light/dark ThemeProvider/useTheme (data-theme)
+  i18n/              ← messages.ts (EN/ES/FR) + I18nProvider/useI18n
+  styles/            ← _tokens.scss (generated), index.scss, tailwind.css
+tokens/              ← DTCG token source + build-tokens.mjs
+scripts/             ← generate-listings.ts, export-listings.ts (offline, tsx; not in the app graph)
+supabase/            ← SQL migrations
+docs/                ← architecture.md, progress.md, decisions/*.md
 ```
 
-All product logic, routing, data, and components live in `src/app/App.tsx`. No separate component files yet.
+---
+
+## Routing (React Router — see `src/App.tsx`)
+
+Public shell: `/` (landing), `/communities`, `/start`, `/about`, `/design`, `/become-a-host`, `/login`.
+Tenant-scoped under `/t/:tenantId` (wrapped by `TenantProvider`): `explore`, `collections/:id`, `stays/:listingId`, `host`, `host/listings`.
+
+Active communities: **runners, hikers, climbers** (`ActiveTenantId`). `DEFAULT_TENANT = 'runners'`.
 
 ---
 
-## Design tokens
+## Conventions that matter
 
-Defined in `src/styles/theme.css`. Key values:
-
-| Token | Value |
-|---|---|
-| `--background` | `#FAFAF8` (warm off-white) |
-| `--foreground` | `#1A1916` (warm near-black) |
-| `--card` | `#FFFFFF` |
-| `--secondary` | `#F4F2EE` |
-| `--muted` | `#EDEBE6` |
-| `--muted-foreground` | `#78746D` |
-| `--border` | `rgba(26,25,22,0.1)` |
-| `--primary` | `#1A1916` |
-| `--radius` | `0.875rem` (14px) |
-
-Community accent colors (used inline, not in theme.css):
-
-| Community | Accent | Light bg |
-|---|---|---|
-| Runners | `#E8651A` | `#FEF3EC` |
-| Hikers | `#2D6A4F` | `#EEFAF4` |
-| Cyclists (coming soon) | `#1A56DB` | `#EFF6FF` |
-| Climbers (coming soon) | `#9333EA` | `#FAF5FF` |
-
-Typography:
-- **Display / headings:** Instrument Serif (Regular, Italic) — `fontFamily: "'Instrument Serif', Georgia, serif"`
-- **Body / UI:** Plus Jakarta Sans (400, 500, 600, 700) — set on `body` in theme.css
-
----
-
-## Page routing
-
-Client-side only. `page` state in `App()` controls which page renders. No React Router.
-
-| Page key | Component | Notes |
-|---|---|---|
-| `"landing"` | `LandingPage` | Hero, community listing rows, how it works, CTA |
-| `"communities"` | `CommunitiesPage` | Directory of active + coming-soon communities |
-| `"explore"` | `ExplorePage` | Community-scoped listing grid/list, filter bar |
-| `"listing"` | `ListingDetailPage` | Image gallery, host card, gear section (hikers), booking panel |
-| `"host"` | `HostDashboardPage` | Stats, reservations, requests, listings tabs |
-| `"about"` | `AboutPage` | Maker profile, discipline cards, design system links |
-| `"system"` | `DesignSystemPage` | Token reference, typography specimen, component links |
-
-Active community is tracked in `activeCommunity: CommunityId` (`"runners"` | `"hikers"`).
-Selected listing is tracked in `selectedListingId: string`.
-
----
-
-## Key components (all in App.tsx)
-
-| Component | Purpose |
-|---|---|
-| `Nav` | Sticky top nav with wordmark, community dropdown, auth buttons |
-| `CommunityDropdown` | Scalable dropdown listing all communities with color dots, counts, coming-soon state |
-| `ListingCard` | Grid/list card — equal height via `flex flex-col h-full`, price on its own row |
-| `StarRating` | Inline star + rating + review count |
-| `CommunityPill` | Colored badge for community identity |
-| `SiteFooter` | 4-column footer (Brand, Product, About, Legal) — renders on every page |
-
----
-
-## Data
-
-Two listing arrays at the top of `App.tsx`:
-- `RUNNER_LISTINGS` — 4 listings (Boston, Brooklyn, Chicago, San Francisco)
-- `HIKER_LISTINGS` — 4 listings (Lone Pine CA, Harpers Ferry WV, Port Angeles WA, West Glacier MT)
-
-Community config array `COMMUNITIES` — 4 entries (Runners, Hikers active; Cyclists, Climbers inactive).
-
-All images are Unsplash via `unsplash(photoId, width, height)` helper which builds `https://images.unsplash.com/{id}?w=...&h=...&fit=crop&auto=format&q=80`.
-
----
-
-## Design decisions worth knowing
-
-- **No "System" link in the main nav** — moved to About page as a builder resource. Regular users don't need it.
-- **CommunityDropdown** replaces the old 2-pill toggle — scales to N communities, shows listing counts, greys out coming-soon entries.
-- **ListingCard** uses `min-h-[2.5rem]` on the title to keep cards the same height in a grid row regardless of title length. Price row uses `mt-auto` to pin to the bottom.
-- **SiteFooter** is rendered in the App shell (not inside LandingPage) so it appears on every page.
-- **Gear lending section** is Hikers-only on the listing detail — checkbox cards with community accent color when checked.
-- Community accent colors are passed inline (not as CSS variables) to allow per-community theming without breaking the shared Tailwind token contract.
-
----
-
-## Immediate next steps
-
-1. **Generate Figma file** — use the Figma MCP (`generate_figma_design`) to push all 6 screens + a design system page into a new Figma file. The token spec above is the source of truth.
-2. **Extract components** — App.tsx is a single large file by design (prototype phase). Before shipping, split into `components/`, `pages/`, and `data/` directories.
-3. **Add React Router** — replace the `page` state switch with proper URL routing.
-4. **Connect Supabase** — listings, users, bookings, and community config should come from a database.
+- **Engine vs. tenant (prime directive, ADR-0002):** the engine never knows a community's *name*. If a feature branches on the tenant name, it's in the wrong half. Communities differ only by config in `src/tenants/`.
+- **No raw hex in components (ADR-0019).** Color lives only in `tokens/primitives.json` → tokens. Reference `var(--color-*)` (e.g. `--color-ember`/`--color-pine`/`--color-violet`) and `color-mix()` in SCSS, never hardcoded values. Per-element community tint via `[data-community]`.
+- **Primitives are cva + token-backed Tailwind**, documented in Storybook with an a11y audit. Compose with `asChild` where supported.
+- **Data is DB-sourced.** `src/data/listings.ts` is the seam; the app reads `listings.generated.ts` (committed, produced by `npm run export:listings` from Supabase) **synchronously** — no runtime DB dependency. Don't hand-edit listing data; generate/export it.
+- **Listings & generator (ADR-0022):** new listings come from the offline OpenAI generator (`scripts/generate-listings.ts`, structured-output copy + `gpt-image-1` images → Supabase Storage). Secrets live in `.env` (git-ignored), used by scripts only — never imported by client code. The seed 12 still use Unsplash (owner-approved interim, ADR-0016).
+- **i18n:** any user-facing string goes through `t()` and must be added to all three locales in `src/i18n/messages.ts`.
+- **The green bar (a phase/PR isn't done until all pass):** `npm run typecheck` · `npm run lint` · `npm run build` · Storybook a11y for any changed component.
+- **Workflow:** branch per change, open a PR, keep the engine/tenant line intact, reference the relevant ADR. The user merges.
 
 ---
 
@@ -147,7 +93,7 @@ All images are Unsplash via `unsplash(photoId, width, height)` helper which buil
 - Clear, warm, quietly premium.
 - Less "adventure brand," more "trusted stay marketplace for people who share your context."
 - Copy emphasises belonging, trust, shared rituals, practical local knowledge.
-- Never "lorem ipsum." Use real cities, real race names, real trail names.
+- Never "lorem ipsum," and never AI-slop filler ("Cozy/Charming/Nestled in the heart of…"). Use real cities, real race names, real trail names.
 
 DISTILLED_AESTHETICS_PROMPT = """
 <frontend_aesthetics>
