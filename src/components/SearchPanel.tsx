@@ -84,7 +84,7 @@ export function SearchPanel({
         >
           <span className="sr-only">{t('nav.community')}</span>
           <select
-            className="bg-transparent text-sm font-semibold outline-none"
+            className="flex-1 bg-transparent text-sm font-semibold outline-none"
             onChange={(event) => setTenantId(event.target.value as ActiveTenantId)}
             value={tenantId}
           >
