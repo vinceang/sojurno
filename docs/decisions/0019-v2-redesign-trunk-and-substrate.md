@@ -30,8 +30,8 @@ v2 currently authors tokens **by hand in `src/styles/_tokens.scss`**, attribute-
 
 Because **Figma Code Connect and design-token round-trip remain goals** (see §5), the **DTCG → Style Dictionary pipeline will be reinstated** as the first foundation task — Style Dictionary can emit Figma-compatible variables and re-anchors `_tokens.scss` as *generated output*, not the source. Until then, `_tokens.scss` is the source and is hand-maintained.
 
-### 5. Figma Code Connect — bidirectional design↔code parity (goal, pending)
-Each code component gets a `.figma.tsx` Code Connect mapping; a matching Figma library is built/synced from the components, fed by the reinstated token variables. Not yet implemented.
+### 5. Figma Code Connect — bidirectional design↔code parity (authored; publish plan-gated)
+Each code component gets a `.figma.tsx` Code Connect mapping; a matching Figma library is built/synced from the components, fed by the token variables. **Status (2026-06-19): done in the repo.** The Figma file (`A3mcfYDq5wZ7As46yri9jO`) holds the foundations + 15 components, and 16 `src/lib/*.figma.tsx` mappings are authored (`figma.connect`, type-checked against the components; `figma connect parse` clean). **Publishing the mappings into Figma Dev Mode is plan-gated** — Code Connect requires an Org/Enterprise plan and the account is Pro — so the mappings live as valid, version-controlled artifacts and go live via `npm run figma:publish` once on Org/Enterprise, with no rework. Calendar is intentionally not modeled (vendored `react-day-picker` widget).
 
 ### 6. i18n preserved and extended (ADR-0016 contract intact)
 Chrome stays multilingual; marketplace content single-language. v2 ships **EN / ES / FR** (French added vs the original's EN/ES). The locale switcher is a **globe-icon Radix `DropdownMenu`** calling `setLocale` (`src/components/LanguageSwitcher.tsx`) — already built.

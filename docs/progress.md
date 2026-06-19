@@ -6,9 +6,9 @@
 
 ## Where we are
 
-**`sojurno-v2` is the trunk** (branch `feat/v2-production-redesign`), per [ADR-0019](decisions/0019-v2-redesign-trunk-and-substrate.md). It is a fresh production rebuild that keeps the original Sojurno architecture (engine/tenant separation, five-axis tenant config, i18n, routing, capability gating) and re-skins it in the `sojurno-redesign` visual language on a **shadcn/Radix + Tailwind v4** substrate. Original `sojurno` = archive/reference; `sojurno-redesign` = visual reference only.
+**`sojurno-v2` is the trunk** → GitHub `vinceang/sojurno` (public), deployed to **`sojurno.vercel.app`**, with **Storybook hosted at `/storybook`** in the same deployment. Per [ADR-0019](decisions/0019-v2-redesign-trunk-and-substrate.md), it's a fresh production rebuild that keeps the original Sojurno architecture (engine/tenant separation, five-axis tenant config, i18n, routing, capability gating) on a **shadcn/Radix + Tailwind v4** substrate. Original repo renamed `vinceang/sojurno-poc` (archive/reference); `sojurno-redesign` = visual reference only.
 
-`typecheck` and `lint` are clean. The product surface (landing, communities, start, about, explore, listing, host, design) is routed and rendering; visual parity and the design-system tooling are the open frontier.
+**Phases A–B merged; Phase D (page composition) largely done; Phase C (Figma round-trip) nearly complete — C0–C4 authored.** The product surface is built and live (landing, communities, explore w/ filter bar + grid/list, listing detail w/ mosaic gallery + date-range picker, host, about, **Collections** rail + detail per ADR-0020). `typecheck`/`lint`/`build` clean; CI green per PR. See the Figma build status below.
 
 ## Product spine — re-implemented in v2
 
@@ -19,9 +19,10 @@ The original repo's five phases all have working analogues in v2 (this is config
 | Routing spine — deep-linkable `/t/:tenant/...` | 0006 | ✅ React Router routes live |
 | Tenant config + branded app — five-axis typed config, `data-tenant`×`data-theme` | 0002 / 0014 / 0015 | ✅ `src/tenants/`; accent re-points per tenant; **no community-name branching** (verified) |
 | Platform shell — `/` landing, `/communities`, `/start`, `/about` | 0015 | ✅ public shell + `CommunityListingRow` rows + 4-col footer |
-| Traveler/host split | 0006 | ⚠️ host pages exist via routes; the `role/` dir currently holds the **theme** provider — the `useRole` seam needs confirming/restoring |
+| Traveler/host split | 0006 / **0021 (Proposed)** | ⚠️ host pages exist via routes; **ADR-0021 (Proposed)** revises this into a session-gated mock onboarding flow + fixes the `role/`-dir naming collision (it currently holds the **theme** provider). Awaiting acceptance + build. |
 | Gear module — capability-gated | 0003 / 0004 / 0005 | ✅ `gear` capability on hikers, off runners; data + types present |
-| Design-system launchpad — `/design` → Storybook | 0007 | 🔧 `/design` page exists; Storybook wired; variant coverage partial |
+| Collections — capability-gated discovery rail | 0020 | ✅ `collections` capability on runners + hikers; rail atop Explore + detail pages |
+| Design-system launchpad — `/design` → Storybook | 0007 | ✅ `/design` launchpad + About card → **hosted Storybook at `/storybook`** (`STORYBOOK_URL`; ADR-0007 seam closed) |
 
 ## v2 roadmap (ADR-0019 phasing — kit before pages)
 
@@ -29,22 +30,29 @@ The original repo's five phases all have working analogues in v2 (this is config
 | --- | --- | --- |
 | A | **Foundation** — reinstate DTCG → Style Dictionary over the `@theme inline` bridge (`_tokens.scss` becomes generated); add GitHub Actions CI | ✅ Done (PR #1 merged to `main`; CI green; deployed to Vercel) |
 | B | **Base component library** — shadcn primitives themed via tokens, documented cva variants, Storybook + a11y per component. Split: **B1** conventions + harden existing 5 primitives, **B2** wrap in-use Radix (DropdownMenu/Tabs/Checkbox) + Card/Input/Separator, **B3** Select/Switch/Tooltip | ✅ Done (B1–B3; branch `phase-b-component-library`) — 15 documented primitives, story + a11y each |
-| C | **Figma round-trip** — build/sync Figma library from code; wire Code Connect `.figma.tsx` (bidirectional) | ⬜ Not started |
-| D | **Page composition** — full visual parity (hero, Explore grid/list + filters, listing detail gallery + sticky booking, tabbed host dashboard) | 🔧 In progress |
+| C | **Figma round-trip** — spec (C0) + componentization (C1) + Storybook coverage (C2) + Figma library (C3) + Code Connect (C4) | 🔧 Nearly done — C0–C4 all authored. Figma file has Foundations + 15 components; 16 `.figma.tsx` Code Connect mappings in repo. **Publishing to Dev Mode is plan-gated** (Code Connect needs Org/Enterprise; account is Pro) — mappings are publishable as-is once upgraded. |
+| D | **Page composition** — full visual parity + Collections | ✅ Largely done — landing/communities/explore/listing/host/about + Collections rebuilt to the redesign; minor polish remains |
 | E | **Content & imagery** — swap Unsplash for AI-generated static assets (ADR-0016) | ⬜ Not started |
 
 Status legend: ⬜ not started · 🔧 in progress · ✅ done · ⚠️ needs attention · ⏸ blocked.
 
 **Phase done = all true:** `npm run build` passes · `npm run typecheck` clean · `npm run lint` clean · Storybook a11y audit passes for any new/changed component · the engine/tenant line is intact · committed at the boundary referencing the ADR(s).
 
+## Figma build status (Phase C) — spec: [`design-system.md`](design-system.md)
+
+- **Figma file:** `A3mcfYDq5wZ7As46yri9jO` ("Sojurno Design System").
+- **C0 spec** ✅ · **C1 componentization** ✅ (Eyebrow/SectionHeader extracted; CommunityCard merged) · **C2 Storybook coverage** ✅ (hosted at `/storybook`).
+- **C3 Figma library** ✅ — Foundations: 51 variables across 4 collections (Primitives `Value`; Color `Light`/`Dark`; Radius `Value`; Community `Runners`/`Hikers`), all scoped + WEB code syntax; 9 text styles; 3 shadow styles; a Foundations specimen page. 15 components built one-per-page with token-bound variants (Button, Badge, Avatar, Eyebrow, Separator, Input, Card, Rating, Stepper, SectionHeader, Checkbox, Switch, Tabs, Select, Tooltip, Dialog). **Calendar deliberately not modeled** (vendored `react-day-picker` widget).
+- **C4 Code Connect** ✅ authored — 16 `src/lib/*.figma.tsx` parser files (`figma.connect`, type-checked against component props), `figma.config.json`, `@figma/code-connect` dep, `figma:parse`/`figma:publish` scripts. `npx figma connect parse` validates all 16 with zero errors. **Publishing to Figma Dev Mode is plan-gated** — Code Connect requires Org/Enterprise; the account is Pro. The mappings are valid, version-controlled artifacts and become live with `npm run figma:publish` once on Org/Enterprise (no rework).
+
 ## Open TODOs & carried-forward seams
 
 - ~~**[Phase A / tokens]** Reinstate the **DTCG → Style Dictionary** pipeline so `src/styles/_tokens.scss` becomes generated output.~~ ✅ Done on `phase-a-tokens`: `tokens/*.json` (primitives + semantic light/dark + per-tenant) → `tokens/build-tokens.mjs` → generated `src/styles/_tokens.scss` (git-ignored, built by `npm run tokens`, auto-run via `pre*` hooks). `[data-community]` tints now reference token primitives (hex lives only in `primitives.json`). **Still open:** the Figma-variable export (with light/dark/tenant modes) for the Code Connect round-trip — lands in Phase C.
 - ~~**[Phase A / CI]** Add **GitHub Actions** running `typecheck → lint → build → storybook a11y` per PR.~~ ✅ Done: `.github/workflows/ci.yml` (verified locally; first remote run on push/PR).
-- **[Phase C]** **Figma Code Connect** — `.figma.tsx` per component + a synced Figma library. Not started.
-- **[Role seam]** The `role/` directory currently exports the light/dark **theme** provider (`ThemeProvider`/`useTheme`), not the traveler/host **role** abstraction (`RoleProvider`/`useRole`) the original had. Host pages exist via routes; confirm whether the role toggle is intended for v2 and restore the seam if so (→ ADR-0006).
+- ~~**[Phase C]** **Figma Code Connect** — `.figma.tsx` per component + Figma library.~~ ✅ Authored (16 mappings + Figma library). **Open:** publish to Dev Mode (plan-gated — needs Org/Enterprise; run `npm run figma:publish` once upgraded). Calendar not modeled (vendored widget).
+- **[Role seam → ADR-0021]** The `role/` directory holds the light/dark **theme** provider, not a traveler/host abstraction. **ADR-0021 (Proposed)** resolves this — rename `role/`→`theme/` and introduce a session-gated mock host onboarding flow. Awaiting acceptance + build.
 - **[Imagery]** v2 renders **Unsplash** images (`ListingCard` `<img src={listing.images[0]?.src}>`) as an owner-approved interim. Swap for AI-generated static assets per ADR-0016; there is no `Scene` fallback component in v2 (the original's generative `Scene` was not carried over).
-- **[Storybook]** Document Button/Badge/Card/Search/Row/Footer/About and all primitive variants/states; this pass prioritized screen fidelity.
+- ~~**[Storybook]** Document all primitive variants/states.~~ ✅ Every primitive has a story; cva primitives show full variant matrices; hosted at `/storybook`. Remaining: stories for composite components beyond ListingCard (ListingRow/CollectionCard/etc.).
 - **[Visual parity]** Full-bleed photographic hero, darker community-builder module, richer Explore controls, listing detail gallery, host dashboard refinements (per `v2-build-note.md`).
 - **[Search/dates]** Decide whether the landing search/date controls stay lightweight (demo) or become real interactive inputs.
 - **[Post-v1]** Per-tenant **typography** (curated font pairings) — gated on a font loading/performance decision (ADR-0014 seam).
@@ -66,6 +74,7 @@ Status legend: ⬜ not started · 🔧 in progress · ✅ done · ⚠️ needs a
 
 ## Changelog (recent first)
 
+- **2026-06-19** — **Phase C / C3 + C4 — Figma library + Code Connect.** Built the Figma design-system file (`A3mcfYDq5wZ7As46yri9jO`): Foundations (51 variables, 9 text + 3 shadow styles, specimen page) + 15 token-bound component pages. Authored **16 `src/lib/*.figma.tsx` Code Connect mappings** (`figma.connect`, type-checked against component props) + `figma.config.json` + `@figma/code-connect` dep + `figma:parse`/`figma:publish` scripts; `figma connect parse` validates all 16. Publishing to Dev Mode is plan-gated (Code Connect needs Org/Enterprise; account is Pro) — mappings publishable as-is once upgraded. ESLint exempts `*.figma.tsx` from the Fast-Refresh rule. Calendar not modeled (vendored widget). Also brought this file current (it had drifted: trunk facts, Storybook hosting at `/storybook`, page-composition passes, Collections, ADR-0021 pointer).
 - **2026-06-18** — **Phase C kickoff: componentization (C0 + C1)** on `design-system` (→ ADR-0019, [`design-system.md`](design-system.md)). Wrote the design-system spec (layering, variant-naming conventions that become Figma variant names, primitive inventory, extraction audit, Figma mapping, C0–C4 sequence). C1 extractions: new `Eyebrow` + `SectionHeader` primitives (stories + barrel), adopted across all pages (replacing 14 hand-rolled eyebrows + the per-page header clusters); merged `UpcomingCommunityCard` into one `CommunityCard` with active/upcoming states; folded stray chips into `Badge`. `MediaTile` + broad `Card` adoption deliberately deferred (documented). Next: C2 Storybook variant coverage → C3 Figma library → C4 Code Connect. typecheck/lint/build green.
 
 
