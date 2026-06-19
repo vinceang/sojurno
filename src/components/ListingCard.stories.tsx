@@ -1,5 +1,4 @@
 import type { Meta, StoryObj } from '@storybook/react'
-import { MemoryRouter } from 'react-router-dom'
 import { LISTINGS } from '../data/listings'
 import { ListingCard } from './ListingCard'
 
@@ -11,11 +10,9 @@ const meta = {
   },
   decorators: [
     (Story) => (
-      <MemoryRouter>
-        <div className="max-w-sm">
-          <Story />
-        </div>
-      </MemoryRouter>
+      <div className="max-w-sm">
+        <Story />
+      </div>
     ),
   ],
 } satisfies Meta<typeof ListingCard>
