@@ -218,6 +218,10 @@ export const en = {
   'footer.accessibility': 'Accessibility',
   'footer.copyright': '© 2025 Sojurno, Inc.',
   'footer.moreComing': '+ more coming',
+  'legal.eyebrow': 'Legal',
+  'legal.updatedLabel': 'Last updated',
+  'legal.disclaimer': 'Sample content for a product demo — not a real legal agreement.',
+  'legal.backHome': 'Back to home',
   'theme.light': 'Light',
   'theme.dark': 'Dark',
 } as const
@@ -443,6 +447,10 @@ export const es: Messages = {
   'footer.accessibility': 'Accesibilidad',
   'footer.copyright': '© 2025 Sojurno, Inc.',
   'footer.moreComing': '+ más próximamente',
+  'legal.eyebrow': 'Legal',
+  'legal.updatedLabel': 'Última actualización',
+  'legal.disclaimer': 'Contenido de ejemplo para una demo de producto, no es un acuerdo legal real.',
+  'legal.backHome': 'Volver al inicio',
   'theme.light': 'Claro',
   'theme.dark': 'Oscuro',
 }
@@ -665,6 +673,10 @@ export const fr: Messages = {
   'footer.accessibility': 'Accessibilité',
   'footer.copyright': '© 2025 Sojurno, Inc.',
   'footer.moreComing': '+ autres à venir',
+  'legal.eyebrow': 'Legal',
+  'legal.updatedLabel': 'Dernière mise à jour',
+  'legal.disclaimer': 'Contenu d’exemple pour une démo de produit, ce n’est pas un accord juridique réel.',
+  'legal.backHome': 'Retour à l’accueil',
   'theme.light': 'Clair',
   'theme.dark': 'Sombre',
 }
