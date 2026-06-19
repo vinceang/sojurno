@@ -594,7 +594,7 @@ export const DB_LISTINGS: Listing[] = [
       "Kitchen equipped for meal prep"
     ],
     "highlight": "Just steps from the official marathon shakeout runs and resting spots.",
-    "description": "Located in the vibrant Heights neighborhood, this cozy stay is perfect for runners gearing up for the Houston Marathon. Clara, your host, is not only a certified running coach but also eager to share tips on everything from race logistics to the best nearby pasta restaurants for carb-loading."
+    "description": "Just a short walk from the official marathon shakeout runs and relaxation spots, this apartment provides a practical base for runners preparing for the Houston Marathon. Your host, Clara, a certified running coach, is on hand to offer valuable insights into race logistics and recommend local pasta restaurants for your carb-loading needs."
   },
   {
     "id": "san-francisco-ca-cozy-retreat-chih",
@@ -630,7 +630,7 @@ export const DB_LISTINGS: Listing[] = [
       "Private kitchen"
     ],
     "highlight": "Just a short run to Golden Gate Park and the marathon start line.",
-    "description": "Nestled in the peaceful Sunset District, this cozy retreat is perfect for runners seeking comfort before race day. With easy access to Lake Merced for shakeout runs and local transit, I’m here to share race logistics and the best routes for your taper week."
+    "description": "This Sunset District apartment puts you steps from the scenic trails around Lake Merced, ideal for those planning race day training. With straightforward access to Golden Gate Park and public transit, you can rely on your host for insights into race logistics and tailored running routes to maximize your preparation."
   },
   {
     "id": "chicago-il-comfortable-haven-36m2",
@@ -666,7 +666,7 @@ export const DB_LISTINGS: Listing[] = [
       "Nearby transit access"
     ],
     "highlight": "Enjoy a scenic warm-up on the Lakefront Trail, just blocks away.",
-    "description": "Nestled in vibrant Lincoln Park, this cozy apartment is the ideal base for your Chicago marathon experience. With easy access to the Lakefront Trail and a supportive community of fellow runners, you'll find everything you need to train or taper effectively—plus insights on the best local spots for post-race recovery."
+    "description": "Just a few blocks from the Lakefront Trail, this apartment offers a practical base for runners preparing for the Chicago marathon. With helpful insights from a host familiar with the area and local spots for post-race recovery, you'll have all you need to focus on your training or tapering without distraction."
   },
   {
     "id": "boston-ma-comfortable-retreat-kabz",
@@ -702,7 +702,7 @@ export const DB_LISTINGS: Listing[] = [
       "On-site Parking"
     ],
     "highlight": "Just a short jog to the Emerald Necklace trails, perfect for warm-ups and cool-downs.",
-    "description": "Nestled in the heart of Jamaica Plain, this cozy retreat is tailored for runners preparing for the Boston Marathon. Enjoy easy access to renowned running paths, local cafes for pre-race fuel, and transport to the starting line. With your host’s insider tips, you’ll feel at home while staying focused on your race prep."
+    "description": "This Jamaica Plain apartment provides straightforward access to the Emerald Necklace trails, ideal for warm-ups and cool-downs. With local cafes nearby for fueling up and public transport options to the marathon starting line, your stay is streamlined for race day. Your host, familiar with the area, is ready to share helpful tips for an efficient preparation."
   },
   {
     "id": "chicago-il-runners-retreat-gc4b",
@@ -738,7 +738,7 @@ export const DB_LISTINGS: Listing[] = [
       "Private bathroom"
     ],
     "highlight": "Steps away from Lakefront Trail, perfect for your pre-race shakeout.",
-    "description": "Nestled in vibrant Lincoln Park, this cozy apartment provides a calming space for distance runners. Enjoy the nearby scenic Lakefront Trail and access to my favorite pre-race eateries. I’m here to help you navigate logistics and ensure your taper is optimal and restful."
+    "description": "This Lincoln Park apartment offers direct access to the Lakefront Trail, ideal for your pre-race shakeout runs. Enjoy a quiet environment where you can recharge, and benefit from local dining recommendations and logistical support. With an eye for runners' needs, I can help make your stay smooth and focused."
   },
   {
     "id": "harper-s-ferry-wv-cozy-cabin-qqch",
@@ -774,7 +774,7 @@ export const DB_LISTINGS: Listing[] = [
       "Firepit"
     ],
     "highlight": "Steps away from the iconic Maryland Heights trailhead.",
-    "description": "Discover your home base for exploring the Appalachian Trail in our cozy cabin in the Historic District of Harper's Ferry. Liam is here to equip you with local trail insights and even lend gear, making your day hikes a seamless experience. Gather around the firepit after a day of adventure and reflect on the beautiful landscapes you've traversed.",
+    "description": "This cabin in the Historic District of Harper's Ferry serves as a practical launch point for your adventures on the Appalachian Trail, just steps from the iconic Maryland Heights trailhead. Liam offers valuable local insights and is happy to share gear, ensuring your hiking experience is smooth and enjoyable. After a day's exploration, unwind around the firepit, taking a moment to appreciate the stunning surroundings you've discovered.",
     "gear": [
       {
         "id": "poles",
@@ -826,7 +826,7 @@ export const DB_LISTINGS: Listing[] = [
       "Gear Rental"
     ],
     "highlight": "Stunning views of Mount Washington from the porch at sunset.",
-    "description": "Nestled in the heart of the White Mountains, this rustic cabin is your perfect base camp for exploring some of the region's best trails. From the summit of Mount Washington to tranquil lakes, Sara is eager to share her favorite hikes and insider tips for your adventure.",
+    "description": "This rustic cabin offers direct views of Mount Washington, particularly stunning at sunset from the porch. It serves as a practical base for hikers eager to explore the region's trails, with Sara ready to share her expertise on local hikes and nearby lakes.",
     "gear": [
       {
         "id": "poles",
@@ -878,7 +878,7 @@ export const DB_LISTINGS: Listing[] = [
       "Local guidebook collection"
     ],
     "highlight": "Direct access to over 700 miles of trails just outside your door.",
-    "description": "Nestled in the woods near Columbia Falls, this cozy cabin is a perfect base for your Glacier National Park adventures. With trail maps, weather updates, and gear to borrow, we ensure you're set for your hiking journey. Experience the quiet charm of the area and return to a warm fire after your day on the trails.",
+    "description": "This cabin in the woods near Columbia Falls offers direct access to over 700 miles of trails, making it a practical choice for your Glacier National Park excursions. Your host provides trail maps and weather updates, as well as gear to borrow, helping you to easily plan your hiking adventures. After a day on the trails, enjoy the tranquility of the surroundings and unwind by a warm fire.",
     "gear": [
       {
         "id": "poles",
@@ -937,7 +937,7 @@ export const DB_LISTINGS: Listing[] = [
       "Coffee bar"
     ],
     "highlight": "Just a short drive to the stunning Sunrise Visitor Center for breathtaking views.",
-    "description": "Nestle into this warm sanctuary after a day of hiking around Mount Rainier. As a local guide, I can share the best trails and advise on current conditions. Enjoy a freshly brewed coffee as you swap stories of your adventures with fellow travelers.",
+    "description": "This cabin offers a serene retreat after a day exploring the trails around Mount Rainier. With easy access to the Sunrise Visitor Center, you can count on helpful trail recommendations and real-time updates on conditions from a local host who knows the area well. Take a moment to sip on freshly brewed coffee and share experiences with fellow guests as you unwind.",
     "gear": [
       {
         "id": "poles",
@@ -1003,7 +1003,7 @@ export const DB_LISTINGS: Listing[] = [
       "espresso machine"
     ],
     "highlight": "Enjoy morning coffee with breathtaking views of Smith Rock.",
-    "description": "Nestled in the high desert, this cozy cabin is a perfect base for climbers tackling the famed spires of Smith Rock. After a day on the rock, relax on the patio with a gorgeous sunset view. I provide route recommendations and have climbing gear available for your convenience.",
+    "description": "This cabin offers a straightforward and comfortable place to rest after a day of climbing at Smith Rock. Enjoy your morning coffee while taking in stunning views of the canyon, and unwind in the evening on the patio as the sun sets. Your host, knowledgeable about local routes, can share insights and provides climbing gear for those in need.",
     "gear": [
       {
         "id": "rope",
@@ -1062,7 +1062,7 @@ export const DB_LISTINGS: Listing[] = [
       "Fire pit for evenings"
     ],
     "highlight": "Just minutes from classic climbs like The Endless Wall and The Leap.",
-    "description": "Nestled close to the New River Gorge, this cozy homeaway is perfect for climbers looking to get an early start. Jenna, your host, is happy to share crag recommendations and lend you gear for your next climb. Enjoy the warmth of a fire pit after an adventurous day out in stunning West Virginia.",
+    "description": "This home offers easy access to classic climbs such as The Endless Wall and The Leap, making it a convenient base for climbers. Your host, Jenna, is well-acquainted with the local crags and can provide valuable recommendations, along with lending climbing gear. After a day of climbing, gather around the warmth of the fire pit to unwind and share stories.",
     "gear": [
       {
         "id": "rope",
@@ -1121,7 +1121,7 @@ export const DB_LISTINGS: Listing[] = [
       "Early check-in"
     ],
     "highlight": "Start your day with a trail breakfast overlooking the Crooked River.",
-    "description": "Nestled in the foothills of the Cascades, this cozy retreat is just a short drive from Smith Rock State Park, perfect for early morning climbs. Jamie, your host, knows the area well and can provide insight into the best routes for your skill level, along with lending gear to lighten your load. Relax in a peaceful environment that feels like home after a day on the rocks.",
+    "description": "Start your day with breakfast views of the Crooked River from this cabin, conveniently close to Smith Rock State Park for climbers. Jamie, your knowledgeable host, can guide you to routes suited to your skill level and lend equipment to make your adventure easier. After a day outdoors, return to a tranquil retreat, designed for comfort and relaxation.",
     "gear": [
       {
         "id": "rope",
@@ -1180,7 +1180,7 @@ export const DB_LISTINGS: Listing[] = [
       "outdoor fire pit"
     ],
     "highlight": "Just a short drive to the famous sandstone cliffs of Red River Gorge.",
-    "description": "This cozy cottage is your perfect basecamp for an unforgettable climbing adventure. Nestled in the heart of Red River Gorge, I offer personalized climbing insights and gear rental to help you tackle your next route with confidence.",
+    "description": "A practical base for climbers, this cottage is only a short drive from the renowned sandstone cliffs of Red River Gorge. Here, you'll find personalized climbing insights and access to gear rental, ensuring you're well-equipped for your adventures. The host is familiar with the area and can provide guidance tailored to your climbing goals.",
     "gear": [
       {
         "id": "rope",
@@ -1246,7 +1246,7 @@ export const DB_LISTINGS: Listing[] = [
       "Outdoor fire pit"
     ],
     "highlight": "Just minutes from the best bouldering in the park.",
-    "description": "Nestled in the heart of Joshua Tree, you'll find a warm space stocked with essential climbing gear and ropes for lending. The evenings are perfect for relaxing around the fire pit after a day of exhilarating climbs at Hidden Valley or the Wonderland.",
+    "description": "This welcoming space is just minutes from the premier bouldering at Hidden Valley, providing easy access for climbers looking to maximize their time on the rock. Stocked with essential climbing gear and ropes for guests to borrow, the property makes it simple to prepare for your adventures. After a day of climbing, enjoy a relaxed evening around the fire pit, sharing stories and camaraderie.",
     "gear": [
       {
         "id": "rope",
@@ -1319,7 +1319,7 @@ export const DB_LISTINGS: Listing[] = [
       "Shared kitchen"
     ],
     "highlight": "Enjoy a sunrise approach to your next favorite route, just minutes away.",
-    "description": "Stay at this cozy bunkhouse where fellow climbers gather to share tips and stories after a day on the rock. With climbing gear available for rent and a fully equipped kitchen, you'll find everything you need for both your climbs and relaxation.",
+    "description": "Just a few minutes from the climbing routes, this bunkhouse serves as a welcoming spot for climbers to unwind after a day on the rock. It has a fully equipped kitchen for meal preparation and arrangements for rental of climbing gear, ensuring you have all the essentials for enjoying your time in Joshua Tree.",
     "gear": [
       {
         "id": "rope",
@@ -1385,7 +1385,7 @@ export const DB_LISTINGS: Listing[] = [
       "Fire pit"
     ],
     "highlight": "Quick access to over 1,000 climbing routes in stunning sandstone.",
-    "description": "Nestled among the trees, this cabin offers all the comforts you need after a day on the rock. You'll have access to my climbing gear and local beta to help you navigate the routes. Perfect for both seasoned climbers and those looking to advance their skills amidst breathtaking scenery.",
+    "description": "This cabin provides essential comforts after a day spent on the climbing routes of Red River Gorge. You'll find local climbing gear available for use, along with guidance on the area's climbing options to help you explore over 1,000 routes. Its serene setting ensures a restful night, allowing you to recharge for your next adventure.",
     "gear": [
       {
         "id": "rope",
@@ -1458,7 +1458,7 @@ export const DB_LISTINGS: Listing[] = [
       "Heated drying rack"
     ],
     "highlight": "Steps from the best trad routes in the area.",
-    "description": "Enjoy a comfortable retreat just minutes from the stunning cliffs and trails of Red River Gorge. With climbing gear to lend and plenty of local beta on routes, you’ll feel right at home after a day of ascent. Let yourself unwind in a space designed for climbers, with access to gear that makes your trip even easier.",
+    "description": "A practical stay that places you moments away from the best traditional climbing routes in Red River Gorge. You'll find gear available to lend and valuable local insights to enhance your climbing experience. After your day on the cliffs, the cabin provides a straightforward, restful environment tailored for climbers.",
     "gear": [
       {
         "id": "rope",
