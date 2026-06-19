@@ -69,6 +69,18 @@ img {
   padding-block: clamp(3.5rem, 8vw, 7rem);
 }
 
+/* Landing hero atmosphere (→ ADR-0016 signature): a soft tri-tone aura that
+   blends the three active community accents — ember (runners), pine (hikers),
+   violet (climbers) — so the hero reads as the multi-community engine rather
+   than any single discipline. Faint enough to keep text AA. The topographic
+   contour layer lives in <HeroBackground>; this is just the color wash. */
+.sj-hero-aura {
+  background:
+    radial-gradient(42rem 32rem at 88% -12%, color-mix(in srgb, var(--color-ember) 18%, transparent), transparent 68%),
+    radial-gradient(40rem 30rem at 50% 124%, color-mix(in srgb, var(--color-violet) 14%, transparent), transparent 66%),
+    radial-gradient(34rem 28rem at 2% 116%, color-mix(in srgb, var(--color-pine) 14%, transparent), transparent 64%);
+}
+
 // Per-element community tint (distinct from the page-level [data-tenant] accent:
 // lets individual pills/dots carry their own community color within a
 // tenant-neutral page). Values come from the generated token primitives — the

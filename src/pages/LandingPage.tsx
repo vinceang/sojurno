@@ -1,6 +1,7 @@
 import { ArrowRight } from 'lucide-react'
 import { Link } from 'react-router-dom'
 import { CommunityListingRow } from '../components/CommunityListingRow'
+import { HeroBackground } from '../components/HeroBackground'
 import { SearchPanel } from '../components/SearchPanel'
 import { Button } from '../lib/Button'
 import { Eyebrow } from '../lib/Eyebrow'
@@ -41,23 +42,26 @@ export function LandingPage() {
 
   return (
     <>
-      <section className="sj-container grid items-center gap-10 py-14 md:gap-16 md:py-20 lg:grid-cols-[1.1fr_minmax(340px,400px)]">
-        <div>
-          <Eyebrow tone="accent">{t('landing.eyebrow')}</Eyebrow>
-          <h1 className="sj-display mt-5 max-w-2xl text-5xl leading-[0.98] md:text-6xl">{t('landing.title')}</h1>
-          <p className="mt-6 max-w-xl text-lg leading-8 text-text-muted">{t('landing.body')}</p>
-        </div>
-        <div className="w-full">
-          {/* < lg: full-width bar — stacks on phones, single row on tablet (less vertical scroll) */}
-          <div className="lg:hidden">
-            <SearchPanel showTenantSelect />
+      <div className="relative isolate overflow-hidden">
+        <HeroBackground />
+        <section className="sj-container grid items-center gap-10 py-14 md:gap-16 md:py-20 lg:grid-cols-[1.1fr_minmax(340px,400px)]">
+          <div>
+            <Eyebrow tone="accent">{t('landing.eyebrow')}</Eyebrow>
+            <h1 className="sj-display mt-5 max-w-2xl text-5xl leading-[0.98] md:text-6xl">{t('landing.title')}</h1>
+            <p className="mt-6 max-w-xl text-lg leading-8 text-text-muted">{t('landing.body')}</p>
           </div>
-          {/* lg+: stacked card beside the lead copy */}
-          <div className="hidden lg:block">
-            <SearchPanel showTenantSelect stacked />
+          <div className="w-full">
+            {/* < lg: full-width bar — stacks on phones, single row on tablet (less vertical scroll) */}
+            <div className="lg:hidden">
+              <SearchPanel showTenantSelect />
+            </div>
+            {/* lg+: stacked card beside the lead copy */}
+            <div className="hidden lg:block">
+              <SearchPanel showTenantSelect stacked />
+            </div>
           </div>
-        </div>
-      </section>
+        </section>
+      </div>
 
       <section className="border-y border-border bg-background py-16 md:py-20">
         <div className="sj-container space-y-16">
