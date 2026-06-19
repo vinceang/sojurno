@@ -19,4 +19,12 @@ export default defineConfig([
       globals: globals.browser,
     },
   },
+  {
+    // Code Connect mapping files declare figma.connect() at module level and
+    // export no React component by design — exempt them from the Fast Refresh rule.
+    files: ['**/*.figma.tsx'],
+    rules: {
+      'react-refresh/only-export-components': 'off',
+    },
+  },
 ])
