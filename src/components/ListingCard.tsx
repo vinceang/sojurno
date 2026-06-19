@@ -29,7 +29,10 @@ export function ListingCard({ listing, variant = 'full' }: ListingCardProps) {
           src={listing.images[0]?.src}
         />
         {tenant ? (
-          <span className="absolute left-3 top-3">
+          // On phones, avoid the pill colliding with the External badge: when both would show,
+          // hide the community pill (context already implies the community) and keep External.
+          // Both reappear at sm+.
+          <span className={`absolute left-3 top-3${listing.bookingMode === 'external' ? ' hidden sm:block' : ''}`}>
             <CommunityPill id={tenant.id} label={tenant.name} />
           </span>
         ) : null}

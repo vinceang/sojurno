@@ -8,7 +8,7 @@ export type TenantId =
   | 'skiers'
   | 'music-festivals'
 
-export type ActiveTenantId = 'runners' | 'hikers'
+export type ActiveTenantId = 'runners' | 'hikers' | 'climbers'
 
 export type Capability = 'gear' | 'collections'
 
@@ -45,7 +45,7 @@ export type GearItem = {
   id: string
   name: string
   category: string
-  icon: 'tent' | 'poles' | 'pack' | 'stove' | 'gps' | 'canister'
+  icon: 'tent' | 'poles' | 'pack' | 'stove' | 'gps' | 'canister' | 'rope' | 'harness' | 'helmet'
   quantity: number
   fee?: number
 }

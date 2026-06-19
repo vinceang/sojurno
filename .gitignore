@@ -16,6 +16,15 @@ storybook-static
 # Generated design tokens (built from tokens/*.json via `npm run tokens`)
 src/styles/_tokens.scss
 
+# NOTE: src/data/listings.generated.ts is intentionally COMMITTED (public data, no secrets) so
+# Vercel deploys are hermetic — they don't need DB access at build time. Regenerate it with
+# `npm run export:listings` (needs .env) and commit the result.
+
+# Secrets — scripts only (OpenAI + Supabase service role); never imported by client code
+.env
+.env.*
+!.env.example
+
 # Editor directories and files
 .vscode/*
 !.vscode/extensions.json
@@ -26,3 +35,11 @@ src/styles/_tokens.scss
 *.njsproj
 *.sln
 *.sw?
+
+#OpenAI key
+openai-key.md
+
+# Local key files (secrets — never commit)
+*-key.md
+supabase/supabase-key.md
+.keys/

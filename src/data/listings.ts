@@ -1,4 +1,5 @@
 import { HIKER_GEAR } from './gear'
+import { DB_LISTINGS } from './listings.generated'
 import type { ActiveTenantId, Listing, ListingImage, Review } from '../types'
 
 function unsplash(id: string, width = 1200, height = 900): string {
@@ -9,7 +10,11 @@ function portrait(n: number): string {
   return `https://i.pravatar.cc/96?img=${n}`
 }
 
-export const LISTINGS: Listing[] = [
+// Hand-authored origin of the 12 seed listings (incl. the linked external-booking demos). As of
+// ADR-0022 these now live in Supabase (source='seed') and reach the app via listings.generated.ts
+// like every other listing. This array is kept only as the re-backfill source for
+// scripts/backfill-seed.ts — it is NOT used by the app, so it tree-shakes out of the bundle.
+export const SEED_LISTINGS: Listing[] = [
   {
     id: 'back-bay-split',
     tenant: 'runners',
@@ -367,6 +372,11 @@ export const LISTINGS: Listing[] = [
   },
 ]
 
+// The seam (ADR-0022): every listing — seed and generated alike — comes from Supabase, built into
+// listings.generated.ts via `npm run export:listings`. The DB is the single source of truth; this
+// committed file is the build artifact the static app reads synchronously.
+export const LISTINGS: Listing[] = DB_LISTINGS
+
 export function getListingsByTenant(tenant: ActiveTenantId): Listing[] {
   return LISTINGS.filter((listing) => listing.tenant === tenant)
 }
@@ -418,6 +428,20 @@ const REVIEWS: Record<ActiveTenantId, Review[]> = {
       avatarUrl: portrait(41),
       date: 'December 2025',
       text: 'Quiet, warm, and a real drying space for wet layers. The trail beta the host shared changed our whole route for the better.',
+    },
+  ],
+  climbers: [
+    {
+      name: 'Marco T.',
+      avatarUrl: portrait(11),
+      date: 'April 2026',
+      text: 'Borrowed a rope and pads and got honest beta on the warmup wall. Five minutes from the boulders — woke up, ate, sent.',
+    },
+    {
+      name: 'Hana W.',
+      avatarUrl: portrait(44),
+      date: 'March 2026',
+      text: 'Host dialed our whole weekend around the forecast and the crag aspect. Gear storage and an early breakfast made the alpine start painless.',
     },
   ],
 }
