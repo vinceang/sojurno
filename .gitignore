@@ -35,3 +35,11 @@ src/styles/_tokens.scss
 *.njsproj
 *.sln
 *.sw?
+
+#OpenAI key
+openai-key.md
+
+# Local key files (secrets — never commit)
+*-key.md
+supabase/supabase-key.md
+.keys/
