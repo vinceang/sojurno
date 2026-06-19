@@ -10,8 +10,8 @@ It is also a **portfolio piece**: a public repo meant to demonstrate design-engi
 
 ## Repo / deployment facts
 
-- **Trunk repo:** `sojurno-v2` → GitHub **`vinceang/sojurno`** (public), deployed to **`sojurno.vercel.app`**.
-- **Storybook** is hosted in the same Vercel deployment at **`/storybook`**.
+- **Trunk repo:** `sojurno-v2` → GitHub **`vinceang/sojurno`** (public), deployed on Vercel at **`sojurno.com`** (custom domain).
+- **Storybook** is hosted in the same Vercel deployment at **`sojurno.com/storybook/`**.
 - The original repo (`vinceang/sojurno-poc`) is archive/reference; `sojurno-redesign` is a Figma Make export kept as **visual reference only**.
 - **Figma design-system file:** `A3mcfYDq5wZ7As46yri9jO` ("Sojurno Design System").
 - Workflow: ADR-driven, phased, PR-per-change. Merges to `main` (which auto-deploys to the public site) are the owner's call.
@@ -50,7 +50,7 @@ Three artifacts kept in sync: **code · Storybook · Figma**.
 ## Current state (as of the latest session)
 
 - App is feature-rich and live: platform landing (carousel community rows), Communities directory, Explore (filter bar with animated location field + grid/list views), listing detail (mosaic gallery + sticky booking with a date-range picker), host dashboard, About (maker profile), Collections rail + detail pages. Cards carry host avatar + proof badge.
-- Design system: component spec written; `Eyebrow`/`SectionHeader` extracted and adopted; community cards merged to one `status` variant; Storybook hosted at `/storybook`.
+- Design system: component spec written; `Eyebrow`/`SectionHeader` extracted and adopted; community cards merged to one `status` variant; Storybook hosted at `sojurno.com/storybook/`.
 - **Figma build (Phase C) in progress:** foundations done (51 variables across Primitives/Color/Radius/Community collections, 9 text styles, 3 shadow styles, a Foundations documentation page); components being built one per page — **Button + Badge, Avatar, Eyebrow, Separator, Input done; next: Card, Rating, Stepper, SectionHeader, then the Radix-backed primitives**, then Code Connect.
 
 ## How to work in this project
