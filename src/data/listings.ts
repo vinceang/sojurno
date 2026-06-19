@@ -430,6 +430,20 @@ const REVIEWS: Record<ActiveTenantId, Review[]> = {
       text: 'Quiet, warm, and a real drying space for wet layers. The trail beta the host shared changed our whole route for the better.',
     },
   ],
+  climbers: [
+    {
+      name: 'Marco T.',
+      avatarUrl: portrait(11),
+      date: 'April 2026',
+      text: 'Borrowed a rope and pads and got honest beta on the warmup wall. Five minutes from the boulders — woke up, ate, sent.',
+    },
+    {
+      name: 'Hana W.',
+      avatarUrl: portrait(44),
+      date: 'March 2026',
+      text: 'Host dialed our whole weekend around the forecast and the crag aspect. Gear storage and an early breakfast made the alpine start painless.',
+    },
+  ],
 }
 
 export function getReviews(listing: Listing): Review[] {

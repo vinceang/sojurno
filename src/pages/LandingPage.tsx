@@ -25,6 +25,11 @@ const communityRows = [
     tenantId: 'hikers',
     titleKey: 'landing.hikersHeading',
   },
+  {
+    eyebrowKey: 'landing.climbersEyebrow',
+    tenantId: 'climbers',
+    titleKey: 'landing.climbersHeading',
+  },
 ] satisfies Array<{
   eyebrowKey: MessageKey
   tenantId: ActiveTenantId

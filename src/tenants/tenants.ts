@@ -95,7 +95,7 @@ export const TENANTS = [
   },
   {
     id: 'climbers',
-    active: false,
+    active: true,
     name: 'Climbers',
     pluralName: 'Climbers',
     tagline: 'Near the crag. Hosted by people who know the grades.',
@@ -115,11 +115,11 @@ export const TENANTS = [
     },
     taxonomy: ['Crag proximity', 'Gear storage', 'Local beta'],
     trustSignals: ['Verified climbing community', 'Local area knowledge'],
-    capabilities: [],
+    capabilities: ['gear'],
     image: { src: img('photo-1522163182402-834f871fd851'), alt: 'Climber scaling a sunlit rock face.' },
     stats: {
-      listings: 0,
-      cities: 0,
+      listings: 8,
+      cities: 4,
     },
   },
   {

@@ -18,7 +18,7 @@
 import 'dotenv/config'
 import OpenAI from 'openai'
 import { createClient } from '@supabase/supabase-js'
-import { HIKER_GEAR } from '../src/data/gear'
+import { CLIMBER_GEAR, HIKER_GEAR } from '../src/data/gear'
 import type { ActiveTenantId, GearItem, Listing } from '../src/types'
 
 // ── config / args ────────────────────────────────────────────────────────────────────────────
@@ -43,8 +43,8 @@ const imagesPerListing = Math.max(0, Number(arg('images', '1')))
 const quality = (arg('quality', 'low') as Quality)
 const dryRun = hasFlag('dry-run')
 
-if (tenant !== 'runners' && tenant !== 'hikers') {
-  console.error(`✖ --tenant must be 'runners' or 'hikers' (got '${tenant}')`)
+if (tenant !== 'runners' && tenant !== 'hikers' && tenant !== 'climbers') {
+  console.error(`✖ --tenant must be 'runners', 'hikers', or 'climbers' (got '${tenant}')`)
   process.exit(1)
 }
 if (!['low', 'medium', 'high'].includes(quality)) {
@@ -68,6 +68,8 @@ const TENANT_BRIEF: Record<ActiveTenantId, string> = {
     'a stay for distance runners traveling for a marathon, half, or training block. Real US running cities/neighborhoods. Hosts who know race logistics, shakeout routes, transit, taper. Practical, calm, race-week-aware.',
   hikers:
     'a stay near real US trailheads/national parks/wilderness for backpackers and day hikers. Hosts with local trail beta, weather judgment, gear to lend. Practical, warm, gateway-to-the-trail.',
+  climbers:
+    'a stay near real US climbing destinations (e.g. Bishop, Red River Gorge, Joshua Tree, Smith Rock, Index, the New River Gorge). Hosts who know the grades, crag aspects, approach beta, and have gear to lend. Practical, warm, dialed-for-the-alpine-start.',
 }
 
 // JSON schema for OpenAI structured outputs — the copy fields only (the script sets id, tenant,
@@ -182,8 +184,10 @@ async function main() {
     }
 
     // assemble the row (DB column shape; mirrors the Listing type)
-    const gear: GearItem[] | null =
-      tenant === 'hikers' ? HIKER_GEAR.slice(0, 2 + Math.floor(rand(0, 3))) : null
+    const gearPool = tenant === 'hikers' ? HIKER_GEAR : tenant === 'climbers' ? CLIMBER_GEAR : null
+    const gear: GearItem[] | null = gearPool
+      ? gearPool.slice(0, 2 + Math.floor(rand(0, gearPool.length - 1)))
+      : null
     const row = {
       id,
       tenant_id: tenant,
