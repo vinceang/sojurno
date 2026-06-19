@@ -1,0 +1,5 @@
+{
+  "color": {
+    "accent-soft": { "$type": "color", "$value": "rgba(147, 51, 234, 0.22)" }
+  }
+}
