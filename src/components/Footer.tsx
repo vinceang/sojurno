@@ -1,11 +1,22 @@
 import { Link } from 'react-router-dom'
 import { useI18n } from '../i18n/useI18n'
+import { useSession } from '../session/useSession'
 import { ACTIVE_TENANTS } from '../tenants/tenants'
 import { Brand } from './Brand'
 import { CommunityPill } from './CommunityPill'
 
 export function Footer() {
   const { t } = useI18n()
+  const { authenticated } = useSession()
+
+  // "Start hosting" opens the same onboarding as the account menu's "Become a host".
+  // Once a host is signed in, the CTA is redundant, so drop it from the column.
+  const productLinks: [string, string][] = [
+    ['/communities', t('footer.communities')],
+    ['/t/runners/explore', t('footer.exploreStays')],
+    ...(authenticated ? [] : ([['/become-a-host', t('footer.startHosting')]] as [string, string][])),
+    ['/start', t('footer.createCommunity')],
+  ]
 
   return (
     <footer className="border-t border-border bg-card">
@@ -14,15 +25,7 @@ export function Footer() {
           <Brand />
           <p className="mt-4 max-w-sm text-sm leading-6 text-text-muted">{t('footer.tagline')}</p>
         </div>
-        <FooterColumn
-          links={[
-            ['/communities', t('footer.communities')],
-            ['/t/runners/explore', t('footer.exploreStays')],
-            ['/t/runners/host', t('footer.startHosting')],
-            ['/start', t('footer.createCommunity')],
-          ]}
-          title={t('footer.product')}
-        />
+        <FooterColumn links={productLinks} title={t('footer.product')} />
         <FooterColumn
           links={[
             ['/about', t('footer.aboutUs')],
