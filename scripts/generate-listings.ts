@@ -82,11 +82,19 @@ const LISTING_SCHEMA = {
     'hostName', 'hostBadge', 'hostBio', 'tags', 'amenities', 'highlight', 'description', 'imagePrompt',
   ],
   properties: {
-    title: { type: 'string', description: 'Specific, warm, no clickbait. Real place reference. ~6-12 words.' },
-    location: { type: 'string', description: 'Real US "City, ST" matching the community.' },
+    title: {
+      type: 'string',
+      description:
+        'Lead with a CONCRETE noun — the property type plus a specific place or feature (e.g. ' +
+        '"Back Bay brownstone two blocks from the marathon buses", "North Fork cabin gateway to ' +
+        'Glacier NP trails"). ~6-12 words. NEVER open with a generic adjective (cozy, comfortable, ' +
+        'charming, warm, rustic, serene, lovely, stunning, perfect, peaceful, inviting, quaint). ' +
+        'No marketing hype, no "Retreat"/"Haven"/"Getaway" filler.',
+    },
+    location: { type: 'string', description: 'Real US "City, ST" matching the community. Vary cities across the batch.' },
     neighborhood: { type: 'string', description: 'Real neighborhood or area within that city.' },
     price: { type: 'integer', description: 'Nightly USD, 150-260.' },
-    hostName: { type: 'string', description: 'A first name.' },
+    hostName: { type: 'string', description: 'A first name — distinct from every other listing in the batch; vary across cultures and genders.' },
     hostBadge: { type: 'string', description: 'Short credibility tag, e.g. "Marathon pacer", "Backcountry host".' },
     hostBio: { type: 'string', description: 'One sentence, warm, community-specific local knowledge.' },
     tags: { type: 'array', items: { type: 'string' }, description: 'Exactly 3 short chips.' },
@@ -101,11 +109,35 @@ const LISTING_SCHEMA = {
   },
 } as const
 
+// The whole batch is generated in ONE call (an array wrapped in an object — strict structured
+// outputs needs an object root) so the model can actively diversify titles, host names, and
+// neighborhoods across listings instead of converging on the same words call-to-call.
+const BATCH_SCHEMA = {
+  type: 'object',
+  additionalProperties: false,
+  required: ['listings'],
+  properties: {
+    listings: { type: 'array', items: LISTING_SCHEMA },
+  },
+} as const
+
 type GeneratedCopy = {
   title: string; location: string; neighborhood: string; price: number
   hostName: string; hostBadge: string; hostBio: string
   tags: string[]; amenities: string[]; highlight: string; description: string; imagePrompt: string
 }
+
+const SYSTEM_PROMPT =
+  'You write listings for Sojurno, an affinity-based peer-to-peer stays marketplace ("stay with ' +
+  'people who get why you\'re traveling"). Voice: clear, warm, quietly premium — a trusted stay ' +
+  'marketplace, NOT an adventure brand. Specificity over adjectives: real cities, real ' +
+  'races/trails/crags, concrete details a local would know. Never lorem ipsum, never hype, never ' +
+  'generic filler words ("cozy", "comfortable", "charming", "retreat", "haven", "getaway", ' +
+  '"oasis"). Match the voice of these real Sojurno titles:\n' +
+  '  • "Back Bay brownstone two blocks from the marathon buses"\n' +
+  '  • "Lakefront studio built around race-week calm"\n' +
+  '  • "Portal cabin with bear canister and trail beta"\n' +
+  '  • "North Fork cabin gateway to Glacier NP trails"'
 
 // ── helpers ───────────────────────────────────────────────────────────────────────────────────
 const rand = (min: number, max: number) => Math.random() * (max - min) + min
@@ -137,28 +169,36 @@ async function main() {
     requireEnv(SUPABASE_SERVICE_ROLE_KEY, 'SUPABASE_SERVICE_ROLE_KEY'),
   )
 
-  for (let n = 0; n < count; n++) {
-    // 1. copy/metadata via structured outputs
-    const completion = await openai.chat.completions.create({
-      model: TEXT_MODEL,
-      messages: [
-        {
-          role: 'system',
-          content:
-            'You write listings for Sojurno, an affinity-based peer-to-peer stays marketplace ' +
-            '("stay with people who get why you\'re traveling"). Voice: clear, warm, quietly ' +
-            'premium — a trusted stay marketplace, not an adventure brand. Use real cities, real ' +
-            'races/trails. Never lorem ipsum, never hype.',
-        },
-        { role: 'user', content: `Generate ${TENANT_BRIEF[tenant]} Make each distinct from typical listings.` },
-      ],
-      response_format: {
-        type: 'json_schema',
-        json_schema: { name: 'listing', schema: LISTING_SCHEMA, strict: true },
+  // 1. all copy/metadata in ONE structured-outputs call so the batch self-diversifies.
+  const completion = await openai.chat.completions.create({
+    model: TEXT_MODEL,
+    temperature: 1,
+    messages: [
+      { role: 'system', content: SYSTEM_PROMPT },
+      {
+        role: 'user',
+        content:
+          `Generate EXACTLY ${count} DISTINCT listings, each for ${TENANT_BRIEF[tenant]}\n\n` +
+          'Hard rules for the batch:\n' +
+          '- No two titles may share an opening word or sentence structure; lead each with a ' +
+          'concrete property type + a specific place or feature, never a generic adjective.\n' +
+          '- Every host name must be different (vary cultures/genders).\n' +
+          '- Spread across different cities and neighborhoods — do not cluster.\n' +
+          '- Each listing should feel like a different real place, not a reskin of the last.',
       },
-    })
+    ],
+    response_format: {
+      type: 'json_schema',
+      json_schema: { name: 'listings', schema: BATCH_SCHEMA, strict: true },
+    },
+  })
 
-    const copy = JSON.parse(completion.choices[0]?.message?.content ?? '{}') as GeneratedCopy
+  const parsed = JSON.parse(completion.choices[0]?.message?.content ?? '{}') as { listings?: GeneratedCopy[] }
+  const copies = (parsed.listings ?? []).slice(0, count)
+  if (copies.length === 0) throw new Error('OpenAI returned no listings')
+
+  let inserted = 0
+  for (const copy of copies) {
     const id = `${slugify(copy.location)}-${slugify(copy.title).split('-').slice(0, 2).join('-')}-${suffix()}`
 
     // 2 + 3. image(s) → Supabase Storage
@@ -218,11 +258,12 @@ async function main() {
 
     const { error: insErr } = await supabase.from('listings').upsert(row)
     if (insErr) throw insErr
+    inserted++
     console.log(`  ✓ ${row.id} — ${row.title} (${row.location})`)
   }
 
   console.log(
-    `\nDone. Inserted ${count} listing(s). Run \`npm run export:listings\` to pull into the app.\n`,
+    `\nDone. Inserted ${inserted} listing(s). Run \`npm run export:listings\` to pull into the app.\n`,
   )
 }
 
