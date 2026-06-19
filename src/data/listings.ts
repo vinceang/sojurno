@@ -389,13 +389,22 @@ export function getListing(id: string | undefined): Listing | undefined {
  * A gallery of 5 images for the listing detail page: the listing's own photo
  * first, then filled from other listings' (already-verified) interior shots so
  * the mosaic stays populated until per-listing photo sets exist (→ ADR-0016).
+ *
+ * The filler window is ROTATED by a stable hash of the listing id, so each
+ * listing shows a different set of supporting photos instead of every page
+ * repeating the first few listings' images.
  */
 export function getGallery(listing: Listing): ListingImage[] {
   const own = listing.images
-  const fillers = LISTINGS.filter((other) => other.id !== listing.id).map((other) => ({
-    src: other.images[0]?.src,
-    alt: 'Interior view',
-  }))
+  const others = LISTINGS.filter((other) => other.id !== listing.id)
+  if (others.length === 0) return own.slice(0, 5)
+
+  const seed = [...listing.id].reduce((sum, ch) => sum + ch.charCodeAt(0), 0)
+  const start = seed % others.length
+  const fillers = others
+    .map((_, i) => others[(start + i) % others.length])
+    .map((other) => ({ src: other.images[0]?.src, alt: 'Interior view' }))
+
   return [...own, ...fillers].slice(0, 5)
 }
 
