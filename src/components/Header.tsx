@@ -3,21 +3,26 @@ import { useState } from 'react'
 import { Link, NavLink, useLocation } from 'react-router-dom'
 import { useI18n } from '../i18n/useI18n'
 import { Button } from '../lib/Button'
+import { useSession } from '../session/useSession'
 import type { Tenant } from '../types'
 import { Brand } from './Brand'
 import { CommunityMenu } from './CommunityMenu'
 import { LanguageSwitcher } from './LanguageSwitcher'
+import { ProfileMenu } from './ProfileMenu'
 
 export function Header({ tenant }: { tenant?: Tenant }) {
   const { t } = useI18n()
   const location = useLocation()
+  const { authenticated, mode, setMode, signOut } = useSession()
   const [mobileOpen, setMobileOpen] = useState(false)
   const activeTenantId = tenant?.id ?? 'runners'
   const navItems = [
     { label: t('nav.communities'), to: '/communities' },
     { label: t('nav.explore'), to: `/t/${activeTenantId}/explore` },
-    { label: t('nav.host'), to: `/t/${activeTenantId}/host` },
+    // Host is a host-mode surface — only shown to an authenticated session (ADR-0021).
+    ...(authenticated ? [{ label: t('nav.host'), to: `/t/${activeTenantId}/host` }] : []),
   ]
+  const closeMobile = () => setMobileOpen(false)
 
   return (
     <header className="sticky top-0 z-50 border-b border-border bg-background/95 backdrop-blur-sm">
@@ -49,12 +54,7 @@ export function Header({ tenant }: { tenant?: Tenant }) {
           <span aria-hidden="true" className="mx-1 h-5 w-px bg-border" />
           <LanguageSwitcher />
           <span aria-hidden="true" className="mx-1 h-5 w-px bg-border" />
-          <Button asChild size="sm" variant="secondary">
-            <Link to="/start">{t('nav.signIn')}</Link>
-          </Button>
-          <Button asChild size="sm">
-            <Link to={`/t/${activeTenantId}/host`}>{t('nav.startHosting')}</Link>
-          </Button>
+          <ProfileMenu />
         </div>
         <Button
           aria-expanded={mobileOpen}
@@ -74,22 +74,57 @@ export function Header({ tenant }: { tenant?: Tenant }) {
               <Link
                 className="rounded-lg px-3 py-2.5 text-sm font-semibold hover:bg-muted/60"
                 key={item.to}
-                onClick={() => setMobileOpen(false)}
+                onClick={closeMobile}
                 to={item.to}
               >
                 {item.label}
               </Link>
             ))}
           </nav>
-          <div className="mt-3 flex items-center justify-between border-t border-border pt-3">
-            <LanguageSwitcher />
-            <div className="flex gap-2">
-              <Button asChild size="sm" variant="secondary">
-                <Link to="/start">{t('nav.signIn')}</Link>
-              </Button>
-              <Button asChild size="sm">
-                <Link to={`/t/${activeTenantId}/host`}>{t('nav.startHosting')}</Link>
-              </Button>
+          <div className="mt-3 flex flex-col gap-1 border-t border-border pt-3">
+            {authenticated ? (
+              <>
+                <button
+                  className="rounded-lg px-3 py-2.5 text-left text-sm font-semibold hover:bg-muted/60"
+                  onClick={() => {
+                    setMode(mode === 'hosting' ? 'traveling' : 'hosting')
+                    closeMobile()
+                  }}
+                  type="button"
+                >
+                  {mode === 'hosting' ? t('account.switchToTraveling') : t('account.switchToHosting')}
+                </button>
+                <button
+                  className="rounded-lg px-3 py-2.5 text-left text-sm font-semibold hover:bg-muted/60"
+                  onClick={() => {
+                    signOut()
+                    closeMobile()
+                  }}
+                  type="button"
+                >
+                  {t('account.signOut')}
+                </button>
+              </>
+            ) : (
+              <>
+                <Link
+                  className="rounded-lg px-3 py-2.5 text-sm font-semibold hover:bg-muted/60"
+                  onClick={closeMobile}
+                  to="/become-a-host"
+                >
+                  {t('account.becomeHost')}
+                </Link>
+                <Link
+                  className="rounded-lg px-3 py-2.5 text-sm font-semibold hover:bg-muted/60"
+                  onClick={closeMobile}
+                  to="/login"
+                >
+                  {t('account.login')}
+                </Link>
+              </>
+            )}
+            <div className="mt-2">
+              <LanguageSwitcher />
             </div>
           </div>
         </div>
