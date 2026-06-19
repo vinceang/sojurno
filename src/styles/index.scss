@@ -113,6 +113,16 @@ img {
   background: var(--community-accent);
 }
 
+/* Compact listing card: type scales fluidly with the card's own width (the card
+   is a container, set via Tailwind's @container). Tune the whole scale from here
+   — values are clamped so they never go below the min or above the full-card size.
+   cqi = 1% of the card's inline size, so narrower columns (6-up) read smaller. */
+.listing-card-compact {
+  --lc-title: clamp(0.8125rem, 7.5cqi, 1rem);
+  --lc-meta: clamp(0.625rem, 6cqi, 0.75rem);
+  --lc-price: clamp(0.9375rem, 8cqi, 1.125rem);
+}
+
 .sj-skip-link {
   position: fixed;
   top: 0.75rem;
