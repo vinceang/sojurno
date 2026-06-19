@@ -3,5 +3,6 @@
   "framework": "vite",
   "buildCommand": "npm run build && npm run build-storybook -- -o dist/storybook",
   "outputDirectory": "dist",
+  "redirects": [{ "source": "/storybook", "destination": "/storybook/", "permanent": false }],
   "rewrites": [{ "source": "/((?!storybook).*)", "destination": "/index.html" }]
 }
