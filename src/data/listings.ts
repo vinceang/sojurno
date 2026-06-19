@@ -1,4 +1,5 @@
 import { HIKER_GEAR } from './gear'
+import { GENERATED_LISTINGS } from './listings.generated'
 import type { ActiveTenantId, Listing, ListingImage, Review } from '../types'
 
 function unsplash(id: string, width = 1200, height = 900): string {
@@ -9,7 +10,9 @@ function portrait(n: number): string {
   return `https://i.pravatar.cc/96?img=${n}`
 }
 
-export const LISTINGS: Listing[] = [
+// Hand-authored seed listings — the original 12, kept as a committed dev fixture and the demo's
+// linked-listing (external bookingMode) examples. Generated listings (ADR-0022) augment these.
+const SEED_LISTINGS: Listing[] = [
   {
     id: 'back-bay-split',
     tenant: 'runners',
@@ -365,6 +368,16 @@ export const LISTINGS: Listing[] = [
       'A calm Blue Ridge cabin for hikers who want parkway access and local judgment on weather. The drying porch and early breakfast keep multi-day plans simple.',
     gear: HIKER_GEAR.slice(2, 5),
   },
+]
+
+// The seam (ADR-0022): seed fixtures + Supabase-generated listings (built into
+// listings.generated.ts via `npm run export:listings`). Seed comes first so existing index-based
+// references (e.g. Storybook LISTINGS[0]) stay stable; generated ids that collide with a seed id
+// are skipped.
+const seedIds = new Set(SEED_LISTINGS.map((listing) => listing.id))
+export const LISTINGS: Listing[] = [
+  ...SEED_LISTINGS,
+  ...GENERATED_LISTINGS.filter((listing) => !seedIds.has(listing.id)),
 ]
 
 export function getListingsByTenant(tenant: ActiveTenantId): Listing[] {
