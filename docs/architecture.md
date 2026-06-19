@@ -3,7 +3,7 @@
 > The living *what/how* of the platform. For the *why* behind any decision here, follow the ADR reference (e.g. → ADR-0002) into `docs/decisions/`.
 
 ## Thesis
-An affinity-based peer-to-peer stays platform: communities of shared interest where host and guest belong to the same group. One engine, many communities. Shipping with two contrasting tenants — **runners** and **hikers**. (→ ADR-0001)
+An affinity-based peer-to-peer stays platform: communities of shared interest where host and guest belong to the same group. One engine, many communities. Three live tenants — **runners**, **hikers**, and **climbers** — with more configured as coming-soon (cyclists, skiers, music festivals). (→ ADR-0001)
 
 ## The central constraint: engine vs. tenant
 Everything hinges on one line:

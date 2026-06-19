@@ -81,6 +81,53 @@ img {
     radial-gradient(34rem 28rem at 2% 116%, color-mix(in srgb, var(--color-pine) 14%, transparent), transparent 64%);
 }
 
+/* Long-form reading layout (legal pages, future articles → ADR-0023). The one place the type
+   hierarchy is shown end to end: Instrument Serif section heads over a Plus Jakarta body, a
+   capped measure for comfortable reading, and consistent vertical rhythm. Tokens only. */
+.sj-prose {
+  max-width: 68ch;
+  font-size: 1.0625rem;
+  line-height: 1.75;
+  color: var(--color-text-muted);
+}
+
+.sj-prose > * + * {
+  margin-top: 1.25rem;
+}
+
+.sj-prose h2 {
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: 1.875rem;
+  line-height: 1.2;
+  color: var(--color-foreground);
+  margin-top: 3rem;
+}
+
+.sj-prose h3 {
+  font-family: var(--font-body);
+  font-weight: 600;
+  font-size: 1.125rem;
+  color: var(--color-foreground);
+  margin-top: 2rem;
+}
+
+.sj-prose h2 + p,
+.sj-prose h3 + p {
+  margin-top: 0.75rem;
+}
+
+.sj-prose strong {
+  color: var(--color-foreground);
+  font-weight: 600;
+}
+
+.sj-prose a {
+  color: var(--color-accent);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
 // Per-element community tint (distinct from the page-level [data-tenant] accent:
 // lets individual pills/dots carry their own community color within a
 // tenant-neutral page). Values come from the generated token primitives — the

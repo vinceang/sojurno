@@ -10,6 +10,7 @@ import { ExplorePage } from './pages/ExplorePage'
 import { HostDashboardPage } from './pages/HostDashboardPage'
 import { HostListingsPage } from './pages/HostListingsPage'
 import { LandingPage } from './pages/LandingPage'
+import { LegalPage } from './pages/LegalPage'
 import { ListingPage } from './pages/ListingPage'
 import { LoginPage } from './pages/LoginPage'
 import { StartPage } from './pages/StartPage'
@@ -25,6 +26,7 @@ export function App() {
         <Route element={<DesignPage />} path="design" />
         <Route element={<BecomeHostPage />} path="become-a-host" />
         <Route element={<LoginPage />} path="login" />
+        <Route element={<LegalPage />} path="legal/:docId" />
         <Route element={<TenantProvider />} path="t/:tenantId">
           <Route element={<Navigate replace to="explore" />} index />
           <Route element={<ExplorePage />} path="explore" />

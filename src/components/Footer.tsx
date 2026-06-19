@@ -35,9 +35,9 @@ export function Footer() {
         />
         <FooterColumn
           links={[
-            ['/', t('footer.privacy')],
-            ['/', t('footer.terms')],
-            ['/', t('footer.accessibility')],
+            ['/legal/privacy', t('footer.privacy')],
+            ['/legal/terms', t('footer.terms')],
+            ['/legal/accessibility', t('footer.accessibility')],
           ]}
           title={t('footer.legal')}
         />
