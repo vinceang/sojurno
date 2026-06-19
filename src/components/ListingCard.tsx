@@ -20,7 +20,7 @@ export function ListingCard({ listing, variant = 'full' }: ListingCardProps) {
   const compact = variant === 'compact'
 
   return (
-    <article className="group flex h-full flex-col overflow-hidden rounded-xl border border-border bg-card shadow-sm transition hover:-translate-y-0.5 hover:shadow-md">
+    <article className="group @container flex h-full flex-col overflow-hidden rounded-xl border border-border bg-card shadow-sm transition hover:-translate-y-0.5 hover:shadow-md">
       <Link className="relative block aspect-[4/3] overflow-hidden bg-muted" to={href}>
         <img
           alt={listing.images[0]?.alt ?? listing.title}
@@ -44,19 +44,19 @@ export function ListingCard({ listing, variant = 'full' }: ListingCardProps) {
       </Link>
 
       {compact ? (
-        <div className="flex flex-1 flex-col gap-3 p-4">
+        <div className="listing-card-compact flex flex-1 flex-col gap-3 p-4">
           <div className="min-w-0">
-            <p className="flex items-center gap-1 text-xs font-semibold uppercase text-text-muted">
-              <MapPin aria-hidden="true" className="h-3.5 w-3.5" />
+            <p className="flex items-center gap-1 text-[length:var(--lc-meta)] font-semibold uppercase text-text-muted">
+              <MapPin aria-hidden="true" className="h-[1.2em] w-[1.2em]" />
               {listing.neighborhood}
             </p>
-            <h3 className="mt-1 min-h-12 text-base font-bold leading-snug">
+            <h3 className="mt-1 min-h-10 text-[length:var(--lc-title)] font-bold leading-snug">
               <Link to={href}>{listing.title}</Link>
             </h3>
           </div>
           <div className="mt-auto flex items-center justify-between gap-3 border-t border-border pt-3">
-            <p className="text-sm text-text-muted">
-              <span className="text-lg font-extrabold text-foreground">{formatCurrency(listing.price)}</span> / night
+            <p className="text-[length:var(--lc-meta)] text-text-muted">
+              <span className="text-[length:var(--lc-price)] font-extrabold text-foreground">{formatCurrency(listing.price)}</span> / night
             </p>
             <Rating rating={listing.rating} />
           </div>

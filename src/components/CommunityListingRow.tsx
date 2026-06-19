@@ -82,7 +82,7 @@ export function CommunityListingRow({
         >
           {listings.map((listing) => (
             <li
-              className="w-[78%] shrink-0 snap-start sm:w-[calc((100%-1rem)/2)] lg:w-[calc((100%-3rem)/4)]"
+              className="w-[72%] shrink-0 snap-start sm:w-[calc((100%-1rem)/2)] md:w-[calc((100%-2rem)/3)] lg:w-[calc((100%-5rem)/6)]"
               key={listing.id}
             >
               <ListingCard listing={listing} variant="compact" />
