@@ -69,6 +69,15 @@ img {
   padding-block: clamp(3.5rem, 8vw, 7rem);
 }
 
+/* Opt-in: flush the section's top padding on phones — for a first content section sitting directly
+   under the sticky header (e.g. the listing detail), where the default block padding is too much
+   above the fold. Same specificity as .sj-section but declared after it, so it wins on mobile. */
+@media (max-width: 639px) {
+  .sj-section-flush-top {
+    padding-top: 0;
+  }
+}
+
 /* Landing hero atmosphere (→ ADR-0016 signature): a soft tri-tone aura that
    blends the three active community accents — ember (runners), pine (hikers),
    violet (climbers) — so the hero reads as the multi-community engine rather
