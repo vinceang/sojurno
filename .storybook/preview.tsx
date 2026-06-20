@@ -1,6 +1,9 @@
 import type { Preview } from '@storybook/react'
 import { MemoryRouter } from 'react-router-dom'
+import { SavedListingsProvider } from '../src/components/SavedListingsProvider'
+import { ToastProvider } from '../src/components/ToastProvider'
 import { I18nProvider } from '../src/i18n/I18nProvider'
+import { SessionProvider } from '../src/session/SessionProvider'
 import '../src/styles/tailwind.css'
 import '../src/styles/index.scss'
 
@@ -16,13 +19,19 @@ const preview: Preview = {
       },
     },
   },
-  // Every story renders inside router + i18n context so composites that use
-  // <Link>, useNavigate, or useI18n work without per-story setup.
+  // Every story renders inside router + i18n + session/toast/saved context so composites that use
+  // <Link>, useNavigate, useI18n, or the save-gate (ListingCard heart) work without per-story setup.
   decorators: [
     (Story) => (
       <MemoryRouter>
         <I18nProvider>
-          <Story />
+          <SessionProvider>
+            <ToastProvider>
+              <SavedListingsProvider>
+                <Story />
+              </SavedListingsProvider>
+            </ToastProvider>
+          </SessionProvider>
         </I18nProvider>
       </MemoryRouter>
     ),
