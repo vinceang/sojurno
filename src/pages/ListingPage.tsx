@@ -56,7 +56,7 @@ export function ListingPage() {
   const formatDate = (date?: Date) => (date ? dateFmt.format(date) : '—')
 
   return (
-    <section className="sj-section pt-8">
+    <section className="sj-section sj-section-compact-top">
       <div className="sj-container">
         {/* Header */}
         <p className="flex items-center gap-1.5 text-sm text-text-muted">
@@ -66,7 +66,7 @@ export function ListingPage() {
           <ChevronRight aria-hidden="true" className="h-3.5 w-3.5" />
           <span>{listing.neighborhood}</span>
         </p>
-        <div className="mt-3 flex items-start justify-between gap-4">
+        <div className="mt-3 flex flex-col gap-4 pb-8 sm:flex-row sm:items-start sm:justify-between sm:pb-0">
           <h1 className="sj-display max-w-4xl text-4xl leading-tight md:text-5xl">{listing.title}</h1>
           <ListingActions listing={listing} />
         </div>
