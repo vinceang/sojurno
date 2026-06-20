@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useMemo, useState } from 'react'
 import {
   SessionContext,
+  TEST_USER,
   type HostAccount,
   type SessionContextValue,
   type SessionMode,
@@ -42,8 +43,10 @@ export function SessionProvider({ children }: { children: React.ReactNode }) {
     setState({ account, authenticated: true, mode: 'hosting' })
   }, [])
 
+  // Mock login always signs in as the fixed Test User identity, regardless of credentials or any
+  // prior onboarding identity (→ ADR-0024). Lands in traveling mode; host mode is one toggle away.
   const login = useCallback(() => {
-    setState((s) => (s.account ? { ...s, authenticated: true } : s))
+    setState({ account: TEST_USER, authenticated: true, mode: 'traveling' })
   }, [])
 
   const signOut = useCallback(() => {
