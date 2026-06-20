@@ -21,7 +21,7 @@ export function ListingCard({ listing, variant = 'full' }: ListingCardProps) {
   const tenant = TENANTS.find((item) => item.id === listing.tenant)
   const href = `/t/${listing.tenant}/stays/${listing.id}`
   const compact = variant === 'compact'
-  const { saved, toggle } = useSavedListing(listing.id)
+  const { saved, toggle } = useSavedListing(listing.id, listing.title)
 
   return (
     <article className="group @container flex h-full flex-col overflow-hidden rounded-xl border border-border bg-card shadow-sm transition hover:-translate-y-0.5 hover:shadow-md">

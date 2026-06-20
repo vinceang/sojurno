@@ -14,7 +14,7 @@ import { useSavedListing } from './useSavedListing'
 export function ListingActions({ listing }: { listing: Listing }) {
   const { t } = useI18n()
   const [shareOpen, setShareOpen] = useState(false)
-  const { saved, toggle } = useSavedListing(listing.id)
+  const { saved, toggle } = useSavedListing(listing.id, listing.title)
 
   return (
     <div className="flex shrink-0 items-center gap-1">
