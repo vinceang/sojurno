@@ -34,7 +34,8 @@
     "frost-soft": { "$type": "color", "$value": "#e0f2fe" },
     "festival": { "$type": "color", "$value": "#c026d3" },
     "festival-soft": { "$type": "color", "$value": "#fae8ff" },
-    "crimson": { "$type": "color", "$value": "#c4302b" }
+    "crimson": { "$type": "color", "$value": "#c4302b" },
+    "brand-mark": { "$type": "color", "$value": "#ff0505" }
   },
   "radius": {
     "sm": { "$type": "dimension", "$value": "0.5rem" },
