@@ -1,10 +1,13 @@
 import { ArrowRight, CheckCircle2 } from 'lucide-react'
+import { DemoActionDialog } from '../components/DemoActionDialog'
+import { useDemoAction } from '../components/useDemoAction'
 import { Button } from '../lib/Button'
 import { SectionHeader } from '../lib/SectionHeader'
 import { useI18n } from '../i18n/useI18n'
 
 export function StartPage() {
   const { t } = useI18n()
+  const create = useDemoAction()
 
   return (
     <section className="sj-section">
@@ -18,9 +21,15 @@ export function StartPage() {
             subtitle={t('start.body')}
             title={t('start.title')}
           />
-          <Button className="mt-8" size="lg" variant="accent">
+          <Button className="mt-8" onClick={create.trigger} size="lg" variant="accent">
             {t('start.cta')} <ArrowRight aria-hidden="true" className="h-4 w-4" />
           </Button>
+          <DemoActionDialog
+            body={t('start.demoBody')}
+            onOpenChange={create.setOpen}
+            open={create.open}
+            title={t('start.demoTitle')}
+          />
         </div>
         <div className="rounded-xl border border-border bg-card p-6 shadow-md">
           {['Community brand', 'Vocabulary and taxonomy', 'Trust signals', 'Capability modules'].map((item) => (

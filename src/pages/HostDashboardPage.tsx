@@ -1,4 +1,6 @@
 import { Check, Clock } from 'lucide-react'
+import { useState } from 'react'
+import { DemoActionDialog } from '../components/DemoActionDialog'
 import { Avatar } from '../lib/Avatar'
 import { Badge } from '../lib/Badge'
 import { Button } from '../lib/Button'
@@ -72,6 +74,7 @@ function Metric({ label, value }: { label: string; value: string }) {
 
 function ReservationCard({ actions, status, title }: { actions?: boolean; status: string; title: string }) {
   const { t } = useI18n()
+  const [pending, setPending] = useState<'accept' | 'decline' | null>(null)
 
   return (
     <Card asChild className="flex flex-wrap items-center justify-between gap-4">
@@ -89,10 +92,18 @@ function ReservationCard({ actions, status, title }: { actions?: boolean; status
       </Badge>
       {actions ? (
         <div className="flex gap-2">
-          <Button size="sm" variant="secondary">{t('host.decline')}</Button>
-          <Button size="sm" variant="accent">{t('host.accept')}</Button>
+          <Button onClick={() => setPending('decline')} size="sm" variant="secondary">{t('host.decline')}</Button>
+          <Button onClick={() => setPending('accept')} size="sm" variant="accent">{t('host.accept')}</Button>
         </div>
       ) : null}
+      <DemoActionDialog
+        body={t(pending === 'decline' ? 'host.declinedBody' : 'host.acceptedBody')}
+        onOpenChange={(open) => {
+          if (!open) setPending(null)
+        }}
+        open={pending !== null}
+        title={t(pending === 'decline' ? 'host.declinedTitle' : 'host.acceptedTitle')}
+      />
       </article>
     </Card>
   )

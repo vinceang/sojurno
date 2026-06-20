@@ -4,6 +4,8 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '.
 import { cn } from '../lib/utils'
 import { useI18n } from '../i18n/useI18n'
 import type { Tenant } from '../types'
+import { DemoActionDialog } from './DemoActionDialog'
+import { useDemoAction } from './useDemoAction'
 
 export type SortKey = 'recommended' | 'price' | 'rating'
 export type ExploreView = 'grid' | 'list'
@@ -41,6 +43,7 @@ export function ExploreFilterBar({
   const { t } = useI18n()
   const [locationFocused, setLocationFocused] = useState(false)
   const locationExpanded = locationFocused || location.length > 0
+  const dates = useDemoAction()
 
   return (
     <div className="flex flex-wrap items-center gap-2">
@@ -66,11 +69,17 @@ export function ExploreFilterBar({
         {locationExpanded ? <Search aria-hidden="true" className="h-4 w-4 flex-shrink-0 text-text-muted" /> : null}
       </label>
 
-      {/* Dates — presentational */}
-      <button className={pill} type="button">
+      {/* Dates — date filtering isn't built yet; stub with a coming-soon note (→ ADR-0023) */}
+      <button className={pill} onClick={dates.trigger} type="button">
         <Calendar aria-hidden="true" className="h-4 w-4 text-text-muted" />
         {t('explore.anyDates')}
       </button>
+      <DemoActionDialog
+        body={t('explore.datesDemoBody')}
+        onOpenChange={dates.setOpen}
+        open={dates.open}
+        title={t('explore.datesDemoTitle')}
+      />
 
       {/* Trip type (tenant vocabulary) */}
       <Select onValueChange={onTripTypeChange} value={tripType}>

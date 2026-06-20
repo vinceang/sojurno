@@ -56,14 +56,6 @@ export function ExplorePage() {
         </div>
       </section>
 
-      {tenant.capabilities.includes('collections') ? (
-        <div className="border-b border-border">
-          <div className="sj-container py-8">
-            <CollectionRail collections={getCollectionsByTenant(tenantId)} label={tenant.vocabulary.collectionsLabel} />
-          </div>
-        </div>
-      ) : null}
-
       <div className="sticky top-16 z-30 border-b border-border bg-background/95 backdrop-blur-sm">
         <div className="sj-container py-3">
           <ExploreFilterBar
@@ -81,6 +73,14 @@ export function ExplorePage() {
           />
         </div>
       </div>
+
+      {tenant.capabilities.includes('collections') ? (
+        <div className="border-b border-border">
+          <div className="sj-container py-8">
+            <CollectionRail collections={getCollectionsByTenant(tenantId)} label={tenant.vocabulary.collectionsLabel} />
+          </div>
+        </div>
+      ) : null}
 
       <section className="sj-section pt-8">
         <div className="sj-container">
