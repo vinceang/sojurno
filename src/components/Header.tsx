@@ -19,7 +19,9 @@ export function Header({ tenant }: { tenant?: Tenant }) {
   const activeTenantId = tenant?.id ?? 'runners'
   const navItems = [
     { label: t('nav.communities'), to: '/communities' },
-    { label: t('nav.explore'), to: `/t/${activeTenantId}/explore` },
+    // Explore is reached via the community menu, the hero search, and the detail-page
+    // breadcrumb — a top-level "Explore" item duplicated those and was arbitrary on the
+    // tenant-less shell (defaulted to runners), so it was removed.
     // Host is a host-mode surface — only shown to an authenticated session (ADR-0021).
     ...(authenticated ? [{ label: t('nav.host'), to: `/t/${activeTenantId}/host` }] : []),
   ]

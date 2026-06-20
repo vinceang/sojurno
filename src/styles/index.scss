@@ -128,6 +128,22 @@ img {
   text-underline-offset: 2px;
 }
 
+/* Link convention: text that navigates or acts reads as a link via a persistent, offset
+   underline (softened at rest, full on hover) — distinct from plain text. Applied to
+   breadcrumb link crumbs and the listing Share/Save actions; roll out to other inline links
+   as we go. Inherits currentColor so it works on dark/over-image contexts too. */
+.sj-link {
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 3px;
+  text-decoration-color: color-mix(in srgb, currentColor 45%, transparent);
+  transition: text-decoration-color 140ms ease, color 140ms ease;
+}
+
+.sj-link:hover {
+  text-decoration-color: currentColor;
+}
+
 // Per-element community tint (distinct from the page-level [data-tenant] accent:
 // lets individual pills/dots carry their own community color within a
 // tenant-neutral page). Values come from the generated token primitives — the
