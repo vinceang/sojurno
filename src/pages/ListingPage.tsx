@@ -2,6 +2,7 @@ import { ArrowUpRight, Check, ChevronRight, ShieldCheck } from 'lucide-react'
 import { useMemo, useState } from 'react'
 import type { DateRange } from 'react-day-picker'
 import { Link, Navigate, useParams } from 'react-router-dom'
+import { ListingActions } from '../components/ListingActions'
 import { ListingGallery } from '../components/ListingGallery'
 import { Avatar } from '../lib/Avatar'
 import { Badge } from '../lib/Badge'
@@ -56,13 +57,16 @@ export function ListingPage() {
       <div className="sj-container">
         {/* Header */}
         <p className="flex items-center gap-1.5 text-sm text-text-muted">
-          <Link className="hover:text-foreground" to={`/t/${tenantId}/explore`}>
+          <Link className="sj-link hover:text-foreground" to={`/t/${tenantId}/explore`}>
             {tenant.name}
           </Link>
           <ChevronRight aria-hidden="true" className="h-3.5 w-3.5" />
           <span>{listing.neighborhood}</span>
         </p>
-        <h1 className="sj-display mt-3 max-w-4xl text-4xl leading-tight md:text-5xl">{listing.title}</h1>
+        <div className="mt-3 flex items-start justify-between gap-4">
+          <h1 className="sj-display max-w-4xl text-4xl leading-tight md:text-5xl">{listing.title}</h1>
+          <ListingActions listing={listing} />
+        </div>
         <div className="mt-3 flex flex-wrap items-center gap-x-4 gap-y-2 text-sm text-text-muted">
           <Rating count={listing.reviewCount} rating={listing.rating} />
           <span>

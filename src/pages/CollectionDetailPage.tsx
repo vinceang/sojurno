@@ -33,7 +33,7 @@ export function CollectionDetailPage() {
         <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/45 to-black/25" />
         <div className="sj-container relative py-20 md:py-28">
           <p className="flex items-center gap-1.5 text-sm text-white/70">
-            <Link className="hover:text-white" to={`/t/${tenantId}/explore`}>
+            <Link className="sj-link hover:text-white" to={`/t/${tenantId}/explore`}>
               {tenant.name}
             </Link>
             <ChevronRight aria-hidden="true" className="h-3.5 w-3.5" />
