@@ -11,8 +11,9 @@ import { DEFAULT_TENANT } from '../tenants/tenants'
 export function BecomeHostPage() {
   const { t } = useI18n()
   const navigate = useNavigate()
-  const { completeOnboarding } = useSession()
-  const [name, setName] = useState('')
+  const { account, completeOnboarding } = useSession()
+  // When already signed in (Test User), prefill the name field with that identity (→ ADR-0024).
+  const [name, setName] = useState(account?.name ?? '')
   const [photo, setPhoto] = useState('')
   const [blurb, setBlurb] = useState('')
   const [confirmOpen, setConfirmOpen] = useState(false)
