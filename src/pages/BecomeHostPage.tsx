@@ -1,7 +1,7 @@
 import { type FormEvent, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
+import { DemoActionDialog } from '../components/DemoActionDialog'
 import { Button } from '../lib/Button'
-import { Dialog, DialogClose, DialogContent, DialogDescription, DialogTitle } from '../lib/Dialog'
 import { Input } from '../lib/Input'
 import { SectionHeader } from '../lib/SectionHeader'
 import { useI18n } from '../i18n/useI18n'
@@ -74,20 +74,15 @@ export function BecomeHostPage() {
           </Button>
         </form>
 
-        <Dialog onOpenChange={setConfirmOpen} open={confirmOpen}>
-          <DialogContent>
-            <DialogTitle>{t('host.demo.title')}</DialogTitle>
-            <DialogDescription>{t('host.demo.body')}</DialogDescription>
-            <div className="mt-5 flex justify-end gap-2">
-              <DialogClose asChild>
-                <Button variant="secondary">{t('host.demo.cancel')}</Button>
-              </DialogClose>
-              <Button onClick={confirm} variant="accent">
-                {t('host.demo.confirm')}
-              </Button>
-            </div>
-          </DialogContent>
-        </Dialog>
+        <DemoActionDialog
+          body={t('host.demo.body')}
+          cancelLabel={t('host.demo.cancel')}
+          confirmLabel={t('host.demo.confirm')}
+          onConfirm={confirm}
+          onOpenChange={setConfirmOpen}
+          open={confirmOpen}
+          title={t('host.demo.title')}
+        />
       </div>
     </section>
   )

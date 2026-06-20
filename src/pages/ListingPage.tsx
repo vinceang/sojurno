@@ -2,6 +2,8 @@ import { ArrowUpRight, Check, ChevronRight, ShieldCheck } from 'lucide-react'
 import { useMemo, useState } from 'react'
 import type { DateRange } from 'react-day-picker'
 import { Link, Navigate, useParams } from 'react-router-dom'
+import { DemoActionDialog } from '../components/DemoActionDialog'
+import { useDemoAction } from '../components/useDemoAction'
 import { ListingActions } from '../components/ListingActions'
 import { ListingGallery } from '../components/ListingGallery'
 import { Avatar } from '../lib/Avatar'
@@ -28,6 +30,7 @@ export function ListingPage() {
   })
   const [datesOpen, setDatesOpen] = useState(false)
   const [gearIds, setGearIds] = useState<Set<string>>(() => new Set())
+  const reserve = useDemoAction()
 
   const dateFmt = useMemo(
     () =>
@@ -221,10 +224,16 @@ export function ListingPage() {
                   </a>
                 </Button>
               ) : (
-                <Button className="mt-4 w-full" size="lg" variant="accent">
+                <Button className="mt-4 w-full" onClick={reserve.trigger} size="lg" variant="accent">
                   {t('listing.request')}
                 </Button>
               )}
+              <DemoActionDialog
+                body={t('listing.requestDemoBody')}
+                onOpenChange={reserve.setOpen}
+                open={reserve.open}
+                title={t('listing.requestDemoTitle')}
+              />
               <div className="mt-5 space-y-2.5 text-sm">
                 <Line label={`${formatCurrency(listing.price)} × ${nights}`} value={formatCurrency(stayTotal)} />
                 <Line label={t('listing.serviceFee')} value={formatCurrency(SERVICE_FEE)} />
@@ -239,6 +248,12 @@ export function ListingPage() {
             </div>
           </aside>
         </div>
+
+        <p className="mt-12">
+          <Link className="text-sm font-bold text-text-muted hover:text-foreground" to={`/t/${tenantId}/explore`}>
+            ← {t('listing.backTo')} {tenant.name}
+          </Link>
+        </p>
       </div>
     </section>
   )
