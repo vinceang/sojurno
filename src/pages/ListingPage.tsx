@@ -56,7 +56,7 @@ export function ListingPage() {
   const formatDate = (date?: Date) => (date ? dateFmt.format(date) : '—')
 
   return (
-    <section className="sj-section sj-section-flush-top">
+    <section className="sj-section sj-section-compact-top">
       <div className="sj-container">
         {/* Header */}
         <p className="flex items-center gap-1.5 text-sm text-text-muted">
