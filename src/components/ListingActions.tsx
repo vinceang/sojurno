@@ -4,39 +4,17 @@ import { Dialog, DialogContent, DialogDescription, DialogTitle } from '../lib/Di
 import { cn } from '../lib/utils'
 import { useI18n } from '../i18n/useI18n'
 import type { Listing } from '../types'
-
-const SAVED_KEY = 'sojurno.saved'
-
-function readSaved(): Set<string> {
-  if (typeof localStorage === 'undefined') return new Set()
-  try {
-    const raw = JSON.parse(localStorage.getItem(SAVED_KEY) ?? '[]')
-    return new Set(Array.isArray(raw) ? (raw as string[]) : [])
-  } catch {
-    return new Set()
-  }
-}
+import { useSavedListing } from './useSavedListing'
 
 /**
  * Listing-header Share + Save actions (→ ADR-0023, no dead-end CTAs).
  * Share opens a real, client-side share dialog (copy link, email, WhatsApp, native share).
- * Save is a local heart toggle persisted to localStorage — a real micro-interaction, no backend.
+ * Save is a local heart toggle persisted to localStorage — shared with the card heart.
  */
 export function ListingActions({ listing }: { listing: Listing }) {
   const { t } = useI18n()
   const [shareOpen, setShareOpen] = useState(false)
-  const [saved, setSaved] = useState(() => readSaved().has(listing.id))
-
-  function toggleSaved() {
-    const set = readSaved()
-    if (set.has(listing.id)) {
-      set.delete(listing.id)
-    } else {
-      set.add(listing.id)
-    }
-    localStorage.setItem(SAVED_KEY, JSON.stringify([...set]))
-    setSaved(set.has(listing.id))
-  }
+  const { saved, toggle } = useSavedListing(listing.id)
 
   return (
     <div className="flex shrink-0 items-center gap-1">
@@ -44,7 +22,7 @@ export function ListingActions({ listing }: { listing: Listing }) {
         <Share2 aria-hidden="true" className="h-4 w-4" />
         <span className="sj-link">{t('listing.share')}</span>
       </button>
-      <button aria-pressed={saved} className={actionClass} onClick={toggleSaved} type="button">
+      <button aria-pressed={saved} className={actionClass} onClick={toggle} type="button">
         <Heart aria-hidden="true" className={cn('h-4 w-4', saved && 'fill-accent text-accent')} />
         <span className="sj-link">{saved ? t('listing.saved') : t('listing.save')}</span>
       </button>
