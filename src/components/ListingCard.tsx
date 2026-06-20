@@ -1,12 +1,14 @@
-import { ArrowUpRight, MapPin } from 'lucide-react'
+import { ArrowUpRight, Heart, MapPin } from 'lucide-react'
 import { Link } from 'react-router-dom'
 import { Avatar } from '../lib/Avatar'
 import { Badge } from '../lib/Badge'
 import { Rating } from '../lib/Rating'
-import { formatCurrency } from '../lib/utils'
+import { cn, formatCurrency } from '../lib/utils'
+import { useI18n } from '../i18n/useI18n'
 import { TENANTS } from '../tenants/tenants'
 import type { Listing } from '../types'
 import { CommunityPill } from './CommunityPill'
+import { useSavedListing } from './useSavedListing'
 
 type ListingCardProps = {
   listing: Listing
@@ -15,19 +17,23 @@ type ListingCardProps = {
 }
 
 export function ListingCard({ listing, variant = 'full' }: ListingCardProps) {
+  const { t } = useI18n()
   const tenant = TENANTS.find((item) => item.id === listing.tenant)
   const href = `/t/${listing.tenant}/stays/${listing.id}`
   const compact = variant === 'compact'
+  const { saved, toggle } = useSavedListing(listing.id)
 
   return (
     <article className="group @container flex h-full flex-col overflow-hidden rounded-xl border border-border bg-card shadow-sm transition hover:-translate-y-0.5 hover:shadow-md">
-      <Link className="relative block aspect-[4/3] overflow-hidden bg-muted" to={href}>
-        <img
-          alt={listing.images[0]?.alt ?? listing.title}
-          className="h-full w-full object-cover transition duration-500 group-hover:scale-105"
-          loading="lazy"
-          src={listing.images[0]?.src}
-        />
+      <div className="relative aspect-[4/3] overflow-hidden bg-muted">
+        <Link className="block h-full w-full" to={href}>
+          <img
+            alt={listing.images[0]?.alt ?? listing.title}
+            className="h-full w-full object-cover transition duration-500 group-hover:scale-105"
+            loading="lazy"
+            src={listing.images[0]?.src}
+          />
+        </Link>
         {tenant ? (
           // On phones, avoid the pill colliding with the External badge: when both would show,
           // hide the community pill (context already implies the community) and keep External.
@@ -44,7 +50,23 @@ export function ListingCard({ listing, variant = 'full' }: ListingCardProps) {
             </Badge>
           </span>
         ) : null}
-      </Link>
+        {/* Save heart — sibling of the Link (not nested) so it doesn't trigger navigation. */}
+        <button
+          aria-label={saved ? t('listing.saved') : t('listing.save')}
+          aria-pressed={saved}
+          className="absolute bottom-2.5 right-2.5 z-10 flex h-9 w-9 items-center justify-center rounded-full transition hover:scale-110 focus-visible:ring-2 focus-visible:ring-ring"
+          onClick={toggle}
+          type="button"
+        >
+          <Heart
+            aria-hidden="true"
+            className={cn(
+              'h-[1.35rem] w-[1.35rem] drop-shadow-[0_1px_2px_rgba(0,0,0,0.45)] transition',
+              saved ? 'fill-accent text-accent' : 'fill-black/25 text-white',
+            )}
+          />
+        </button>
+      </div>
 
       {compact ? (
         <div className="listing-card-compact flex flex-1 flex-col gap-3 p-4">
