@@ -62,7 +62,7 @@ export function ListingCard({ listing, variant = 'full' }: ListingCardProps) {
             aria-hidden="true"
             className={cn(
               'h-[1.35rem] w-[1.35rem] drop-shadow-[0_1px_2px_rgba(0,0,0,0.45)] transition',
-              saved ? 'fill-accent text-accent' : 'fill-black/25 text-white',
+              saved ? 'fill-brand-mark text-brand-mark' : 'fill-black/25 text-white',
             )}
           />
         </button>
