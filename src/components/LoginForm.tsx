@@ -2,44 +2,60 @@ import { type FormEvent, type ReactNode, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { Button } from '../lib/Button'
 import { Input } from '../lib/Input'
+import { DEMO_EMAIL, DEMO_PASSWORD } from '../lib/supabase'
 import { useI18n } from '../i18n/useI18n'
 import { useSession } from '../session/useSession'
 import { DemoActionDialog } from './DemoActionDialog'
 import { useDemoAction } from './useDemoAction'
 
 /**
- * The shared login form (→ ADR-0024/0025): username + password with empty-field-only validation;
- * a valid submit signs in as the fixed Test User identity and calls `onSuccess`. Used by both the
- * `/login` page and the in-context `LoginDialog`. Header/wrapper is the caller's responsibility.
+ * The shared login form (→ ADR-0024/0026): a real email/password sign-in against the demo Supabase
+ * account. Empty fields are rejected inline; wrong credentials surface an error. On success it calls
+ * `onSuccess`. The demo-credentials note appears here so both the `/login` page and the save-gate
+ * `LoginDialog` show it.
  */
 export function LoginForm({ onSuccess }: { onSuccess?: () => void }) {
   const { t } = useI18n()
-  const { login } = useSession()
+  const { signIn } = useSession()
   const forgot = useDemoAction()
-  const [username, setUsername] = useState('')
+  const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
-  const [errors, setErrors] = useState<{ password?: boolean; username?: boolean }>({})
+  const [errors, setErrors] = useState<{ password?: boolean; email?: boolean }>({})
+  const [failed, setFailed] = useState(false)
+  const [pending, setPending] = useState(false)
 
   async function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault()
-    const next = { password: password.trim() === '', username: username.trim() === '' }
+    const next = { password: password.trim() === '', email: email.trim() === '' }
     setErrors(next)
-    if (next.username || next.password) return
-    await login()
-    onSuccess?.()
+    setFailed(false)
+    if (next.email || next.password) return
+    setPending(true)
+    const ok = await signIn(email.trim(), password)
+    setPending(false)
+    if (ok) onSuccess?.()
+    else setFailed(true)
   }
 
   return (
     <>
+      <div className="mb-6 rounded-xl bg-accent-soft p-4 text-sm leading-relaxed text-accent">
+        <p>{t('login.demoNote')}</p>
+        <p className="mt-1.5 font-semibold">
+          {DEMO_EMAIL} · {DEMO_PASSWORD}
+        </p>
+      </div>
+
       <form className="space-y-5" noValidate onSubmit={handleSubmit}>
-        <Field error={errors.username ? t('login.errorUsername') : undefined} label={t('login.username')}>
+        <Field error={errors.email ? t('login.errorEmail') : undefined} label={t('login.email')}>
           <Input
-            aria-invalid={errors.username || undefined}
-            autoComplete="username"
-            className={errors.username ? 'border-danger' : undefined}
-            onChange={(event) => setUsername(event.target.value)}
-            placeholder={t('login.usernamePlaceholder')}
-            value={username}
+            aria-invalid={errors.email || undefined}
+            autoComplete="email"
+            className={errors.email ? 'border-danger' : undefined}
+            onChange={(event) => setEmail(event.target.value)}
+            placeholder={t('login.emailPlaceholder')}
+            type="email"
+            value={email}
           />
         </Field>
         <Field error={errors.password ? t('login.errorPassword') : undefined} label={t('login.password')}>
@@ -53,6 +69,7 @@ export function LoginForm({ onSuccess }: { onSuccess?: () => void }) {
             value={password}
           />
         </Field>
+        {failed ? <p className="text-sm text-danger">{t('login.invalid')}</p> : null}
         <div className="flex justify-end">
           <button
             className="sj-link text-sm font-semibold text-text-muted hover:text-foreground"
@@ -62,7 +79,7 @@ export function LoginForm({ onSuccess }: { onSuccess?: () => void }) {
             {t('login.forgot')}
           </button>
         </div>
-        <Button className="w-full" size="lg" type="submit" variant="accent">
+        <Button className="w-full" disabled={pending} size="lg" type="submit" variant="accent">
           {t('login.submit')}
         </Button>
         <p className="text-center text-sm text-text-muted">

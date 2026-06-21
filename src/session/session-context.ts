@@ -19,10 +19,10 @@ export type SessionContextValue = {
   authenticated: boolean
   /** Current view mode for an authenticated host. */
   mode: SessionMode
-  /** Onboarding submit → signs into the shared Test User session and lands in host mode. */
+  /** Onboarding submit → signs into the shared demo session and lands in host mode. */
   completeOnboarding: () => Promise<void>
-  /** Login → signs into the shared real "Test User" Supabase session (→ ADR-0024/0026). */
-  login: () => Promise<void>
+  /** Real sign-in with typed credentials; resolves `true` on success (→ ADR-0024/0026). */
+  signIn: (email: string, password: string) => Promise<boolean>
   /** Ends the active session. */
   signOut: () => void
   /** Switch the authenticated host between traveling and hosting. */
