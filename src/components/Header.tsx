@@ -88,6 +88,13 @@ export function Header({ tenant }: { tenant?: Tenant }) {
           <div className="mt-3 flex flex-col gap-1 border-t border-border pt-3">
             {authenticated ? (
               <>
+                <Link
+                  className="rounded-lg px-3 py-2.5 text-sm font-semibold hover:bg-muted/60"
+                  onClick={closeMobile}
+                  to="/saved"
+                >
+                  {t('account.saved')}
+                </Link>
                 <button
                   className="rounded-lg px-3 py-2.5 text-left text-sm font-semibold hover:bg-muted/60"
                   onClick={() => {

@@ -1,6 +1,8 @@
 import { createContext } from 'react'
 
 export type SavedContextValue = {
+  /** Saved listing ids, most-recently-saved last (Set insertion order). */
+  savedIds: string[]
   /** Whether a listing id is currently saved. */
   isSaved: (id: string) => boolean
   /**
