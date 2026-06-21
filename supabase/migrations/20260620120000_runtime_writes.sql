@@ -8,6 +8,11 @@
 alter table public.listings
   add column if not exists owner_id uuid references auth.users (id) on delete set null;
 
+-- Allow the new 'user' source. The original ADR-0022 constraint only permitted seed/generated,
+-- which would reject every user-created row the RLS insert policy below requires.
+alter table public.listings drop constraint if exists listings_source_check;
+alter table public.listings add constraint listings_source_check check (source in ('seed', 'generated', 'user'));
+
 -- ── Listings write policies (authenticated, owner-scoped) ───────────────────────────────────
 -- Public SELECT of published rows already exists (ADR-0022). These add owner-scoped writes; anon
 -- stays read-only. Inserts must claim ownership and be source='user', so the curated rows can't be
