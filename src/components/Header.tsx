@@ -22,8 +22,14 @@ export function Header({ tenant }: { tenant?: Tenant }) {
     // Explore is reached via the community menu, the hero search, and the detail-page
     // breadcrumb — a top-level "Explore" item duplicated those and was arbitrary on the
     // tenant-less shell (defaulted to runners), so it was removed.
-    // Host is a host-mode surface — only shown to an authenticated session (ADR-0021).
-    ...(authenticated ? [{ label: t('nav.host'), to: `/t/${activeTenantId}/host` }] : []),
+    // Host surfaces — only shown to an authenticated session (ADR-0021). "Listings" is the
+    // host's own add/edit/delete management view (ADR-0026).
+    ...(authenticated
+      ? [
+          { label: t('nav.host'), to: `/t/${activeTenantId}/host` },
+          { label: t('nav.hostListings'), to: `/t/${activeTenantId}/host/listings` },
+        ]
+      : []),
   ]
   const closeMobile = () => setMobileOpen(false)
 
