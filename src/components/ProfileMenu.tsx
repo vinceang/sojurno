@@ -51,6 +51,9 @@ export function ProfileMenu() {
             <DropdownMenuItem asChild>
               <Link to={`/t/${DEFAULT_TENANT}/host`}>{t('account.hostDashboard')}</Link>
             </DropdownMenuItem>
+            <DropdownMenuItem asChild>
+              <Link to="/saved">{t('account.saved')}</Link>
+            </DropdownMenuItem>
             <DropdownMenuItem onSelect={toggleMode}>
               {mode === 'hosting' ? t('account.switchToTraveling') : t('account.switchToHosting')}
             </DropdownMenuItem>

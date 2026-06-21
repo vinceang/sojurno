@@ -71,7 +71,7 @@ export function SavedListingsProvider({ children }: { children: React.ReactNode 
   }, [commitSave])
 
   const value = useMemo<SavedContextValue>(
-    () => ({ isSaved: (id) => saved.has(id), requestToggle }),
+    () => ({ savedIds: [...saved], isSaved: (id) => saved.has(id), requestToggle }),
     [saved, requestToggle],
   )
 

@@ -13,6 +13,7 @@ import { LandingPage } from './pages/LandingPage'
 import { LegalPage } from './pages/LegalPage'
 import { ListingPage } from './pages/ListingPage'
 import { LoginPage } from './pages/LoginPage'
+import { SavedPage } from './pages/SavedPage'
 import { StartPage } from './pages/StartPage'
 
 export function App() {
@@ -26,6 +27,7 @@ export function App() {
         <Route element={<DesignPage />} path="design" />
         <Route element={<BecomeHostPage />} path="become-a-host" />
         <Route element={<LoginPage />} path="login" />
+        <Route element={<SavedPage />} path="saved" />
         <Route element={<LegalPage />} path="legal/:docId" />
         <Route element={<TenantProvider />} path="t/:tenantId">
           <Route element={<Navigate replace to="explore" />} index />
