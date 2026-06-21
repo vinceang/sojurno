@@ -19,11 +19,11 @@ export type SessionContextValue = {
   authenticated: boolean
   /** Current view mode for an authenticated host. */
   mode: SessionMode
-  /** Onboarding submit → creates the identity and lands authenticated in host mode. */
-  completeOnboarding: (account: HostAccount) => void
-  /** Mock login → always signs in as the fixed Test User identity (→ ADR-0024). */
-  login: () => void
-  /** Clears the active session (keeps the identity so login works again). */
+  /** Onboarding submit → signs into the shared Test User session and lands in host mode. */
+  completeOnboarding: () => Promise<void>
+  /** Login → signs into the shared real "Test User" Supabase session (→ ADR-0024/0026). */
+  login: () => Promise<void>
+  /** Ends the active session. */
   signOut: () => void
   /** Switch the authenticated host between traveling and hosting. */
   setMode: (mode: SessionMode) => void
