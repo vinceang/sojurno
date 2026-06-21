@@ -11,6 +11,7 @@ import { HostDashboardPage } from './pages/HostDashboardPage'
 import { HostListingsPage } from './pages/HostListingsPage'
 import { LandingPage } from './pages/LandingPage'
 import { LegalPage } from './pages/LegalPage'
+import { ListingFormPage } from './pages/ListingFormPage'
 import { ListingPage } from './pages/ListingPage'
 import { LoginPage } from './pages/LoginPage'
 import { SavedPage } from './pages/SavedPage'
@@ -36,6 +37,8 @@ export function App() {
           <Route element={<ListingPage />} path="stays/:listingId" />
           <Route element={<HostDashboardPage />} path="host" />
           <Route element={<HostListingsPage />} path="host/listings" />
+          <Route element={<ListingFormPage />} path="host/listings/new" />
+          <Route element={<ListingFormPage />} path="host/listings/:listingId/edit" />
         </Route>
         <Route element={<Navigate replace to="/" />} path="*" />
       </Route>
