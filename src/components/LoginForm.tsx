@@ -37,6 +37,13 @@ export function LoginForm({ onSuccess }: { onSuccess?: () => void }) {
     else setFailed(true)
   }
 
+  function useDemoAccount() {
+    setEmail(DEMO_EMAIL)
+    setPassword(DEMO_PASSWORD)
+    setErrors({})
+    setFailed(false)
+  }
+
   return (
     <>
       <div className="mb-6 rounded-xl bg-accent-soft p-4 text-sm leading-relaxed text-accent">
@@ -44,6 +51,9 @@ export function LoginForm({ onSuccess }: { onSuccess?: () => void }) {
         <p className="mt-1.5 font-semibold">
           {DEMO_EMAIL} · {DEMO_PASSWORD}
         </p>
+        <button className="sj-link mt-2 inline-block font-bold" onClick={useDemoAccount} type="button">
+          {t('login.useDemoAccount')} →
+        </button>
       </div>
 
       <form className="space-y-5" noValidate onSubmit={handleSubmit}>
