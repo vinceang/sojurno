@@ -69,6 +69,53 @@ img {
   padding-block: clamp(3.5rem, 8vw, 7rem);
 }
 
+/* Toast enter/exit + swipe motion (→ ADR-0025). Driven by Radix's data-state / data-swipe
+   attributes; defined here so it works under Tailwind v4 without tailwindcss-animate. The toast
+   sits bottom-right, so it slides in from the right and leaves to the right. Reduced-motion is
+   neutralized by the global block below. */
+@keyframes sj-toast-in {
+  from {
+    opacity: 0;
+    transform: translateX(1.25rem) scale(0.98);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0) scale(1);
+  }
+}
+
+@keyframes sj-toast-out {
+  from {
+    opacity: 1;
+    transform: translateX(0);
+  }
+  to {
+    opacity: 0;
+    transform: translateX(1.25rem);
+  }
+}
+
+.sj-toast[data-state='open'] {
+  animation: sj-toast-in 240ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.sj-toast[data-state='closed'] {
+  animation: sj-toast-out 160ms ease-in forwards;
+}
+
+.sj-toast[data-swipe='move'] {
+  transform: translateX(var(--radix-toast-swipe-move-x));
+}
+
+.sj-toast[data-swipe='cancel'] {
+  transform: translateX(0);
+  transition: transform 200ms ease-out;
+}
+
+.sj-toast[data-swipe='end'] {
+  animation: sj-toast-out 160ms ease-in forwards;
+}
+
 /* Opt-in: tighten the section's top padding on phones to 32px — for a first content section
    sitting directly under the sticky header (e.g. the listing detail), where the default block
    padding is too much above the fold. Same specificity as .sj-section but declared after it, so

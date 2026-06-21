@@ -25,10 +25,9 @@ export function ToastViewport({ className, ...props }: ComponentPropsWithoutRef<
 }
 
 const toastVariants = cva(
-  'pointer-events-auto flex items-start gap-3 rounded-xl border bg-card p-4 shadow-lg ' +
-    'data-[state=open]:animate-in data-[state=open]:slide-in-from-right-4 data-[state=open]:fade-in ' +
-    'data-[state=closed]:animate-out data-[state=closed]:fade-out data-[swipe=end]:animate-out ' +
-    'data-[swipe=move]:translate-x-[var(--radix-toast-swipe-move-x)] data-[swipe=cancel]:translate-x-0',
+  // `sj-toast` carries the enter/exit + swipe animation (driven by Radix data-state/data-swipe);
+  // defined in styles/index.scss so it survives Tailwind v4 without tailwindcss-animate.
+  'sj-toast pointer-events-auto flex items-start gap-3 rounded-xl border bg-card p-4 shadow-lg',
   {
     variants: {
       tone: {
