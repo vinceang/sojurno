@@ -2,6 +2,7 @@ import type { Preview } from '@storybook/react'
 import { MemoryRouter } from 'react-router-dom'
 import { SavedListingsProvider } from '../src/components/SavedListingsProvider'
 import { ToastProvider } from '../src/components/ToastProvider'
+import { UserListingsProvider } from '../src/components/UserListingsProvider'
 import { I18nProvider } from '../src/i18n/I18nProvider'
 import { SessionProvider } from '../src/session/SessionProvider'
 import '../src/styles/tailwind.css'
@@ -28,7 +29,9 @@ const preview: Preview = {
           <SessionProvider>
             <ToastProvider>
               <SavedListingsProvider>
-                <Story />
+                <UserListingsProvider>
+                  <Story />
+                </UserListingsProvider>
               </SavedListingsProvider>
             </ToastProvider>
           </SessionProvider>

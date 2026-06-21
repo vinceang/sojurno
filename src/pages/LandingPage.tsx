@@ -3,10 +3,10 @@ import { Link } from 'react-router-dom'
 import { CommunityListingRow } from '../components/CommunityListingRow'
 import { HeroBackground } from '../components/HeroBackground'
 import { SearchPanel } from '../components/SearchPanel'
+import { useListings } from '../components/useListings'
 import { Button } from '../lib/Button'
 import { Eyebrow } from '../lib/Eyebrow'
 import { SectionHeader } from '../lib/SectionHeader'
-import { getListingsByTenant } from '../data/listings'
 import { useI18n } from '../i18n/useI18n'
 import { ACTIVE_TENANTS } from '../tenants/tenants'
 import type { MessageKey } from '../i18n/messages'
@@ -39,6 +39,7 @@ const communityRows = [
 
 export function LandingPage() {
   const { t } = useI18n()
+  const { byTenant } = useListings()
 
   return (
     <>
@@ -73,7 +74,7 @@ export function LandingPage() {
               <CommunityListingRow
                 eyebrow={t(row.eyebrowKey)}
                 key={tenant.id}
-                listings={getListingsByTenant(tenant.id)}
+                listings={byTenant(tenant.id)}
                 nextLabel={t('landing.nextListings')}
                 prevLabel={t('landing.prevListings')}
                 tenant={tenant}

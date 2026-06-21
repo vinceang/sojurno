@@ -6,6 +6,7 @@ import { DemoActionDialog } from '../components/DemoActionDialog'
 import { useDemoAction } from '../components/useDemoAction'
 import { ListingActions } from '../components/ListingActions'
 import { ListingGallery } from '../components/ListingGallery'
+import { useListings } from '../components/useListings'
 import { Avatar } from '../lib/Avatar'
 import { Badge } from '../lib/Badge'
 import { Button } from '../lib/Button'
@@ -13,7 +14,7 @@ import { Calendar } from '../lib/Calendar'
 import { Checkbox } from '../lib/Checkbox'
 import { Rating } from '../lib/Rating'
 import { cn, formatCurrency } from '../lib/utils'
-import { getGallery, getListing, getReviews } from '../data/listings'
+import { getGallery, getReviews } from '../data/listings'
 import { useI18n } from '../i18n/useI18n'
 import { useTenant } from '../tenants/useTenant'
 
@@ -23,7 +24,8 @@ export function ListingPage() {
   const { listingId } = useParams()
   const { tenant, tenantId } = useTenant()
   const { locale, t } = useI18n()
-  const listing = getListing(listingId)
+  const { get } = useListings()
+  const listing = get(listingId)
   const [range, setRange] = useState<DateRange | undefined>({
     from: new Date(2026, 6, 18),
     to: new Date(2026, 6, 21),

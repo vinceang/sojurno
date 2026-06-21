@@ -4,15 +4,16 @@ import { Eyebrow } from '../lib/Eyebrow'
 import { ExploreFilterBar, type ExploreView, type SortKey } from '../components/ExploreFilterBar'
 import { ListingCard } from '../components/ListingCard'
 import { ListingRow } from '../components/ListingRow'
+import { useListings } from '../components/useListings'
 import { getCollectionsByTenant } from '../data/collections'
-import { getListingsByTenant } from '../data/listings'
 import { useI18n } from '../i18n/useI18n'
 import { useTenant } from '../tenants/useTenant'
 
 export function ExplorePage() {
   const { tenant, tenantId } = useTenant()
   const { t } = useI18n()
-  const allListings = useMemo(() => getListingsByTenant(tenantId), [tenantId])
+  const { byTenant } = useListings()
+  const allListings = useMemo(() => byTenant(tenantId), [byTenant, tenantId])
 
   const [location, setLocation] = useState('')
   const [perksActive, setPerksActive] = useState(false)
