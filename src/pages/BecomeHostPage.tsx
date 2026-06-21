@@ -24,12 +24,10 @@ export function BecomeHostPage() {
     setConfirmOpen(true)
   }
 
-  function confirm() {
-    completeOnboarding({
-      name: name.trim() || 'New host',
-      photo: photo.trim() || undefined,
-      blurb: blurb.trim() || undefined,
-    })
+  async function confirm() {
+    // Shared-account model (ADR-0026): onboarding signs into the Test User session; the typed
+    // fields remain a form-craft demo and aren't used as identity.
+    await completeOnboarding()
     setConfirmOpen(false)
     navigate(`/t/${DEFAULT_TENANT}/host`)
   }

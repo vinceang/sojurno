@@ -20,12 +20,12 @@ export function LoginForm({ onSuccess }: { onSuccess?: () => void }) {
   const [password, setPassword] = useState('')
   const [errors, setErrors] = useState<{ password?: boolean; username?: boolean }>({})
 
-  function handleSubmit(event: FormEvent<HTMLFormElement>) {
+  async function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault()
     const next = { password: password.trim() === '', username: username.trim() === '' }
     setErrors(next)
     if (next.username || next.password) return
-    login()
+    await login()
     onSuccess?.()
   }
 
