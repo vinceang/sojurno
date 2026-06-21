@@ -23,7 +23,7 @@ export function ListingActions({ listing }: { listing: Listing }) {
         <span className="sj-link">{t('listing.share')}</span>
       </button>
       <button aria-pressed={saved} className={actionClass} onClick={toggle} type="button">
-        <Heart aria-hidden="true" className={cn('h-4 w-4', saved && 'fill-accent text-accent')} />
+        <Heart aria-hidden="true" className={cn('h-4 w-4', saved && 'fill-brand-mark text-brand-mark')} />
         <span className="sj-link">{saved ? t('listing.saved') : t('listing.save')}</span>
       </button>
       <ShareDialog listing={listing} onOpenChange={setShareOpen} open={shareOpen} />
