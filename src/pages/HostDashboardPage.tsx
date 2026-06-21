@@ -6,7 +6,7 @@ import { Badge } from '../lib/Badge'
 import { Button } from '../lib/Button'
 import { Card } from '../lib/Card'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '../lib/Tabs'
-import { getListingsByTenant } from '../data/listings'
+import { useListings } from '../components/useListings'
 import { useI18n } from '../i18n/useI18n'
 import { useSession } from '../session/useSession'
 import { useTenant } from '../tenants/useTenant'
@@ -20,7 +20,8 @@ export function HostDashboardPage() {
   const { tenant, tenantId } = useTenant()
   const { t } = useI18n()
   const { account } = useSession()
-  const listings = getListingsByTenant(tenantId)
+  const { byTenant } = useListings()
+  const listings = byTenant(tenantId)
 
   return (
     <section className="sj-section">

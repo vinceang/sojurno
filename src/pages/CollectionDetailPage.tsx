@@ -1,8 +1,8 @@
 import { ChevronRight } from 'lucide-react'
 import { Link, Navigate, useParams } from 'react-router-dom'
 import { ListingCard } from '../components/ListingCard'
+import { useListings } from '../components/useListings'
 import { getCollection } from '../data/collections'
-import { getListing } from '../data/listings'
 import { useI18n } from '../i18n/useI18n'
 import { useTenant } from '../tenants/useTenant'
 import type { Listing } from '../types'
@@ -11,6 +11,7 @@ export function CollectionDetailPage() {
   const { collectionId } = useParams()
   const { tenant, tenantId } = useTenant()
   const { t } = useI18n()
+  const { get } = useListings()
   const collection = getCollection(collectionId)
 
   if (!collection || collection.tenant !== tenantId) {
@@ -18,7 +19,7 @@ export function CollectionDetailPage() {
   }
 
   const listings = collection.listingIds
-    .map((id) => getListing(id))
+    .map((id) => get(id))
     .filter((listing): listing is Listing => Boolean(listing))
   const meta = [collection.location, collection.dateLabel].filter(Boolean).join(' · ')
 

@@ -52,10 +52,13 @@ function toListing(row: Record<string, unknown>): Listing {
 async function main() {
   const supabase = createClient(requireEnv('SUPABASE_URL'), requireEnv('SUPABASE_SERVICE_ROLE_KEY'))
 
+  // Only the curated seed + generated rows are baked into the static export. User-created rows
+  // (source='user', ADR-0026) are the live runtime overlay and must NOT be committed here.
   const { data, error } = await supabase
     .from('listings')
     .select('*')
     .eq('status', 'published')
+    .in('source', ['seed', 'generated'])
     .order('created_at', { ascending: true })
   if (error) throw error
 

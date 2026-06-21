@@ -1,14 +1,15 @@
 import { Package } from 'lucide-react'
 import { ListingCard } from '../components/ListingCard'
+import { useListings } from '../components/useListings'
 import { Badge } from '../lib/Badge'
-import { getListingsByTenant } from '../data/listings'
 import { useI18n } from '../i18n/useI18n'
 import { useTenant } from '../tenants/useTenant'
 
 export function HostListingsPage() {
   const { tenant, tenantId } = useTenant()
   const { t } = useI18n()
-  const listings = getListingsByTenant(tenantId)
+  const { byTenant } = useListings()
+  const listings = byTenant(tenantId)
   const gear = listings.flatMap((listing) => listing.gear ?? [])
 
   return (

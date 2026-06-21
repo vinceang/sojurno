@@ -1,10 +1,10 @@
 import { Heart } from 'lucide-react'
 import { Link } from 'react-router-dom'
 import { ListingCard } from '../components/ListingCard'
+import { useListings } from '../components/useListings'
 import { useSaved } from '../components/useSaved'
 import { Button } from '../lib/Button'
 import { SectionHeader } from '../lib/SectionHeader'
-import { getListing } from '../data/listings'
 import { useI18n } from '../i18n/useI18n'
 import { useSession } from '../session/useSession'
 import { ACTIVE_TENANTS, DEFAULT_TENANT } from '../tenants/tenants'
@@ -18,8 +18,9 @@ export function SavedPage() {
   const { t } = useI18n()
   const { authenticated } = useSession()
   const { savedIds } = useSaved()
+  const { get } = useListings()
 
-  const savedListings = savedIds.map((id) => getListing(id)).filter((listing) => listing !== undefined)
+  const savedListings = savedIds.map((id) => get(id)).filter((listing) => listing !== undefined)
 
   return (
     <section className="sj-section">
