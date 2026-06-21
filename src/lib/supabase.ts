@@ -10,9 +10,12 @@ const anonKey = import.meta.env.VITE_SUPABASE_ANON_KEY
 
 export const supabase: SupabaseClient | null = url && anonKey ? createClient(url, anonKey) : null
 
-/** Shared "Test User" demo credentials — the mock login signs into this single real account. */
-export const DEMO_EMAIL = import.meta.env.VITE_DEMO_EMAIL
-export const DEMO_PASSWORD = import.meta.env.VITE_DEMO_PASSWORD
+/**
+ * Public shared demo credentials — a single real Supabase account, posted on the login screen so
+ * anyone can try the host side (→ ADR-0024/0026). Not a secret; RLS limits writes to its own rows.
+ */
+export const DEMO_EMAIL = 'test@sojurno.com'
+export const DEMO_PASSWORD = 'demo123'
 
-/** True when the live backend (client + demo creds) is fully configured. */
-export const isSupabaseConfigured = Boolean(supabase && DEMO_EMAIL && DEMO_PASSWORD)
+/** True when the live backend (client) is configured; false → mock fallback. */
+export const isSupabaseConfigured = Boolean(supabase)

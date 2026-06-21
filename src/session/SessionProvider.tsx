@@ -52,22 +52,23 @@ export function SessionProvider({ children }: { children: React.ReactNode }) {
     window.localStorage.setItem(MODE_KEY, mode)
   }, [mode])
 
-  const login = useCallback(async () => {
+  // Real sign-in with the typed credentials (→ ADR-0024/0026). The onAuthStateChange listener
+  // flips `authenticated`. With no Supabase env, the mock fallback accepts anything.
+  const signIn = useCallback(async (email: string, password: string) => {
     if (isSupabaseConfigured && supabase) {
-      // Always the shared Test User account, regardless of typed input (→ ADR-0024). The
-      // onAuthStateChange listener flips `authenticated`.
-      await supabase.auth.signInWithPassword({ email: DEMO_EMAIL!, password: DEMO_PASSWORD! })
-    } else {
-      window.localStorage.setItem(MOCK_AUTH_KEY, 'true')
-      setAuthenticated(true)
+      const { error } = await supabase.auth.signInWithPassword({ email, password })
+      return !error
     }
+    window.localStorage.setItem(MOCK_AUTH_KEY, 'true')
+    setAuthenticated(true)
+    return true
   }, [])
 
   const completeOnboarding = useCallback(async () => {
-    // Shared-account model: onboarding signs into the same Test User identity and lands hosting.
+    // Shared demo account: onboarding signs in with the posted demo creds and lands hosting.
     setModeState('hosting')
-    await login()
-  }, [login])
+    await signIn(DEMO_EMAIL, DEMO_PASSWORD)
+  }, [signIn])
 
   const signOut = useCallback(() => {
     if (supabase) {
@@ -83,8 +84,8 @@ export function SessionProvider({ children }: { children: React.ReactNode }) {
   const account: HostAccount | null = authenticated ? TEST_USER : null
 
   const value = useMemo<SessionContextValue>(
-    () => ({ account, authenticated, mode, completeOnboarding, login, signOut, setMode }),
-    [account, authenticated, mode, completeOnboarding, login, signOut, setMode],
+    () => ({ account, authenticated, mode, completeOnboarding, signIn, signOut, setMode }),
+    [account, authenticated, mode, completeOnboarding, signIn, signOut, setMode],
   )
 
   return <SessionContext.Provider value={value}>{children}</SessionContext.Provider>
