@@ -1,41 +1,56 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { useI18n } from '../i18n/useI18n'
+import { supabase } from '../lib/supabase'
 import { useSession } from '../session/useSession'
 import { LoginDialog } from './LoginDialog'
 import { SavedContext, type SavedContextValue } from './saved-context'
 import { useToast } from './useToast'
 
-const SAVED_KEY = 'sojurno.saved'
-
-function readSaved(): Set<string> {
-  if (typeof localStorage === 'undefined') return new Set()
-  try {
-    const raw = JSON.parse(localStorage.getItem(SAVED_KEY) ?? '[]')
-    return new Set(Array.isArray(raw) ? (raw as string[]) : [])
-  } catch {
-    return new Set()
-  }
+/** Fetch the signed-in user's saved listing ids (newest first). Empty when unauthenticated. */
+async function querySavedIds(authenticated: boolean): Promise<string[]> {
+  if (!supabase || !authenticated) return []
+  const { data, error } = await supabase
+    .from('saved_listings')
+    .select('listing_id')
+    .order('created_at', { ascending: false })
+  if (error || !data) return []
+  return data.map((row) => row.listing_id as string)
 }
 
 /**
- * Owns the saved-listings set (persisted to localStorage) and the save/login-gate flow (→ ADR-0025).
- * Holding it in context means every heart on a page stays in sync. Saving is gated behind a session:
- * anonymous saves open the in-context login modal and complete once signed in (as Test User).
+ * Owns saved listings (→ ADR-0025/0026), persisted **per account in Supabase** (RLS owner-scoped) so
+ * saves follow the user across devices. Saving is gated behind login: anonymous saves open the
+ * in-context login modal and complete once signed in. Holding the set in context keeps every heart
+ * in sync across the page.
  */
 export function SavedListingsProvider({ children }: { children: React.ReactNode }) {
   const { t } = useI18n()
   const { authenticated } = useSession()
   const { toast } = useToast()
-  const [saved, setSaved] = useState<Set<string>>(readSaved)
+  const [saved, setSaved] = useState<Set<string>>(new Set())
   const [loginOpen, setLoginOpen] = useState(false)
   const pending = useRef<{ id: string; label?: string } | null>(null)
 
+  // Load the user's saves when the auth state settles (and clear on sign-out). setState only in the
+  // promise callback — no synchronous setState in the effect body.
   useEffect(() => {
-    localStorage.setItem(SAVED_KEY, JSON.stringify([...saved]))
-  }, [saved])
+    let active = true
+    querySavedIds(authenticated).then((ids) => {
+      if (active) setSaved(new Set(ids))
+    })
+    return () => {
+      active = false
+    }
+  }, [authenticated])
 
   const commitSave = useCallback(
-    (id: string, label?: string) => {
+    async (id: string, label?: string) => {
+      if (!supabase) return
+      const { data } = await supabase.auth.getUser()
+      const uid = data.user?.id
+      if (!uid) return
+      const { error } = await supabase.from('saved_listings').insert({ user_id: uid, listing_id: id })
+      if (error) return
       setSaved((prev) => new Set(prev).add(id))
       toast({ description: label ?? t('save.toastBody'), title: t('save.toastTitle'), tone: 'success' })
     },
@@ -43,17 +58,18 @@ export function SavedListingsProvider({ children }: { children: React.ReactNode 
   )
 
   const requestToggle = useCallback(
-    (id: string, label?: string) => {
+    async (id: string, label?: string) => {
       if (saved.has(id)) {
         setSaved((prev) => {
           const next = new Set(prev)
           next.delete(id)
           return next
         })
+        await supabase?.from('saved_listings').delete().eq('listing_id', id)
         return
       }
       if (authenticated) {
-        commitSave(id, label)
+        await commitSave(id, label)
       } else {
         pending.current = { id, label }
         setLoginOpen(true)
@@ -64,14 +80,17 @@ export function SavedListingsProvider({ children }: { children: React.ReactNode 
 
   const handleLoginSuccess = useCallback(() => {
     setLoginOpen(false)
-    if (pending.current) {
-      commitSave(pending.current.id, pending.current.label)
-      pending.current = null
-    }
+    const p = pending.current
+    pending.current = null
+    if (p) void commitSave(p.id, p.label)
   }, [commitSave])
 
   const value = useMemo<SavedContextValue>(
-    () => ({ savedIds: [...saved], isSaved: (id) => saved.has(id), requestToggle }),
+    () => ({
+      savedIds: [...saved],
+      isSaved: (id) => saved.has(id),
+      requestToggle: (id, label) => void requestToggle(id, label),
+    }),
     [saved, requestToggle],
   )
 
